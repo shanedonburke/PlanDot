@@ -1,0 +1,19 @@
+.group-edit-dialog-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.group-edit-controls {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.group-color-picker {
+  margin-left: 10px;
+  border-radius: 5px;
+  border: 1px solid dimgrey;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+}
