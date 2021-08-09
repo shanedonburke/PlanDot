@@ -1,1 +1,96 @@
-<p>item-edit-dialog works!</p>
+<div class="item-edit-dialog">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input
+      matInput
+      [(ngModel)]="data.item.title"
+      placeholder="Item title"
+      required
+    />
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea
+      matInput
+      placeholder="Item description"
+      [(ngModel)]="data.item.description"
+      [mat-autosize]="true"
+      [matAutosizeMaxRows]="8"
+    ></textarea>
+  </mat-form-field>
+  <mat-checkbox
+    class="time-enabled-checkbox"
+    [checked]="data.item.dateEnabled"
+    (change)="data.item.dateEnabled = !data.item.dateEnabled"
+    >Add date</mat-checkbox
+  >
+  <mat-form-field appearance="fill" *ngIf="data.item.dateEnabled">
+    <mat-label>Date</mat-label>
+    <input
+      matInput
+      [matDatepicker]="datepicker"
+      [value]="data.item.date"
+      (dateChange)="data.item.date = $event.value"
+    />
+    <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker>
+      <mat-datepicker-actions>
+        <button mat-button matDatepickerCancel>Cancel</button>
+        <button mat-raised-button color="primary" matDatepickerApply>
+          Apply
+        </button>
+      </mat-datepicker-actions>
+    </mat-datepicker>
+  </mat-form-field>
+  <mat-checkbox
+    *ngIf="data.item.dateEnabled"
+    class="time-enabled-checkbox"
+    [checked]="data.item.timeEnabled"
+    (change)="data.item.timeEnabled = !data.item.timeEnabled"
+    >Add time</mat-checkbox
+  >
+  <div class="time-form" *ngIf="data.item.timeEnabled">
+    <mat-form-field appearance="fill">
+      <mat-label>Hours</mat-label>
+      <mat-select [(value)]="data.item.time.hours">
+        <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
+          hour
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Minutes</mat-label>
+      <mat-select [(value)]="data.item.time.minutes">
+        <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
+          min
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Period</mat-label>
+      <mat-select [(value)]="data.item.time.period">
+        <mat-option value="AM">AM</mat-option>
+        <mat-option value="PM">PM</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="fill">
+    <mat-label>Repeat every</mat-label>
+    <mat-select [(value)]="data.item.repeatEvery">
+      <mat-option *ngFor="let option of REPEAT_EVERY_OPTIONS" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="item-edit-dialog-actions">
+    <button (click)="dialogRef.close()" mat-button>Cancel</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [mat-dialog-close]="data.item"
+      cdkFocusInitial
+    >
+      Save
+    </button>
+  </div>
+</div>

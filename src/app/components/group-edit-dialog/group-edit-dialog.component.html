@@ -1,4 +1,4 @@
-<div class="group-edit-dialog-container">
+<div class="group-edit-dialog">
   <div class="group-edit-controls">
     <mat-form-field>
       <mat-label>Group name</mat-label>
@@ -19,7 +19,7 @@
       class="group-color-picker"
     />
   </div>
-  <button mat-button [mat-dialog-close]="data.group" cdkFocusInitial>
+  <button mat-raised-button color="primary" [mat-dialog-close]="data.group" cdkFocusInitial>
     Save
   </button>
 </div>

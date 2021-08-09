@@ -7,8 +7,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { AppComponent } from './app.component';
 import { GroupEditDialogModule } from './components/group-edit-dialog/group-edit-dialog.module';
+import { ItemEditDialogModule } from './components/item-edit-dialog/item-edit-dialog.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,7 +23,9 @@ import { GroupEditDialogModule } from './components/group-edit-dialog/group-edit
     MatDividerModule,
     MatIconModule,
     MatDialogModule,
+    DragDropModule,
     GroupEditDialogModule,
+    ItemEditDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

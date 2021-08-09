@@ -49,9 +49,21 @@
       >
         {{ group.name }}
       </div>
-      <div class="group-item-list">
-        <div *ngFor="let item of group.items" class="group-item">
-          {{ item.title }}
+      <div class="group-item-list" cdkDropList (cdkDropListDropped)="dropGroupItem(group, $event)">
+        <div *ngFor="let item of group.items" class="group-item" cdkDrag>
+          <span class="group-item-title">{{ item.title }}</span>
+          <span class="group-item-description">{{ item.description }}</span>
+          <div style="flex-grow: 1"></div>
+          <div style="display: flex">
+            <div class="group-item-date" *ngIf="item.dateEnabled">
+              <mat-icon>event</mat-icon>
+              <span>{{ item.date.toLocaleDateString() }}</span>
+            </div>
+            <div class="group-item-date" *ngIf="item.timeEnabled">
+              <mat-icon>schedule</mat-icon>
+              <span>{{ getDisplayTime(item) }}</span>
+            </div>
+          </div>
         </div>
       </div>
       <button

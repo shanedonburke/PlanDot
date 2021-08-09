@@ -1,9 +1,29 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupEditDialogComponent } from './components/group-edit-dialog/group-edit-dialog.component';
+import {
+  ItemEditDialogComponent,
+  RepeatEvery,
+} from './components/item-edit-dialog/item-edit-dialog.component';
+
+export enum TimePeriod {
+  AM = 'AM',
+  PM = 'PM',
+}
 
 export interface Item {
   title: string;
+  description: string;
+  date: Date;
+  dateEnabled: boolean;
+  repeatEvery: RepeatEvery;
+  time: {
+    hours: number;
+    minutes: number;
+    period: TimePeriod;
+  };
+  timeEnabled: boolean;
 }
 
 export interface Group {
@@ -66,9 +86,39 @@ export class AppComponent {
   }
 
   addNewItemToGroup(group: Group) {
-    group.items.push({
-      title: 'New item',
+    const newItem: Item = {
+      title: 'New Item',
+      description: '',
+      date: new Date(),
+      dateEnabled: false,
+      repeatEvery: RepeatEvery.NEVER,
+      timeEnabled: false,
+      time: {
+        hours: 12,
+        minutes: 0,
+        period: TimePeriod.PM,
+      },
+    };
+
+    const dialogRef = this.dialog.open(ItemEditDialogComponent, {
+      data: { item: newItem },
     });
+
+    dialogRef.afterClosed().subscribe((result: Item) => {
+      if (result) {
+        group.items.push(result);
+      }
+    });
+  }
+
+  getDisplayTime(item: Item): string {
+    return `${item.time.hours}:${item.time.minutes
+      .toString()
+      .padStart(2, '0')} ${item.time.period}`;
+  }
+
+  dropGroupItem(group: Group, event: CdkDragDrop<string[]>) {
+    moveItemInArray(group.items, event.previousIndex, event.currentIndex);
   }
 
   @HostListener('document:click', ['$event'])
