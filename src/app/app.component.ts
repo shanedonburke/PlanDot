@@ -45,7 +45,7 @@ export class AppComponent {
   constructor(public dialog: MatDialog) {}
 
   addGroup() {
-    this.groups.push({
+    this.editGroup({
       name: `Group ${this.groups.length + 1}`,
       color: '#' + Math.floor(Math.random() * 0xffffff).toString(16),
       items: [],
@@ -66,7 +66,11 @@ export class AppComponent {
       this.isGroupEditDialogOpen = false;
       if (result) {
         const index = this.groups.indexOf(group);
-        this.groups[index] = result;
+        if (index !== -1) {
+          this.groups[index] = result;
+        } else {
+          this.groups.push(result);
+        }
       }
     });
   }
