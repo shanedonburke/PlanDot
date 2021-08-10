@@ -107,12 +107,19 @@ export class AppComponent {
           } else if (itemB.timeEnabled && !itemA.timeEnabled) {
             return 1;
           } else {
-            if (itemA.time.period === TimePeriod.AM && itemB.time.period === TimePeriod.PM) {
+            if (
+              itemA.time.period === TimePeriod.AM &&
+              itemB.time.period === TimePeriod.PM
+            ) {
               return -1;
-            } else if (itemA.time.period === TimePeriod.PM && itemB.time.period === TimePeriod.AM) {
+            } else if (
+              itemA.time.period === TimePeriod.PM &&
+              itemB.time.period === TimePeriod.AM
+            ) {
               return 1;
             } else {
-              const hoursDiff = itemA.time.hours % 12 - itemB.time.hours % 12;
+              const hoursDiff =
+                (itemA.time.hours % 12) - (itemB.time.hours % 12);
               if (hoursDiff === 0) {
                 return itemA.time.minutes - itemB.time.minutes;
               } else {
@@ -124,6 +131,14 @@ export class AppComponent {
           return dateDiff;
         }
       }
+    });
+  }
+
+  sortByTitle(group: Group) {
+    group.itemIds.sort((a, b) => {
+      return this.itemService
+        .getItemById(a)
+        .title.localeCompare(this.itemService.getItemById(b).title);
     });
   }
 
