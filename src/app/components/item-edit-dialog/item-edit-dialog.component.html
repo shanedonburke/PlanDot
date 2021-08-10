@@ -82,6 +82,35 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Groups</mat-label>
+    <mat-chip-list #groupChipList>
+      <mat-chip
+        *ngFor="let group of groupService.getItemGroups(data.item)"
+        [selectable]="false"
+        [removable]="true"
+        (removed)="removeGroup(group)"
+        [style.backgroundColor]="group.color"
+        [style.color]="groupService.getGroupTextColor(group)"
+      >
+        {{ group.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        #groupInput
+        placeholder="Add group"
+        [formControl]="groupFormControl"
+        [matAutocomplete]="groupAutocomplete"
+        [matChipInputFor]="groupChipList"
+        [matChipInputSeparatorKeyCodes]="SEPARATOR_KEY_CODES"
+      />
+    </mat-chip-list>
+    <mat-autocomplete #groupAutocomplete="matAutocomplete" (optionSelected)="addGroup($event)">
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
+        {{ group.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
   <div class="item-edit-dialog-actions">
     <button (click)="dialogRef.close()" mat-button>Cancel</button>
     <button

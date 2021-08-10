@@ -12,6 +12,10 @@
     <input
       [(colorPicker)]="data.group.color"
       [cpOKButton]="true"
+      [cpDisableInput]="true"
+      cpAlphaChannel="disabled"
+      cpOKButtonClass="color-picker-btn-save"
+      cpCancelButtonClass="color-picker-btn-cancel"
       cpOKButtonText="OK"
       [cpCancelButton]="true"
       cpCancelButtonText="Cancel"

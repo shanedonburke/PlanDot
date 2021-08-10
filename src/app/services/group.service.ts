@@ -1,26 +1,43 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
+import { Item } from '../domain/item';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GroupService {
-  private groups: Array<Group> = [];
+  private groupOrder: Array<string> = [];
+  private groupMap = new Map<string, Group>();
 
   getGroups(): ReadonlyArray<Group> {
-    return this.groups;
+    return <ReadonlyArray<Group>>(
+      this.groupOrder
+        .filter((group) => this.groupMap.has(group))
+        .map((group) => this.groupMap.get(group))
+    );
+  }
+
+  getGroupById(id: string): Group | undefined {
+    return this.groupMap.get(id);
+  }
+
+  getItemGroups(item: Item): ReadonlyArray<Group> {
+    return <ReadonlyArray<Group>>(
+      item.groupIds
+        .filter((id) => this.groupMap.has(id))
+        .map((id) => this.groupMap.get(id))
+    );
   }
 
   deleteGroup(group: Group): void {
-    this.groups.splice(this.groups.indexOf(group), 1);
+    this.groupOrder.splice(this.groupOrder.indexOf(group.id), 1);
+    this.groupMap.delete(group.id);
   }
 
   updateOrCreateGroup(group: Group, newGroup: Group): void {
-    const index = this.groups.indexOf(group);
-    if (index !== -1) {
-      this.groups[index] = newGroup;
-    } else {
-      this.groups.push(newGroup);
+    this.groupMap.set(group.id, newGroup);
+    if (!this.groupOrder.includes(newGroup.id)) {
+      this.groupOrder.push(newGroup.id);
     }
   }
 

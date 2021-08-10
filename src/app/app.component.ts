@@ -1,36 +1,13 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { v4 } from 'uuid';
 import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GroupEditDialogComponent } from './components/group-edit-dialog/group-edit-dialog.component';
-import {
-  ItemEditDialogComponent,
-  RepeatEvery,
-} from './components/item-edit-dialog/item-edit-dialog.component';
-
-export enum TimePeriod {
-  AM = 'AM',
-  PM = 'PM',
-}
-
-export interface Item {
-  title: string;
-  description: string;
-  date: Date;
-  dateEnabled: boolean;
-  repeatEvery: RepeatEvery;
-  time: {
-    hours: number;
-    minutes: number;
-    period: TimePeriod;
-  };
-  timeEnabled: boolean;
-}
-
-export interface Group {
-  name: string;
-  color: string;
-  items: Array<Item>;
-}
+import { ItemEditDialogComponent } from './components/item-edit-dialog/item-edit-dialog.component';
+import { Group } from './domain/group';
+import { createItem, Item, RepeatEvery, TimePeriod } from './domain/item';
+import { GroupService } from './services/group.service';
+import { ItemService } from './services/item.service';
 
 @Component({
   selector: 'app-root',
@@ -38,22 +15,26 @@ export interface Group {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  groups: Array<Group> = [];
   isGroupsMenuVisible = false;
   isGroupEditDialogOpen = false;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    public groupService: GroupService,
+    public itemService: ItemService
+  ) {}
 
   addGroup() {
     this.editGroup({
-      name: `Group ${this.groups.length + 1}`,
+      id: v4(),
+      name: `Group ${this.groupService.getGroups().length + 1}`,
       color: '#' + Math.floor(Math.random() * 0xffffff).toString(16),
-      items: [],
+      itemIds: [],
     });
   }
 
-  deleteGroup(index: number) {
-    this.groups.splice(index);
+  deleteGroup(group: Group) {
+    this.groupService.deleteGroup(group);
   }
 
   editGroup(group: Group) {
@@ -65,23 +46,10 @@ export class AppComponent {
     dialogRef.afterClosed().subscribe((result: Group) => {
       this.isGroupEditDialogOpen = false;
       if (result) {
-        const index = this.groups.indexOf(group);
-        if (index !== -1) {
-          this.groups[index] = result;
-        } else {
-          this.groups.push(result);
-        }
+        this.isGroupsMenuVisible = false;
+        this.groupService.updateOrCreateGroup(group, result);
       }
     });
-  }
-
-  getGroupTextColor(group: Group): string {
-    const red = parseInt(group.color.substr(1, 2), 16);
-    const green = parseInt(group.color.substr(3, 2), 16);
-    const blue = parseInt(group.color.substr(5, 2), 16);
-    return red * 0.299 + green * 0.587 + blue * 0.114 > 186
-      ? '#000000'
-      : '#ffffff';
   }
 
   toggleGroupsMenu(event: MouseEvent) {
@@ -89,28 +57,22 @@ export class AppComponent {
     event.stopPropagation();
   }
 
-  addNewItemToGroup(group: Group) {
-    const newItem: Item = {
-      title: 'New Item',
-      description: '',
-      date: new Date(),
-      dateEnabled: false,
-      repeatEvery: RepeatEvery.NEVER,
-      timeEnabled: false,
-      time: {
-        hours: 12,
-        minutes: 0,
-        period: TimePeriod.PM,
-      },
-    };
+  addNewItem() {
+    this.addItem(createItem());
+  }
 
+  addNewItemToGroup(group: Group) {
+    this.addItem(createItem([group]));
+  }
+
+  addItem(item: Item) {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
-      data: { item: newItem },
+      data: { item },
     });
 
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
-        group.items.push(result);
+        this.itemService.addItem(result);
       }
     });
   }
@@ -121,8 +83,48 @@ export class AppComponent {
       .padStart(2, '0')} ${item.time.period}`;
   }
 
-  dropGroupItem(group: Group, event: CdkDragDrop<string[]>) {
-    moveItemInArray(group.items, event.previousIndex, event.currentIndex);
+  dropGroupItem(group: Group, event: CdkDragDrop<Array<Item>>) {
+    moveItemInArray(group.itemIds, event.previousIndex, event.currentIndex);
+  }
+
+  sortByDate(group: Group) {
+    group.itemIds.sort((a, b) => {
+      const itemA = this.itemService.getItemById(a);
+      const itemB = this.itemService.getItemById(b);
+      if (!itemA.dateEnabled && !itemB.dateEnabled) {
+        return 0;
+      } else if (itemA.dateEnabled && !itemB.dateEnabled) {
+        return -1;
+      } else if (itemB.dateEnabled && !itemA.dateEnabled) {
+        return 1;
+      } else {
+        const dateDiff = itemA.date.getTime() - itemB.date.getTime();
+        if (dateDiff === 0) {
+          if (!itemA.timeEnabled && !itemB.timeEnabled) {
+            return 0;
+          } else if (itemA.timeEnabled && !itemB.timeEnabled) {
+            return -1;
+          } else if (itemB.timeEnabled && !itemA.timeEnabled) {
+            return 1;
+          } else {
+            if (itemA.time.period === TimePeriod.AM && itemB.time.period === TimePeriod.PM) {
+              return -1;
+            } else if (itemA.time.period === TimePeriod.PM && itemB.time.period === TimePeriod.AM) {
+              return 1;
+            } else {
+              const hoursDiff = itemA.time.hours % 12 - itemB.time.hours % 12;
+              if (hoursDiff === 0) {
+                return itemA.time.minutes - itemB.time.minutes;
+              } else {
+                return hoursDiff;
+              }
+            }
+          }
+        } else {
+          return dateDiff;
+        }
+      }
+    });
   }
 
   @HostListener('document:click', ['$event'])

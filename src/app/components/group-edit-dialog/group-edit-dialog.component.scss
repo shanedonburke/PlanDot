@@ -1,3 +1,7 @@
+@use '~@angular/material' as mat;
+
+$my-palette: mat.define-palette(mat.$indigo-palette);
+
 .group-edit-dialog {
   display: flex;
   flex-direction: column;
@@ -8,6 +12,7 @@
   display: flex;
   align-items: center;
 }
+
 
 .group-color-picker {
   margin-left: 10px;
@@ -21,4 +26,25 @@
 .group-edit-actions {
   display: flex;
   justify-content: space-between;
+}
+
+@mixin color-picker-btn {
+  border: none;
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  width: 64px;
+  height: 36px;
+  border-radius: 4px;
+  font-size: 14px !important;
+  font-family: 'Roboto', sans-serif;
+}
+
+::ng-deep .color-picker-btn-save {
+  @include color-picker-btn;
+  color: white;
+  background: mat.get-color-from-palette($my-palette, 'default');
+}
+
+::ng-deep .color-picker-btn-cancel {
+  @include color-picker-btn;
 }

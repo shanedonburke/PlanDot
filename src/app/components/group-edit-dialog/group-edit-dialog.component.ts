@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Group } from 'src/app/app.component';
+import { Group } from 'src/app/domain/group';
 
 export interface GroupEditDialogData {
   group: Group;

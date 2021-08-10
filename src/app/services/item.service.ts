@@ -1,39 +1,43 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
-import { Group, Item } from '../domain/group';
+import { Group } from '../domain/group';
+import { Item } from '../domain/item';
+import { GroupService } from './group.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemService {
-  private items: Array<Item> = [];
+  private itemMap = new Map<string, Item>();
+  private itemOrder: Array<string> = [];
+
+  constructor(private groupService: GroupService) {}
 
   getItems(): ReadonlyArray<Item> {
-    return this.items;
+    return <ReadonlyArray<Item>>(
+      this.itemOrder
+        .filter((item) => this.itemMap.has(item))
+        .map((item) => this.itemMap.get(item))
+    );
+  }
+
+  getItemById(itemId: string): Item {
+    return this.itemMap.get(itemId)!!;
   }
 
   addItem(item: Item): void {
-    this.items.push(item);
+    this.itemMap.set(item.id, item);
+    this.itemOrder.push(item.id);
+    item.groupIds.forEach((groupId) => {
+      this.groupService.getGroupById(groupId)!!.itemIds.push(item.id);
+    });
   }
 
   getGroupItems(group: Group): Array<Item> {
-    return this.items.filter(item => item.groups.includes(group));
-  }
-
-  handleGroupItemDrop(group: Group, event: CdkDragDrop<Array<Item>>): void {
-    const groupItems = this.getGroupItems(group);
-    const item = groupItems[event.previousIndex];
-    const prevIndex = this.items.indexOf(groupItems[event.previousIndex]);
-    const currIndex = this.items.indexOf(groupItems[event.currentIndex]);
-    if (event.previousIndex < event.currentIndex) {
-      for (let i = prevIndex + 1; i <= currIndex; i++) {
-        this.items[i - 1] = this.items[i];
-      }
-    } else if (event.previousIndex > event.currentIndex) {
-      for (let i = prevIndex - 1; i >= currIndex; i--) {
-        this.items[i + 1] = this.items[i];
-      }
-    }
-    this.items[currIndex] = item;
+    return <Array<Item>>(
+      group.itemIds
+        .filter((id) => this.itemMap.has(id))
+        .map((id) => this.itemMap.get(id))
+    );
   }
 }

@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatMenuModule } from '@angular/material/menu';
 import { DragDropModule } from '@angular/cdk/drag-drop'; 
 import { AppComponent } from './app.component';
 import { GroupEditDialogModule } from './components/group-edit-dialog/group-edit-dialog.module';
@@ -24,6 +25,7 @@ import { ItemEditDialogModule } from './components/item-edit-dialog/item-edit-di
     MatIconModule,
     MatDialogModule,
     DragDropModule,
+    MatMenuModule,
     GroupEditDialogModule,
     ItemEditDialogModule,
   ],
