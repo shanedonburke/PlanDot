@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Calendar } from 'calendar';
-import { Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
+import { getCookie, setCookie } from 'src/app/util/cookies';
 
 @Component({
   selector: 'app-month-view',
@@ -11,9 +11,6 @@ import { ItemService } from 'src/app/services/item.service';
 })
 export class MonthViewComponent {
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  year = this.getCurrentYear();
-  month = this.getCurrentMonth();
 
   private calendar = new Calendar();
 
@@ -33,6 +30,16 @@ export class MonthViewComponent {
     return dates;
   }
 
+  getYear(): number {
+    const year = getCookie('year');
+    return year ? parseInt(year) : this.getCurrentYear();
+  }
+
+  getMonth(): number {
+    const month = getCookie('month');
+    return month ? parseInt(month) : this.getCurrentMonth();
+  }
+
   getCurrentYear(): number {
     return new Date().getFullYear();
   }
@@ -41,23 +48,8 @@ export class MonthViewComponent {
     return new Date().getMonth();
   }
 
-  getItemBackgroundColor(item: Item): string {
-    if (item.groupIds.length === 0) {
-      return '#444444';
-    } else {
-      return (
-        this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444'
-      );
-    }
-  }
-
-  getItemTextColor(item: Item): string {
-    if (item.groupIds.length === 0) {
-      return 'white';
-    } else {
-      return this.groupService.getGroupTextColor(
-        this.groupService.getGroupById(item.groupIds[0])!!
-      );
-    }
+  goToDate(date: Date): void {
+    setCookie('date', date.toISOString());
+    setCookie('view', 'day');
   }
 }

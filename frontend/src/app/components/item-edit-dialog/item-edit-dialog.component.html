@@ -49,39 +49,71 @@
     (change)="data.item.timeEnabled = !data.item.timeEnabled"
     >Add time</mat-checkbox
   >
-  <div class="time-form" *ngIf="data.item.timeEnabled">
+  <ng-container *ngIf="data.item.timeEnabled">
+    <div>Start time</div>
+    <div class="time-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Hours</mat-label>
+        <mat-select [(value)]="data.item.startTime.hours">
+          <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
+            hour
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Minutes</mat-label>
+        <mat-select [(value)]="data.item.startTime.minutes">
+          <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
+            min
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Period</mat-label>
+        <mat-select [(value)]="data.item.startTime.period">
+          <mat-option value="AM">AM</mat-option>
+          <mat-option value="PM">PM</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>End time</div>
+    <div class="time-form">
+      <mat-form-field appearance="fill">
+        <mat-label>Hours</mat-label>
+        <mat-select [(value)]="data.item.endTime.hours">
+          <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
+            hour
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Minutes</mat-label>
+        <mat-select [(value)]="data.item.endTime.minutes">
+          <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
+            min
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Period</mat-label>
+        <mat-select [(value)]="data.item.endTime.period">
+          <mat-option value="AM">AM</mat-option>
+          <mat-option value="PM">PM</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <mat-form-field appearance="fill">
-      <mat-label>Hours</mat-label>
-      <mat-select [(value)]="data.item.time.hours">
-        <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
-          hour
-        }}</mat-option>
+      <mat-label>Repeat every</mat-label>
+      <mat-select [(value)]="data.item.repeatEvery">
+        <mat-option
+          *ngFor="let option of REPEAT_EVERY_OPTIONS"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Minutes</mat-label>
-      <mat-select [(value)]="data.item.time.minutes">
-        <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
-          min
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Period</mat-label>
-      <mat-select [(value)]="data.item.time.period">
-        <mat-option value="AM">AM</mat-option>
-        <mat-option value="PM">PM</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <mat-form-field appearance="fill">
-    <mat-label>Repeat every</mat-label>
-    <mat-select [(value)]="data.item.repeatEvery">
-      <mat-option *ngFor="let option of REPEAT_EVERY_OPTIONS" [value]="option">
-        {{ option }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  </ng-container>
   <mat-form-field appearance="fill">
     <mat-label>Groups</mat-label>
     <mat-chip-list #groupChipList>
@@ -105,7 +137,10 @@
         [matChipInputSeparatorKeyCodes]="SEPARATOR_KEY_CODES"
       />
     </mat-chip-list>
-    <mat-autocomplete #groupAutocomplete="matAutocomplete" (optionSelected)="addGroup($event)">
+    <mat-autocomplete
+      #groupAutocomplete="matAutocomplete"
+      (optionSelected)="addGroup($event)"
+    >
       <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
         {{ group.name }}
       </mat-option>

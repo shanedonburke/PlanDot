@@ -1,0 +1,28 @@
+<div class="day-view-container">
+  <div class="day-view-header">
+    <span>{{ getDate().toDateString() }}</span>
+  </div>
+  <div class="day-view-content">
+    <div *ngFor="let hour of hours" class="day-view-hour">
+      <div class="day-view-hour-label">{{ getHourString(hour) }}</div>
+    </div>
+    <div
+      class="day-view-item-grid"
+      [style.gridTemplateColumns]="'repeat(' + columns + ', 1fr)'"
+    >
+      <ng-container *ngFor="let col of columns; index as i">
+        <div
+          *ngFor="let itemData of col"
+          [style.gridColumn]="i + 1"
+          [style.gridRowStart]="itemData.rowStart + 1"
+          [style.gridRowEnd]="itemData.rowEnd + 1"
+          [style.backgroundColor]="itemService.getItemBackgroundColor(itemData.item)"
+          [style.color]="itemService.getItemTextColor(itemData.item)"
+          class="day-view-item"
+        >
+          {{ itemData.item.title }}
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

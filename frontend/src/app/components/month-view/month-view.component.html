@@ -6,18 +6,18 @@
   </div>
   <div class="calendar">
     <ng-container
-      *ngFor="let week of getMonthDates(year, month)"
+      *ngFor="let week of getMonthDates(getYear(), getMonth())"
       class="calendar-week"
     >
       <ng-container *ngFor="let date of week">
-        <div class="calendar-date">
+        <div class="calendar-date" (click)="goToDate(date)">
           <span>{{ date.getDate() }}</span>
           <div class="date-items">
             <div
               *ngFor="let item of itemService.getDateItems(date)"
               class="date-item"
-              [style.color]="getItemTextColor(item)"
-              [style.backgroundColor]="getItemBackgroundColor(item)"
+              [style.color]="itemService.getItemTextColor(item)"
+              [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
             >
               {{ item.title }}
             </div>
