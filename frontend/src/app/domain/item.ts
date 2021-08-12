@@ -77,6 +77,14 @@ export function getItemTimeInMinutes(itemTime: ItemTime): number {
   return Math.round((getMilitaryHour(itemTime) * 60 + itemTime.minutes) / 2);
 }
 
+export function getDisplayTime(item: Item): string {
+  if (item.endTimeEnabled) {
+    return `${formatItemTime(item.startTime)} - ${formatItemTime(item.endTime)}`;
+  } else {
+    return formatItemTime(item.startTime);
+  }
+}
+
 export function compareItemsByDate(itemA: Item, itemB: Item): number {
   if (!itemA.dateEnabled && !itemB.dateEnabled) {
     return 0;

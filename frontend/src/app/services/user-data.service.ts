@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { Group } from '../domain/group';
-import { Item } from '../domain/item';
+import { Item, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
@@ -82,6 +82,21 @@ export class UserDataService {
 
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
+        if (result.startTimeEnabled && !result.endTimeEnabled) {
+          if (result.startTime.hours === 11 && result.startTime.period === TimePeriod.AM) {
+            result.endTime.hours = 12;
+            result.endTime.minutes = result.startTime.minutes;
+            result.endTime.period = TimePeriod.PM;
+          } else if (result.startTime.hours === 11 && result.startTime.period === TimePeriod.PM) {
+            result.endTime.hours = 11;
+            result.endTime.minutes = 59;
+            result.endTime.period = TimePeriod.PM;
+          } else {
+            result.endTime.hours = result.startTime.hours + 1;
+            result.endTime.minutes = result.startTime.minutes;
+            result.endTime.period = result.startTime.period;
+          }
+        }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData();
       }

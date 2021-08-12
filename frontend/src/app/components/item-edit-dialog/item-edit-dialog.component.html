@@ -53,26 +53,26 @@
     <div class="time-form">
       <mat-form-field appearance="fill">
         <mat-label>Hours</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.startTime.hours">
-          <option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
+        <mat-select [(ngModel)]="data.item.startTime.hours">
+          <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
             hour
-          }}</option>
-        </select>
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Minutes</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.startTime.minutes">
-          <option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
+        <mat-select [(ngModel)]="data.item.startTime.minutes">
+          <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
             min
-          }}</option>
-        </select>
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Period</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.startTime.period">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
-        </select>
+        <mat-select [(ngModel)]="data.item.startTime.period">
+          <mat-option value="AM">AM</mat-option>
+          <mat-option value="PM">PM</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <mat-checkbox
@@ -85,38 +85,38 @@
     <div class="time-form" *ngIf="data.item.endTimeEnabled">
       <mat-form-field appearance="fill">
         <mat-label>Hours</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.endTime.hours">
-          <option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
+        <mat-select [(ngModel)]="data.item.endTime.hours">
+          <mat-option *ngFor="let hour of HOURS_ARRAY" [value]="hour">{{
             hour
-          }}</option>
-        </select>
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Minutes</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.endTime.minutes">
-          <option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
+        <mat-select [(ngModel)]="data.item.endTime.minutes">
+          <mat-option *ngFor="let min of MINUTES_ARRAY" [value]="min">{{
             min
-          }}</option>
-        </select>
+          }}</mat-option>
+        </mat-select>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Period</mat-label>
-        <select matNativeControl [(ngModel)]="data.item.endTime.period">
-          <option value="AM">AM</option>
-          <option value="PM">PM</option>
-        </select>
+        <mat-select [(ngModel)]="data.item.endTime.period">
+          <mat-option value="AM">AM</mat-option>
+          <mat-option value="PM">PM</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
     <mat-form-field appearance="fill">
       <mat-label>Repeat every</mat-label>
-      <select matNativeControl [(ngModel)]="data.item.repeatEvery">
-        <option
+      <mat-select [(ngModel)]="data.item.repeatEvery">
+        <mat-option
           *ngFor="let option of REPEAT_EVERY_OPTIONS"
           [value]="option"
         >
           {{ option }}
-        </option>
-      </select>
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </ng-container>
   <mat-form-field appearance="fill">
@@ -146,9 +146,9 @@
       #groupAutocomplete="matAutocomplete"
       (optionSelected)="addGroup($event)"
     >
-      <option *ngFor="let group of filteredGroups | async" [value]="group">
+      <mat-option *ngFor="let group of filteredGroups | async" [value]="group">
         {{ group.name }}
-      </option>
+      </mat-option>
     </mat-autocomplete>
   </mat-form-field>
   <div class="item-edit-dialog-actions">

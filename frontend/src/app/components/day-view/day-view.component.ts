@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { getItemTimeInMinutes, getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
+import { getDisplayTime, getItemTimeInMinutes, getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
 import { DisplayService } from 'src/app/services/display.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -38,6 +38,10 @@ export class DayViewComponent implements OnInit {
       clockHour = 12;
     }
     return `${clockHour} ${period}`;
+  }
+
+  getDisplayTime(item: Item): string {
+    return getDisplayTime(item);
   }
 
   private calcColumns(): void {

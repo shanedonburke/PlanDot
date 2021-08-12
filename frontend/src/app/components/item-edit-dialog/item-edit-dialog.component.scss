@@ -1,9 +1,3 @@
-::ng-deep mat-dialog-container {
-  margin: 10px 0 !important;
-  max-height: calc(100% - 20px) !important;
-  height: unset !important;
-}
-
 .item-edit-dialog {
   display: flex;
   flex-direction: column;
@@ -36,11 +30,4 @@
 .item-edit-dialog-actions {
   display: flex;
   justify-content: space-between;
-}
-
-::ng-deep div[id^="cdk-overlay"] {
-  @media screen and (max-width: 768px) {
-    max-width: unset !important;
-    width: calc(100vw - 20px);
-  }
 }

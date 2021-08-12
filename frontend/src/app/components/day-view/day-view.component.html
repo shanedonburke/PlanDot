@@ -20,7 +20,8 @@
           [style.color]="itemService.getItemTextColor(itemData.item)"
           class="day-view-item"
         >
-          {{ itemData.item.title }}
+          <div>{{ itemData.item.title }}</div>
+          <div>{{ getDisplayTime(itemData.item) }}</div>
         </div>
       </ng-container>
     </div>
