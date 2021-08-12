@@ -6,7 +6,7 @@
   </div>
   <div class="calendar">
     <ng-container
-      *ngFor="let week of getMonthDates(getYear(), getMonth())"
+      *ngFor="let week of getMonthDates(displayService.year, displayService.month)"
       class="calendar-week"
     >
       <ng-container *ngFor="let date of week">

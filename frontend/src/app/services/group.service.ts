@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
 import { Item } from '../domain/item';
-import { ItemService } from './item.service';
 
 @Injectable({
   providedIn: 'root',

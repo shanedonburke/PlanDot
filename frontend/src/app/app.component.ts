@@ -49,6 +49,10 @@ export class AppComponent implements OnInit {
     return this.getViewName() === 'month';
   }
 
+  isDayView(): boolean {
+    return this.getViewName() === 'day';
+  }
+
   setView(viewName: string): void {
     setCookie('view', viewName);
   }

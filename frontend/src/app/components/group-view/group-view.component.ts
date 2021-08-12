@@ -4,6 +4,7 @@ import { Group } from 'src/app/domain/group';
 import {
   compareItemsByDate,
   createItem,
+  formatItemTime,
   Item,
   TimePeriod,
 } from 'src/app/domain/item';
@@ -28,9 +29,11 @@ export class GroupViewComponent {
   }
 
   getDisplayTime(item: Item): string {
-    return `${item.startTime.hours}:${item.startTime.minutes
-      .toString()
-      .padStart(2, '0')} ${item.startTime.period}`;
+    if (item.endTimeEnabled) {
+      return `${formatItemTime(item.startTime)} - ${formatItemTime(item.endTime)}`;
+    } else {
+      return formatItemTime(item.startTime);
+    }
   }
 
   dropGroupItem(group: Group, event: CdkDragDrop<Array<Item>>) {

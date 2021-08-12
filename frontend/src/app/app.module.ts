@@ -14,6 +14,7 @@ import { ItemEditDialogModule } from './components/item-edit-dialog/item-edit-di
 import { HttpClientModule } from '@angular/common/http';
 import { GroupViewModule } from './components/group-view/group-view.module';
 import { MonthViewModule } from './components/month-view/month-view.module';
+import { DayViewModule } from './components/day-view/day-view.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +33,7 @@ import { MonthViewModule } from './components/month-view/month-view.module';
     ItemEditDialogModule,
     GroupViewModule,
     MonthViewModule,
+    DayViewModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

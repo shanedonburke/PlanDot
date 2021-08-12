@@ -1,3 +1,8 @@
+::ng-deep mat-dialog-container {
+  height: unset !important;
+  max-height: calc(100vh - 20px) !important;
+}
+
 .item-edit-dialog {
   display: flex;
   flex-direction: column;

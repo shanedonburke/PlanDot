@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable, ReplaySubject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { Group } from '../domain/group';
 import { Item } from '../domain/item';
@@ -24,6 +25,12 @@ function isUserData(obj: any): obj is UserData {
   providedIn: 'root',
 })
 export class UserDataService {
+  private _onUserDataLoaded = new ReplaySubject<void>();
+
+  get onUserDataLoaded(): Observable<void> {
+    return this._onUserDataLoaded;
+  }
+
   constructor(
     private readonly httpClient: HttpClient,
     private readonly groupService: GroupService,
@@ -51,6 +58,7 @@ export class UserDataService {
               return { ...dto, date: new Date(dto.date) };
             })
           );
+          this._onUserDataLoaded.next();
         }
       });
   }

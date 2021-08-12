@@ -94,10 +94,18 @@
       >
         <mat-icon>calendar_view_month</mat-icon>
       </button>
+      <button
+        (click)="setView('day')"
+        class="sidenav-btn"
+        [ngClass]="{ 'sidenav-btn-selected': isDayView() }"
+      >
+        <mat-icon fontSet="material-icons-outlined">calendar_view_day</mat-icon>
+      </button>
     </div>
     <ng-container [ngSwitch]="getViewName()">
       <app-group-view *ngSwitchCase="'group'"></app-group-view>
       <app-month-view *ngSwitchCase="'month'"></app-month-view>
+      <app-day-view *ngSwitchCase="'day'"></app-day-view>
     </ng-container>
   </div>
 </div>

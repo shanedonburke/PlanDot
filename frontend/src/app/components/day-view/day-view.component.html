@@ -1,6 +1,6 @@
 <div class="day-view-container">
   <div class="day-view-header">
-    <span>{{ getDate().toDateString() }}</span>
+    <span>{{ displayService.date.toDateString() }}</span>
   </div>
   <div class="day-view-content">
     <div *ngFor="let hour of hours" class="day-view-hour">

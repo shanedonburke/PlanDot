@@ -48,7 +48,7 @@
               <mat-icon>event</mat-icon>
               <span>{{ item.date.toLocaleDateString() }}</span>
             </div>
-            <div class="group-item-date" *ngIf="item.timeEnabled">
+            <div class="group-item-date" *ngIf="item.startTimeEnabled">
               <mat-icon>schedule</mat-icon>
               <span>{{ getDisplayTime(item) }}</span>
             </div>

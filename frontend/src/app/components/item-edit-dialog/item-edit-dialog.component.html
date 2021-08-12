@@ -45,12 +45,11 @@
   <mat-checkbox
     *ngIf="data.item.dateEnabled"
     class="time-enabled-checkbox"
-    [checked]="data.item.timeEnabled"
-    (change)="data.item.timeEnabled = !data.item.timeEnabled"
-    >Add time</mat-checkbox
+    [checked]="data.item.startTimeEnabled"
+    (change)="data.item.startTimeEnabled = !data.item.startTimeEnabled"
+    >Add start time</mat-checkbox
   >
-  <ng-container *ngIf="data.item.timeEnabled">
-    <div>Start time</div>
+  <ng-container *ngIf="data.item.startTimeEnabled">
     <div class="time-form">
       <mat-form-field appearance="fill">
         <mat-label>Hours</mat-label>
@@ -76,8 +75,14 @@
         </mat-select>
       </mat-form-field>
     </div>
-    <div>End time</div>
-    <div class="time-form">
+    <mat-checkbox
+      *ngIf="data.item.dateEnabled"
+      class="time-enabled-checkbox"
+      [checked]="data.item.endTimeEnabled"
+      (change)="data.item.endTimeEnabled = !data.item.endTimeEnabled"
+      >Add end time</mat-checkbox
+    >
+    <div class="time-form" *ngIf="data.item.endTimeEnabled">
       <mat-form-field appearance="fill">
         <mat-label>Hours</mat-label>
         <mat-select [(value)]="data.item.endTime.hours">

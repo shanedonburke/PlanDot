@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Calendar } from 'calendar';
+import { DisplayService } from 'src/app/services/display.service';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
 import { getCookie, setCookie } from 'src/app/util/cookies';
@@ -16,7 +17,8 @@ export class MonthViewComponent {
 
   constructor(
     public readonly itemService: ItemService,
-    public readonly groupService: GroupService
+    public readonly groupService: GroupService,
+    public readonly displayService: DisplayService,
   ) {}
 
   getMonthDates(year: number, month: number): Array<Array<Date>> {
@@ -30,26 +32,8 @@ export class MonthViewComponent {
     return dates;
   }
 
-  getYear(): number {
-    const year = getCookie('year');
-    return year ? parseInt(year) : this.getCurrentYear();
-  }
-
-  getMonth(): number {
-    const month = getCookie('month');
-    return month ? parseInt(month) : this.getCurrentMonth();
-  }
-
-  getCurrentYear(): number {
-    return new Date().getFullYear();
-  }
-
-  getCurrentMonth(): number {
-    return new Date().getMonth();
-  }
-
   goToDate(date: Date): void {
-    setCookie('date', date.toISOString());
+    this.displayService.date = date;
     setCookie('view', 'day');
   }
 }

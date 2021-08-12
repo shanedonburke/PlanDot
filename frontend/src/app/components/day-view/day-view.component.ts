@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
+import { getItemTimeInMinutes, getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
+import { DisplayService } from 'src/app/services/display.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { getCookie } from 'src/app/util/cookies';
 
 interface ItemData {
   item: Item;
@@ -22,16 +22,12 @@ export class DayViewComponent implements OnInit {
 
   constructor(
     public readonly itemService: ItemService,
-    private readonly userDataService: UserDataService
+    public readonly displayService: DisplayService,
+    private readonly userDataService: UserDataService,
   ) {}
 
   ngOnInit() {
     this.userDataService.onUserDataLoaded.subscribe(() => this.calcColumns());
-  }
-
-  getDate(): Date {
-    const dateStr = getCookie('date');
-    return dateStr ? new Date(dateStr) : new Date();
   }
 
   getHourString(hour: number): string {
@@ -49,17 +45,17 @@ export class DayViewComponent implements OnInit {
     for (let i = 0; i < this.numColumns; i++) {
       this.columns.push([]);
     }
-    for (const item of this.itemService.getDateItems(this.getDate())) {
+    for (const item of this.itemService.getDateItems(this.displayService.date)) {
       for (const col of this.columns) {
         if (
           col.length === 0 ||
           col[col.length - 1].rowEnd <=
-            this.getItemTimeInMinutes(item.startTime)
+            getItemTimeInMinutes(item.startTime)
         ) {
           col.push({
             item,
-            rowStart: this.getItemTimeInMinutes(item.startTime),
-            rowEnd: this.getItemTimeInMinutes(item.endTime),
+            rowStart: getItemTimeInMinutes(item.startTime),
+            rowEnd: getItemTimeInMinutes(item.endTime),
           });
           break;
         }
@@ -68,22 +64,18 @@ export class DayViewComponent implements OnInit {
   }
 
   private calcNumColumns(): number {
-    const items = this.itemService.getDateItems(this.getDate());
+    const items = this.itemService.getDateItems(this.displayService.date);
     let maxInSameRow = 0;
     for (let i = 0; i < 1440 / 2; i++) {
       const inSameRow = items.filter((item) => {
         return (
-          item.timeEnabled &&
-          this.getItemTimeInMinutes(item.startTime) <= i &&
-          this.getItemTimeInMinutes(item.endTime) > i
+          item.startTimeEnabled &&
+          getItemTimeInMinutes(item.startTime) <= i &&
+          getItemTimeInMinutes(item.endTime) > i
         );
       }).length;
       maxInSameRow = Math.max(maxInSameRow, inSameRow);
     }
     return maxInSameRow;
-  }
-
-  private getItemTimeInMinutes(itemTime: ItemTime): number {
-    return Math.round((getMilitaryHour(itemTime) * 60 + itemTime.minutes) / 2);
   }
 }

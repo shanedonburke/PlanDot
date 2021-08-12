@@ -1,7 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
-import { Item } from '../domain/item';
+import { compareItemsByDate, Item, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 
 @Injectable({
@@ -79,6 +79,26 @@ export class ItemService {
         item.date.getMonth() === date.getMonth() &&
         item.date.getDate() === date.getDate()
       );
-    });
+    }).sort((a, b) => compareItemsByDate(a, b));
+  }
+
+  getItemBackgroundColor(item: Item): string {
+    if (item.groupIds.length === 0) {
+      return '#444444';
+    } else {
+      return (
+        this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444'
+      );
+    }
+  }
+
+  getItemTextColor(item: Item): string {
+    if (item.groupIds.length === 0) {
+      return 'white';
+    } else {
+      return this.groupService.getGroupTextColor(
+        this.groupService.getGroupById(item.groupIds[0])!!
+      );
+    }
   }
 }
