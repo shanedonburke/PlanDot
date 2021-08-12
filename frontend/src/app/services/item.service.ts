@@ -32,12 +32,26 @@ export class ItemService {
     return this.itemMap.get(itemId)!!;
   }
 
-  addItem(item: Item): void {
+  updateOrCreateItem(item: Item): void {
     this.itemMap.set(item.id, item);
-    this.itemOrder.push(item.id);
-    item.groupIds.forEach((groupId) => {
-      this.groupService.getGroupById(groupId)!!.itemIds.push(item.id);
+    if (!this.itemOrder.includes(item.id)) {
+      this.itemOrder.push(item.id);
+    }
+    this.groupService.getGroups().forEach((group) => {
+      if (group.itemIds.includes(item.id) && !item.groupIds.includes(item.id)) {
+        group.itemIds.splice(group.itemIds.indexOf(item.id), 1);
+      } else if (
+        !group.itemIds.includes(item.id) &&
+        item.groupIds.includes(group.id)
+      ) {
+        group.itemIds.push(item.id);
+      }
     });
+  }
+
+  deleteItem(item: Item): void {
+    this.itemMap.delete(item.id);
+    this.itemOrder.splice(this.itemOrder.indexOf(item.id), 1);
   }
 
   getGroupItems(group: Group): Array<Item> {
@@ -54,6 +68,17 @@ export class ItemService {
       if (groupIdIndex !== -1) {
         item.groupIds.splice(groupIdIndex, 1);
       }
+    });
+  }
+
+  getDateItems(date: Date): Array<Item> {
+    return this.getItems().filter((item) => {
+      return (
+        item.dateEnabled &&
+        item.date.getFullYear() === date.getFullYear() &&
+        item.date.getMonth() === date.getMonth() &&
+        item.date.getDate() === date.getDate()
+      );
     });
   }
 }

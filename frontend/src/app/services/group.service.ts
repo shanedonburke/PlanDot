@@ -57,4 +57,13 @@ export class GroupService {
       ? '#000000'
       : '#ffffff';
   }
+
+  removeItemFromGroups(item: Item): void {
+    this.getGroups().forEach((group) => {
+      const itemIdIndex = group.itemIds.indexOf(item.id);
+      if (itemIdIndex !== -1) {
+        group.itemIds.splice(itemIdIndex, 1);
+      }
+    });
+  }
 }

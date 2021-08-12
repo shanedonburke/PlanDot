@@ -39,17 +39,23 @@ api.get("/auth_url", (req, res) => {
 });
 
 api.post("/user_data", (req, res) => {
-  db.collection("userData").updateOne(
-    { _id: getUserId(req) },
-    { $set: req.body },
-    { upsert: true }
-  );
+  if (req.cookies.jwt) {
+    db.collection("userData").updateOne(
+      { _id: getUserId(req) },
+      { $set: req.body },
+      { upsert: true }
+    );
+  }
   res.sendStatus(200);
 });
 
 api.get("/user_data", (req, res) => {
-  db.collection("userData").findOne({ _id: getUserId(req) }).then(
-    (doc) => res.send(doc),
-    (err) => res.send(err),
-  );
+  if (req.cookies.jwt) {
+    db.collection("userData").findOne({ _id: getUserId(req) }).then(
+      (doc) => res.send(doc),
+      (err) => res.send(err),
+    );
+  } else {
+    res.send({});
+  }
 });

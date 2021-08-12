@@ -2,3 +2,12 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.group-name-chip {
+  border-radius: 16px;
+  padding: 0 10px;
+  height: 32px;
+  width: max-content;
+  display: flex;
+  align-items: center;
+}

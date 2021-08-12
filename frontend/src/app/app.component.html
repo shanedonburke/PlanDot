@@ -1,7 +1,31 @@
 <div class="page-container">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <span>plan0</span>
+      <div class="primary-row">
+        <span>plan0</span>
+        <div [style.flexGrow]="1"></div>
+        <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #hamburgerMenu="matMenu">
+          <button
+            *ngIf="!userAuthService.hasAuth()"
+            (click)="userAuthService.login()"
+            mat-menu-item
+          >
+            <mat-icon>login</mat-icon>
+            <span>Login</span>
+          </button>
+          <button
+            *ngIf="userAuthService.hasAuth()"
+            (click)="userAuthService.logout()"
+            mat-menu-item
+          >
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
+      </div>
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-toolbar>
@@ -15,7 +39,6 @@
         New item
       </button>
       <button (click)="toggleGroupsMenu($event)" mat-button>Groups</button>
-      <button (click)="userAuthService.login()" mat-button>Login</button>
       <div
         *ngIf="isGroupsMenuVisible"
         (click)="$event.stopPropagation()"
@@ -38,7 +61,10 @@
                 <button (click)="editGroup(group)" mat-icon-button>
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button (click)="deleteGroup(group)" mat-icon-button>
+                <button
+                  (click)="userDataService.deleteGroup(group)"
+                  mat-icon-button
+                >
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -52,64 +78,26 @@
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
-  <div class="group-view-container">
-    <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
-      <div class="group">
-        <div class="group-header">
-          <div
-            [style.color]="groupService.getGroupTextColor(group)"
-            [style.backgroundColor]="group.color"
-            class="group-name-chip"
-          >
-            {{ group.name }}
-          </div>
-          <button mat-icon-button [matMenuTriggerFor]="sortMenu">
-            <mat-icon>sort</mat-icon>
-          </button>
-          <mat-menu #sortMenu="matMenu">
-            <button mat-menu-item (click)="sortByDate(group)">
-              <mat-icon>event</mat-icon>
-              <span>Date</span>
-            </button>
-            <button mat-menu-item (click)="sortByTitle(group)">
-              <mat-icon>sort_by_alpha</mat-icon>
-              <span>Title</span>
-            </button>
-          </mat-menu>
-        </div>
-        <div
-          class="group-item-list"
-          cdkDropList
-          (cdkDropListDropped)="dropGroupItem(group, $event)"
-        >
-          <div
-            *ngFor="let item of itemService.getGroupItems(group)"
-            class="group-item"
-            cdkDrag
-          >
-            <span class="group-item-title">{{ item.title }}</span>
-            <span class="group-item-description">{{ item.description }}</span>
-            <div style="flex-grow: 1"></div>
-            <div style="display: flex">
-              <div class="group-item-date" *ngIf="item.dateEnabled">
-                <mat-icon>event</mat-icon>
-                <span>{{ item.date.toLocaleDateString() }}</span>
-              </div>
-              <div class="group-item-date" *ngIf="item.timeEnabled">
-                <mat-icon>schedule</mat-icon>
-                <span>{{ getDisplayTime(item) }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <button
-          (click)="addNewItemToGroup(group)"
-          mat-button
-          class="new-group-item-btn"
-        >
-          New item
-        </button>
-      </div>
+  <div class="page-content">
+    <div class="sidenav">
+      <button
+        (click)="setView('group')"
+        class="sidenav-btn"
+        [ngClass]="{ 'sidenav-btn-selected': isGroupView() }"
+      >
+        <mat-icon fontSet="material-icons-outlined">view_agenda</mat-icon>
+      </button>
+      <button
+        (click)="setView('month')"
+        class="sidenav-btn"
+        [ngClass]="{ 'sidenav-btn-selected': isMonthView() }"
+      >
+        <mat-icon>calendar_view_month</mat-icon>
+      </button>
     </div>
+    <ng-container [ngSwitch]="getViewName()">
+      <app-group-view *ngSwitchCase="'group'"></app-group-view>
+      <app-month-view *ngSwitchCase="'month'"></app-month-view>
+    </ng-container>
   </div>
 </div>
