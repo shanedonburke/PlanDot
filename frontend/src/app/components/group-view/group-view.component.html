@@ -35,11 +35,15 @@
         >
           <div class="group-item-header">
             <span class="group-item-title">{{ item.title }}</span>
-            <mat-icon
-              (click)="userDataService.deleteItem(item)"
-              class="group-item-delete-btn"
-              >delete</mat-icon
-            >
+            <div style="flex-grow: 1"></div>
+            <button class="icon-btn">
+              <mat-icon (click)="expandItem(item)">open_in_full</mat-icon>
+            </button>
+            <button class="icon-btn">
+              <mat-icon (click)="userDataService.deleteItem(item)"
+                >delete</mat-icon
+              >
+            </button>
           </div>
           <span class="group-item-description">{{ item.description }}</span>
           <div style="flex-grow: 1"></div>

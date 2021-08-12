@@ -1,5 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import {
   compareItemsByDate,
@@ -12,6 +13,7 @@ import {
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { ItemViewDialogComponent } from '../item-view-dialog/item-view-dialog.component';
 
 @Component({
   selector: 'app-group-view',
@@ -22,7 +24,8 @@ export class GroupViewComponent {
   constructor(
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
-    public readonly userDataService: UserDataService
+    public readonly userDataService: UserDataService,
+    private readonly dialog: MatDialog,
   ) {}
 
   addNewItemToGroup(group: Group) {
@@ -57,5 +60,11 @@ export class GroupViewComponent {
         .title.localeCompare(this.itemService.getItemById(b).title);
     });
     this.userDataService.saveUserData();
+  }
+
+  expandItem(item: Item) {
+    this.dialog.open(ItemViewDialogComponent, {
+      data: { item },
+    });
   }
 }

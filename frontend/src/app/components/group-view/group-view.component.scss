@@ -77,18 +77,12 @@
 
 .group-item-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
 .group-item-title {
   font-weight: 450;
   font-size: 16px;
-}
-
-.group-item-delete-btn {
-  user-select: none;
-  cursor: pointer;
 }
 
 .group-item-description {

@@ -11,3 +11,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   display: flex;
   align-items: center;
 }
+
+.icon-btn {
+  $button-size: 24px;
+  background: transparent;
+  width: $button-size;
+  height: $button-size;
+  border: none;
+  padding: 0;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+
+  &:active {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}

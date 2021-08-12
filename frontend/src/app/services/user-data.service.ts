@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
+import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
 import { Item, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
@@ -35,15 +36,19 @@ export class UserDataService {
     private readonly httpClient: HttpClient,
     private readonly groupService: GroupService,
     private readonly itemService: ItemService,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
 
   saveUserData(): void {
     this.httpClient
-      .post('/api/user_data', {
-        items: this.itemService.getItems(),
-        groups: this.groupService.getGroups(),
-      }, {responseType: 'text'})
+      .post(
+        '/api/user_data',
+        {
+          items: this.itemService.getItems(),
+          groups: this.groupService.getGroups(),
+        },
+        { responseType: 'text' }
+      )
       .subscribe();
   }
 
@@ -83,22 +88,32 @@ export class UserDataService {
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
         if (result.startTimeEnabled && !result.endTimeEnabled) {
-          if (result.startTime.hours === 11 && result.startTime.period === TimePeriod.AM) {
+          result.endTime.minutes = result.startTime.minutes;
+
+          if (
+            result.startTime.hours === 11 &&
+            result.startTime.period === TimePeriod.AM
+          ) {
             result.endTime.hours = 12;
-            result.endTime.minutes = result.startTime.minutes;
             result.endTime.period = TimePeriod.PM;
-          } else if (result.startTime.hours === 11 && result.startTime.period === TimePeriod.PM) {
+          } else if (
+            result.startTime.hours === 11 &&
+            result.startTime.period === TimePeriod.PM
+          ) {
             result.endTime.hours = 11;
             result.endTime.minutes = 59;
             result.endTime.period = TimePeriod.PM;
           } else {
             result.endTime.hours = result.startTime.hours + 1;
-            result.endTime.minutes = result.startTime.minutes;
             result.endTime.period = result.startTime.period;
           }
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData();
+
+        this.dialog.open(ItemViewDialogComponent, {
+          data: { item: result },
+        });
       }
     });
   }

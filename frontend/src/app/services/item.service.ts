@@ -38,7 +38,10 @@ export class ItemService {
       this.itemOrder.push(item.id);
     }
     this.groupService.getGroups().forEach((group) => {
-      if (group.itemIds.includes(item.id) && !item.groupIds.includes(item.id)) {
+      if (
+        group.itemIds.includes(item.id) &&
+        !item.groupIds.includes(group.id)
+      ) {
         group.itemIds.splice(group.itemIds.indexOf(item.id), 1);
       } else if (
         !group.itemIds.includes(item.id) &&
@@ -72,14 +75,16 @@ export class ItemService {
   }
 
   getDateItems(date: Date): Array<Item> {
-    return this.getItems().filter((item) => {
-      return (
-        item.dateEnabled &&
-        item.date.getFullYear() === date.getFullYear() &&
-        item.date.getMonth() === date.getMonth() &&
-        item.date.getDate() === date.getDate()
-      );
-    }).sort((a, b) => compareItemsByDate(a, b));
+    return this.getItems()
+      .filter((item) => {
+        return (
+          item.dateEnabled &&
+          item.date.getFullYear() === date.getFullYear() &&
+          item.date.getMonth() === date.getMonth() &&
+          item.date.getDate() === date.getDate()
+        );
+      })
+      .sort((a, b) => compareItemsByDate(a, b));
   }
 
   getItemBackgroundColor(item: Item): string {
