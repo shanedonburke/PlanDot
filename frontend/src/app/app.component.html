@@ -7,7 +7,7 @@
         <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
           <mat-icon>menu</mat-icon>
         </button>
-        <mat-menu #hamburgerMenu="matMenu">
+        <mat-menu #hamburgerMenu="matMenu" yPosition="below">
           <button
             *ngIf="!userAuthService.hasAuth()"
             (click)="userAuthService.login()"

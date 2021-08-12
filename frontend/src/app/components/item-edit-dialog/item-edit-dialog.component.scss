@@ -1,6 +1,7 @@
 ::ng-deep mat-dialog-container {
+  margin: 10px 0 !important;
+  max-height: calc(100% - 20px) !important;
   height: unset !important;
-  max-height: calc(100vh - 20px) !important;
 }
 
 .item-edit-dialog {
