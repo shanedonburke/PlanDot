@@ -27,6 +27,7 @@ export class DayViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.calcColumns();
     this.userDataService.onUserDataLoaded.subscribe(() => this.calcColumns());
   }
 

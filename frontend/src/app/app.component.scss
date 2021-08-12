@@ -61,6 +61,7 @@ app-group-view, app-month-view, app-day-view {
 .groups-menu {
   position: absolute;
   min-width: 300px;
+  z-index: 1;
   top: 75px;
   left: 10px;
   background-color: white;

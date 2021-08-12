@@ -14,8 +14,8 @@
         <div
           *ngFor="let itemData of col"
           [style.gridColumn]="i + 1"
-          [style.gridRowStart]="itemData.rowStart + 1"
-          [style.gridRowEnd]="itemData.rowEnd + 1"
+          [style.gridRowStart]="itemData.rowStart + 2"
+          [style.gridRowEnd]="itemData.rowEnd + 2"
           [style.backgroundColor]="itemService.getItemBackgroundColor(itemData.item)"
           [style.color]="itemService.getItemTextColor(itemData.item)"
           class="day-view-item"
