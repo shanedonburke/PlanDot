@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { getDisplayTime, getItemTimeInMinutes, getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
 import { DisplayService } from 'src/app/services/display.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { ItemViewDialogComponent } from '../item-view-dialog/item-view-dialog.component';
 
 interface ItemData {
   item: Item;
@@ -24,11 +26,13 @@ export class DayViewComponent implements OnInit {
     public readonly itemService: ItemService,
     public readonly displayService: DisplayService,
     private readonly userDataService: UserDataService,
+    private readonly dialog: MatDialog,
   ) {}
 
   ngOnInit() {
     this.calcColumns();
     this.userDataService.onUserDataLoaded.subscribe(() => this.calcColumns());
+    this.userDataService.onItemDeleted.subscribe(() => this.calcColumns());
   }
 
   getHourString(hour: number): string {
@@ -42,6 +46,12 @@ export class DayViewComponent implements OnInit {
 
   getDisplayTime(item: Item): string {
     return getDisplayTime(item);
+  }
+
+  expandItem(item: Item): void {
+    this.dialog.open(ItemViewDialogComponent, {
+      data: { item },
+    });
   }
 
   private calcColumns(): void {

@@ -1,7 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { getGroupTextColor, Group } from '../domain/group';
-import { compareItemsByDate, Item, TimePeriod } from '../domain/item';
+import { compareItemsByDate, Item, Repeat, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 
 @Injectable({
@@ -28,8 +28,12 @@ export class ItemService {
     );
   }
 
-  getItemById(itemId: string): Item {
-    return this.itemMap.get(itemId)!!;
+  hasItem(itemId: string): boolean {
+    return this.itemMap.has(itemId);
+  }
+
+  getItemById(itemId: string): Item | undefined {
+    return this.itemMap.get(itemId);
   }
 
   updateOrCreateItem(item: Item): void {
@@ -75,14 +79,28 @@ export class ItemService {
   }
 
   getDateItems(date: Date): Array<Item> {
+    date.setHours(0, 0, 0, 0);
     return this.getItems()
       .filter((item) => {
-        return (
-          item.dateEnabled &&
-          item.date.getFullYear() === date.getFullYear() &&
-          item.date.getMonth() === date.getMonth() &&
-          item.date.getDate() === date.getDate()
-        );
+        if (item.dateEnabled) {
+          return (
+            (item.date.getFullYear() === date.getFullYear() &&
+              item.date.getMonth() === date.getMonth() &&
+              item.date.getDate() === date.getDate()) ||
+            (item.date.getMonth() === date.getMonth() &&
+              item.date.getDate() === date.getDate() &&
+              item.repeat === Repeat.YEARLY) ||
+            (item.date.getDate() === date.getDate() &&
+              item.repeat === Repeat.MONTHLY) ||
+            ((date.getTime() - item.date.getTime()) % 12096e5 === 0 &&
+              item.repeat === Repeat.BI_WEEKLY) ||
+            (item.date.getDay() === date.getDay() &&
+              item.repeat === Repeat.WEEKLY) ||
+            item.repeat === Repeat.DAILY
+          );
+        } else {
+          return false;
+        }
       })
       .sort((a, b) => compareItemsByDate(a, b));
   }

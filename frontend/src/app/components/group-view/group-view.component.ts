@@ -25,7 +25,7 @@ export class GroupViewComponent {
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
     public readonly userDataService: UserDataService,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
 
   addNewItemToGroup(group: Group) {
@@ -46,8 +46,8 @@ export class GroupViewComponent {
     console.log(this.itemService.getItems());
     group.itemIds.sort((a, b) => {
       return compareItemsByDate(
-        this.itemService.getItemById(a),
-        this.itemService.getItemById(b)
+        this.itemService.getItemById(a)!!,
+        this.itemService.getItemById(b)!!
       );
     });
     this.userDataService.saveUserData();
@@ -56,8 +56,8 @@ export class GroupViewComponent {
   sortByTitle(group: Group) {
     group.itemIds.sort((a, b) => {
       return this.itemService
-        .getItemById(a)
-        .title.localeCompare(this.itemService.getItemById(b).title);
+        .getItemById(a)!!
+        .title.localeCompare(this.itemService.getItemById(b)!!.title);
     });
     this.userDataService.saveUserData();
   }

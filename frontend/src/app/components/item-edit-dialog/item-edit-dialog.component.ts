@@ -37,7 +37,7 @@ export class ItemEditDialogComponent {
   ) {
     this.filteredGroups = this.groupFormControl.valueChanges.pipe(
       startWith(null),
-      map((group: string | null) => this._filterGroups(group))
+      map((group: string | null) => this.filterGroups(group))
     );
   }
 
@@ -55,7 +55,7 @@ export class ItemEditDialogComponent {
     return getGroupTextColor(group);
   }
 
-  private _filterGroups(group: Group | string | null): Array<Group> {
+  private filterGroups(group: Group | string | null): Array<Group> {
     let filtered = this.groupService
       .getGroups()
       .filter((g) => !this.data.item.groupIds.includes(g.id));

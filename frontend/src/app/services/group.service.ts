@@ -28,6 +28,10 @@ export class GroupService {
     return this.groupMap.get(id);
   }
 
+  hasGroup(groupId: string): boolean {
+    return this.groupMap.has(groupId);
+  }
+
   getItemGroups(item: Item): ReadonlyArray<Group> {
     return <ReadonlyArray<Group>>(
       item.groupIds

@@ -27,9 +27,14 @@ function isUserData(obj: any): obj is UserData {
 })
 export class UserDataService {
   private _onUserDataLoaded = new ReplaySubject<void>();
+  private _onItemDeleted = new ReplaySubject<Item>();
 
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded;
+  }
+
+  get onItemDeleted(): Observable<Item> {
+    return this._onItemDeleted;
   }
 
   constructor(
@@ -40,15 +45,13 @@ export class UserDataService {
   ) {}
 
   saveUserData(): void {
+    const groups = this.groupService.getGroups();
+    const items = this.itemService.getItems();
+    this.validateGroups(groups);
+    this.validateItems(items);
+    
     this.httpClient
-      .post(
-        '/api/user_data',
-        {
-          items: this.itemService.getItems(),
-          groups: this.groupService.getGroups(),
-        },
-        { responseType: 'text' }
-      )
+      .post('/api/user_data', { items, groups }, { responseType: 'text' })
       .subscribe();
   }
 
@@ -77,6 +80,7 @@ export class UserDataService {
   deleteItem(item: Item): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
+    this._onItemDeleted.next();
     this.saveUserData();
   }
 
@@ -87,6 +91,8 @@ export class UserDataService {
 
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
+        result.date.setHours(0, 0, 0, 0);
+
         if (result.startTimeEnabled && !result.endTimeEnabled) {
           result.endTime.minutes = result.startTime.minutes;
 
@@ -119,6 +125,26 @@ export class UserDataService {
           data: { item },
         });
       }
+    });
+  }
+
+  private validateGroups(groups: ReadonlyArray<Group>): void {
+    groups.forEach((group) => {
+      group.itemIds.forEach((itemId, i) => {
+        if (!this.itemService.hasItem(itemId)) {
+          group.itemIds.splice(i, 1);
+        }
+      });
+    });
+  }
+
+  private validateItems(items: ReadonlyArray<Item>): void {
+    items.forEach((item) => {
+      item.groupIds.forEach((groupId, i) => {
+        if (!this.groupService.hasGroup(groupId)) {
+          item.groupIds.splice(i, 1);
+        }
+      });
     });
   }
 }
