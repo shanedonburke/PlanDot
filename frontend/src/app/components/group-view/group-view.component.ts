@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Group } from 'src/app/domain/group';
+import { getGroupTextColor, Group } from 'src/app/domain/group';
 import {
   compareItemsByDate,
   createItem,
@@ -66,5 +66,9 @@ export class GroupViewComponent {
     this.dialog.open(ItemViewDialogComponent, {
       data: { item },
     });
+  }
+
+  getGroupTextColor(group: Group): string {
+    return getGroupTextColor(group);
   }
 }

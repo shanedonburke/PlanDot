@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { GroupEditDialogComponent } from './components/group-edit-dialog/group-edit-dialog.component';
 import { ItemEditDialogComponent } from './components/item-edit-dialog/item-edit-dialog.component';
 import { Group } from './domain/group';
-import { createItem, Item, RepeatEvery, TimePeriod } from './domain/item';
+import { createItem, Item, Repeat, TimePeriod } from './domain/item';
 import { GroupService } from './services/group.service';
 import { ItemService } from './services/item.service';
 import { UserDataService } from './services/user-data.service';

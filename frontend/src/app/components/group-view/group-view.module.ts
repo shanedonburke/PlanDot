@@ -5,6 +5,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatMenuModule } from "@angular/material/menu";
+import { GroupNameChipModule } from "../group-name-chip/group-name-chip.module";
 import { GroupViewComponent } from "./group-view.component";
 
 @NgModule({
@@ -17,6 +18,7 @@ import { GroupViewComponent } from "./group-view.component";
     DragDropModule,
     MatButtonModule,
     MatDialogModule,
+    GroupNameChipModule,
   ],
 })
 export class GroupViewModule {}

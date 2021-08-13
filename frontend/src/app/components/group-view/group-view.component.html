@@ -2,13 +2,7 @@
   <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
     <div class="group">
       <div class="group-header">
-        <div
-          [style.color]="groupService.getGroupTextColor(group)"
-          [style.backgroundColor]="group.color"
-          class="group-name-chip"
-        >
-          {{ group.name }}
-        </div>
+        <app-group-name-chip [group]="group"></app-group-name-chip>
         <button mat-icon-button [matMenuTriggerFor]="sortMenu">
           <mat-icon>sort</mat-icon>
         </button>
@@ -38,11 +32,6 @@
             <div style="flex-grow: 1"></div>
             <button class="icon-btn">
               <mat-icon (click)="expandItem(item)">open_in_full</mat-icon>
-            </button>
-            <button class="icon-btn">
-              <mat-icon (click)="userDataService.deleteItem(item)"
-                >delete</mat-icon
-              >
             </button>
           </div>
           <span class="group-item-description">{{ item.description }}</span>

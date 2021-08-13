@@ -7,7 +7,7 @@ export interface Item {
   description: string;
   date: Date;
   dateEnabled: boolean;
-  repeatEvery: RepeatEvery;
+  repeat: Repeat;
   startTime: ItemTime;
   endTime: ItemTime;
   startTimeEnabled: boolean;
@@ -15,7 +15,7 @@ export interface Item {
   groupIds: Array<string>;
 }
 
-export enum RepeatEvery {
+export enum Repeat {
   NEVER = 'Never',
   DAILY = 'Daily',
   WEEKLY = 'Weekly',
@@ -45,7 +45,7 @@ export function createItem(groups: Array<Group> = []): Item {
     description: '',
     date,
     dateEnabled: false,
-    repeatEvery: RepeatEvery.NEVER,
+    repeat: Repeat.NEVER,
     startTimeEnabled: false,
     endTimeEnabled: false,
     startTime: {

@@ -1,4 +1,4 @@
-.item-view-dialog {
+.item-view {
   width: 500px;
   display: flex;
   flex-direction: column;
@@ -8,10 +8,35 @@
   }
 }
 
-.item-view-dialog-title {
+.item-view-title {
   font-size: 16px;
   font-weight: 450;
   display: flex;
   align-items: center;
   width: 100%;
+}
+
+.item-view-description {
+  white-space: pre-line;
+}
+
+.item-view-groups {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+
+  app-group-name-chip {
+    margin-right: 5px;
+  }
+}
+
+.item-view-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.item-view-close-btn {
+  margin-right: 10px;
 }

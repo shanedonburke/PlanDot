@@ -1,6 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
-import { Group } from '../domain/group';
+import { getGroupTextColor, Group } from '../domain/group';
 import { compareItemsByDate, Item, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 
@@ -101,7 +101,7 @@ export class ItemService {
     if (item.groupIds.length === 0) {
       return 'white';
     } else {
-      return this.groupService.getGroupTextColor(
+      return getGroupTextColor(
         this.groupService.getGroupById(item.groupIds[0])!!
       );
     }

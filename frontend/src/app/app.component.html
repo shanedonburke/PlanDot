@@ -50,13 +50,7 @@
             class="groups-menu-row"
           >
             <div class="groups-menu-row-content">
-              <div
-                [style.color]="groupService.getGroupTextColor(group)"
-                [style.backgroundColor]="group.color"
-                class="group-name-chip"
-              >
-                {{ group.name }}
-              </div>
+              <app-group-name-chip [group]="group"></app-group-name-chip>
               <div class="groups-menu-row-controls">
                 <button (click)="editGroup(group)" mat-icon-button>
                   <mat-icon>edit</mat-icon>

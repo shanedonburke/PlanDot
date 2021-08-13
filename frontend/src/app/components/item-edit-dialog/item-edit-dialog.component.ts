@@ -6,8 +6,8 @@ import { GroupService } from 'src/app/services/group.service';
 import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { Group, isGroup } from 'src/app/domain/group';
-import { Item, RepeatEvery } from 'src/app/domain/item';
+import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
+import { Item, Repeat } from 'src/app/domain/item';
 
 export interface ItemEditDialogData {
   item: Item;
@@ -19,7 +19,7 @@ export interface ItemEditDialogData {
   styleUrls: ['./item-edit-dialog.component.scss'],
 })
 export class ItemEditDialogComponent {
-  REPEAT_EVERY_OPTIONS = Object.values(RepeatEvery);
+  REPEAT_EVERY_OPTIONS = Object.values(Repeat);
   HOURS_ARRAY = [...Array.from(Array(12).keys()).map((h) => h + 1)];
   MINUTES_ARRAY = [...Array(60).keys()];
   SEPARATOR_KEY_CODES = [ENTER, COMMA];
@@ -49,6 +49,10 @@ export class ItemEditDialogComponent {
 
   removeGroup(group: Group) {
     this.data.item.groupIds.splice(this.data.item.groupIds.indexOf(group.id), 1);
+  }
+
+  getGroupTextColor(group: Group): string {
+    return getGroupTextColor(group);
   }
 
   private _filterGroups(group: Group | string | null): Array<Group> {

@@ -16,6 +16,7 @@ import { GroupViewModule } from './components/group-view/group-view.module';
 import { MonthViewModule } from './components/month-view/month-view.module';
 import { DayViewModule } from './components/day-view/day-view.module';
 import { ItemViewDialogModule } from './components/item-view-dialog/item-view-dialog.module';
+import { GroupNameChipModule } from './components/group-name-chip/group-name-chip.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { ItemViewDialogModule } from './components/item-view-dialog/item-view-di
     GroupViewModule,
     MonthViewModule,
     DayViewModule,
+    GroupNameChipModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

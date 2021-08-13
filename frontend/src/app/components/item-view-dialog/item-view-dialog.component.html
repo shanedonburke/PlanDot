@@ -1,9 +1,38 @@
-<div class="item-view-dialog">
-  <div class="item-view-dialog-title">
+<div class="item-view">
+  <div class="item-view-title">
     <span>{{ data.item.title }}</span>
     <div style="flex-grow: 1"></div>
     <button class="icon-btn" (click)="editItem()">
       <mat-icon>edit</mat-icon>
     </button>
+  </div>
+  <div class="item-view-description">{{ data.item.description }}</div>
+  <ng-container *ngIf="data.item.dateEnabled">
+    <div>
+      <b>Date: </b>
+      <span>{{ data.item.date.toDateString() }}</span>
+    </div>
+    <div *ngIf="data.item.startTimeEnabled">
+      <b>Time: </b>
+      <span>{{ getDisplayTime() }}</span>
+    </div>
+    <div>
+      <b>Repeat: </b>
+      <span>{{ data.item.repeat }}</span>
+    </div>
+    <div>
+      <b>Groups: </b>
+      <div class="item-view-groups">
+        <app-group-name-chip
+          *ngFor="let groupId of data.item.groupIds"
+          [group]="groupService.getGroupById(groupId)!!"
+        >
+        </app-group-name-chip>
+      </div>
+    </div>
+  </ng-container>
+  <div class="item-view-controls">
+    <button (click)="dialogRef.close()" mat-raised-button class="item-view-close-btn">Close</button>
+    <button (click)="deleteItem()" mat-raised-button color="warn">Delete</button>
   </div>
 </div>

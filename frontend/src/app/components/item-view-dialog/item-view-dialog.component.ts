@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Item } from 'src/app/domain/item';
+import { getDisplayTime, Item } from 'src/app/domain/item';
+import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 
 export interface ItemViewDialogData {
@@ -16,13 +17,23 @@ export class ItemViewDialogComponent {
   constructor(
     public readonly dialogRef: MatDialogRef<ItemViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ItemViewDialogData,
-    public readonly userDataService: UserDataService
+    public readonly userDataService: UserDataService,
+    public readonly groupService: GroupService,
   ) {}
 
   editItem(): void {
     this.dialogRef
       .afterClosed()
-      .subscribe(() => this.userDataService.editItem(this.data.item));
+      .subscribe(() => this.userDataService.editItem(this.data.item, true));
     this.dialogRef.close();
+  }
+
+  deleteItem() {
+    this.userDataService.deleteItem(this.data.item);
+    this.dialogRef.close();
+  }
+
+  getDisplayTime(): string {
+    return getDisplayTime(this.data.item);
   }
 }

@@ -109,7 +109,7 @@
     </div>
     <mat-form-field appearance="fill">
       <mat-label>Repeat every</mat-label>
-      <mat-select [(ngModel)]="data.item.repeatEvery">
+      <mat-select [(ngModel)]="data.item.repeat">
         <mat-option
           *ngFor="let option of REPEAT_EVERY_OPTIONS"
           [value]="option"
@@ -128,7 +128,7 @@
         [removable]="true"
         (removed)="removeGroup(group)"
         [style.backgroundColor]="group.color"
-        [style.color]="groupService.getGroupTextColor(group)"
+        [style.color]="getGroupTextColor(group)"
       >
         {{ group.name }}
         <mat-icon matChipRemove>cancel</mat-icon>

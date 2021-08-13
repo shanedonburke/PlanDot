@@ -80,7 +80,7 @@ export class UserDataService {
     this.saveUserData();
   }
 
-  editItem(item: Item) {
+  editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       data: { item },
     });
@@ -113,6 +113,10 @@ export class UserDataService {
 
         this.dialog.open(ItemViewDialogComponent, {
           data: { item: result },
+        });
+      } else if (showItemOnCancel) {
+        this.dialog.open(ItemViewDialogComponent, {
+          data: { item },
         });
       }
     });
