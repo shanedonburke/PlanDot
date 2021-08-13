@@ -5,6 +5,7 @@ export interface Item {
   id: string;
   title: string;
   description: string;
+  location: string;
   date: Date;
   dateEnabled: boolean;
   repeat: Repeat;
@@ -43,6 +44,7 @@ export function createItem(groups: Array<Group> = []): Item {
     id: v4(),
     title: 'New Item',
     description: '',
+    location: '',
     date,
     dateEnabled: false,
     repeat: Repeat.NEVER,

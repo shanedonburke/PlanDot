@@ -62,7 +62,7 @@
 
 .group-item {
   width: 100%;
-  height: 90px;
+  height: 95px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -89,6 +89,7 @@
   font-size: 16px;
 }
 
+// TODO remove
 .group-item-description {
   height: 1.4em;
   color: #555555;
@@ -97,7 +98,7 @@
   text-overflow: ellipsis;
 }
 
-.group-item-date {
+.group-item-info {
   display: flex;
   align-items: center;
   margin-right: 10px;

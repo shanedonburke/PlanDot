@@ -11,6 +11,10 @@
     class="item-view-description"
     [innerHTML]="descriptionHtml"
   ></div>
+  <div *ngIf="data.item.location.trim() !== ''">
+    <b>Location: </b>
+    <span>{{ data.item.location }}</span>
+  </div>
   <ng-container *ngIf="data.item.dateEnabled">
     <div>
       <b>Date: </b>

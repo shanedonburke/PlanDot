@@ -19,7 +19,7 @@ export interface UserData {
 }
 
 function isUserData(obj: any): obj is UserData {
-  return typeof obj === 'object' && 'groups' in obj;
+  return obj && typeof obj === 'object' && 'groups' in obj;
 }
 
 @Injectable({
@@ -28,6 +28,7 @@ function isUserData(obj: any): obj is UserData {
 export class UserDataService {
   private _onUserDataLoaded = new ReplaySubject<void>();
   private _onItemDeleted = new ReplaySubject<Item>();
+  private _onItemEdited = new ReplaySubject<Item>();
 
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded;
@@ -35,6 +36,10 @@ export class UserDataService {
 
   get onItemDeleted(): Observable<Item> {
     return this._onItemDeleted;
+  }
+  
+  get onItemEdited(): Observable<Item> {
+    return this._onItemEdited;
   }
 
   constructor(
@@ -116,6 +121,7 @@ export class UserDataService {
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData();
+        this._onItemEdited.next(result);
 
         this.dialog.open(ItemViewDialogComponent, {
           data: { item: result },

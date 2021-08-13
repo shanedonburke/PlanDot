@@ -34,14 +34,17 @@
               <mat-icon (click)="expandItem(item)">open_in_full</mat-icon>
             </button>
           </div>
-          <span class="group-item-description">{{ item.description }}</span>
           <div style="flex-grow: 1"></div>
-          <div style="display: flex">
-            <div class="group-item-date" *ngIf="item.dateEnabled">
+          <div class="group-item-info" *ngIf="item.location.trim() !== ''">
+            <mat-icon>place</mat-icon>
+            <span>{{ item.location }}</span>
+          </div>
+          <div style="display: flex; margin: 5px 0;">
+            <div class="group-item-info" *ngIf="item.dateEnabled">
               <mat-icon>event</mat-icon>
               <span>{{ item.date.toLocaleDateString() }}</span>
             </div>
-            <div class="group-item-date" *ngIf="item.startTimeEnabled">
+            <div class="group-item-info" *ngIf="item.startTimeEnabled">
               <mat-icon>schedule</mat-icon>
               <span>{{ getDisplayTime(item) }}</span>
             </div>

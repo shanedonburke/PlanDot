@@ -33,6 +33,7 @@ export class DayViewComponent implements OnInit {
     this.calcColumns();
     this.userDataService.onUserDataLoaded.subscribe(() => this.calcColumns());
     this.userDataService.onItemDeleted.subscribe(() => this.calcColumns());
+    this.userDataService.onItemEdited.subscribe(() => this.calcColumns());
   }
 
   getHourString(hour: number): string {
