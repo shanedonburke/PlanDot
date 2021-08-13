@@ -1,6 +1,12 @@
 <div class="day-view-container">
   <div class="day-view-header">
+    <button class="day-view-nav-btn" (click)="displayService.gotoPrevDate()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
     <span>{{ displayService.date.toDateString() }}</span>
+    <button class="day-view-nav-btn" (click)="displayService.gotoNextDate()">
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
   </div>
   <div class="day-view-content">
     <div *ngFor="let hour of hours" class="day-view-hour">

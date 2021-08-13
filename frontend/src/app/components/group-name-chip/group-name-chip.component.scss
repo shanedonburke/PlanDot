@@ -1,3 +1,7 @@
+:host {
+  max-width: 100%;
+}
+
 .group-name-chip {
   border-radius: 16px;
   padding: 0 10px;
@@ -6,4 +10,12 @@
   display: flex;
   align-items: center;
   font-weight: 500;
+  max-width: 200px;
+  white-space: nowrap;
+  box-sizing: border-box;
+
+  span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
