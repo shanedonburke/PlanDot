@@ -15,6 +15,17 @@ $hour-height: 80px;
   position: relative;
 }
 
+.timeless-items {
+  padding: 5px;
+  background-color: #fafafa;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.timeless-items-header {
+  font-weight: 550;
+  font-size: 15px;
+}
+
 .day-view-hour {
   height: $hour-height;
   box-sizing: border-box;
@@ -30,7 +41,11 @@ $hour-height: 80px;
   background-color: #f5f5f5;
 }
 
-.day-view-item-grid {
+.day-view-grid-container {
+  position: relative;
+}
+
+.day-view-grid {
   position: absolute;
   left: $hour-label-width;
   top: 0;

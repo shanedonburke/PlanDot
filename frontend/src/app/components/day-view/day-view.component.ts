@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { getDisplayTime, getItemTimeInMinutes, getMilitaryHour, Item, ItemTime } from 'src/app/domain/item';
+import {
+  getDisplayTime,
+  getItemTimeInMinutes,
+  getMilitaryHour,
+  Item,
+  ItemTime,
+} from 'src/app/domain/item';
 import { DisplayService } from 'src/app/services/display.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -21,20 +27,21 @@ export class DayViewComponent implements OnInit {
   hours = [...Array(24).keys()];
   numColumns = 1;
   columns: Array<Array<ItemData>> = [];
+  timelessItems: Array<Item> = [];
 
   constructor(
     public readonly itemService: ItemService,
     public readonly displayService: DisplayService,
     private readonly userDataService: UserDataService,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {
-    this.calcColumns();
-    this.userDataService.onUserDataLoaded.subscribe(() => this.calcColumns());
-    this.userDataService.onItemDeleted.subscribe(() => this.calcColumns());
-    this.userDataService.onItemEdited.subscribe(() => this.calcColumns());
-    this.displayService.onDateChanged.subscribe(() => this.calcColumns());
+    this.update();
+    this.userDataService.onUserDataLoaded.subscribe(() => this.update());
+    this.userDataService.onItemDeleted.subscribe(() => this.update());
+    this.userDataService.onItemEdited.subscribe(() => this.update());
+    this.displayService.onDateChanged.subscribe(() => this.update());
   }
 
   getHourString(hour: number): string {
@@ -56,26 +63,18 @@ export class DayViewComponent implements OnInit {
     });
   }
 
-  private calcColumns(): void {
+  private update(): void {
     this.numColumns = this.calcNumColumns();
     this.columns = [];
+    this.timelessItems = [];
     for (let i = 0; i < this.numColumns; i++) {
       this.columns.push([]);
     }
     for (const item of this.itemService.getDateItems(this.displayService.date)) {
-      for (const col of this.columns) {
-        if (
-          col.length === 0 ||
-          col[col.length - 1].rowEnd <=
-            getItemTimeInMinutes(item.startTime)
-        ) {
-          col.push({
-            item,
-            rowStart: getItemTimeInMinutes(item.startTime),
-            rowEnd: getItemTimeInMinutes(item.endTime),
-          });
-          break;
-        }
+      if (!item.startTimeEnabled) {
+        this.timelessItems.push(item);
+      } else {
+        this.placeItemInColumn(item);
       }
     }
   }
@@ -94,5 +93,19 @@ export class DayViewComponent implements OnInit {
       maxInSameRow = Math.max(maxInSameRow, inSameRow);
     }
     return maxInSameRow;
+  }
+
+  private placeItemInColumn(item: Item): void {
+    for (const col of this.columns) {
+      const startTimeInMin = getItemTimeInMinutes(item.startTime);
+      if (col.length === 0 || col[col.length - 1].rowEnd <= startTimeInMin) {
+        col.push({
+          item,
+          rowStart: startTimeInMin,
+          rowEnd: getItemTimeInMinutes(item.endTime),
+        });
+        break;
+      }
+    }
   }
 }

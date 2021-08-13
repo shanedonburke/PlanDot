@@ -9,33 +9,47 @@
     </button>
   </div>
   <div class="day-view-content">
-    <div *ngFor="let hour of hours" class="day-view-hour">
-      <div class="day-view-hour-label">{{ getHourString(hour) }}</div>
+    <div class="timeless-items">
+      <span class="timeless-items-header">Items without times</span>
+      <div
+        *ngFor="let item of timelessItems"
+        class="day-view-item"
+        [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
+        [style.color]="itemService.getItemTextColor(item)"
+        (click)="expandItem(item)"
+      >
+        {{ item.title }}
+      </div>
     </div>
-    <div
-      class="day-view-item-grid"
-      [style.gridTemplateColumns]="'repeat(' + columns + ', 1fr)'"
-    >
-      <ng-container *ngFor="let col of columns; index as i">
-        <div
-          *ngFor="let itemData of col"
-          [style.gridColumn]="i + 1"
-          [style.gridRowStart]="itemData.rowStart + 2"
-          [style.gridRowEnd]="itemData.rowEnd + 2"
-          [style.backgroundColor]="
-            itemService.getItemBackgroundColor(itemData.item)
-          "
-          [style.color]="itemService.getItemTextColor(itemData.item)"
-          (click)="expandItem(itemData.item)"
-          class="day-view-item"
-        >
-          <div>{{ itemData.item.title }}</div>
-          <div>{{ getDisplayTime(itemData.item) }}</div>
-          <div *ngIf="itemData.item.location.trim() !== ''">
-            {{ itemData.item.location }}
+    <div class="day-view-grid-container">
+      <div *ngFor="let hour of hours" class="day-view-hour">
+        <div class="day-view-hour-label">{{ getHourString(hour) }}</div>
+      </div>
+      <div
+        class="day-view-grid"
+        [style.gridTemplateColumns]="'repeat(' + columns + ', 1fr)'"
+      >
+        <ng-container *ngFor="let col of columns; index as i">
+          <div
+            *ngFor="let itemData of col"
+            [style.gridColumn]="i + 1"
+            [style.gridRowStart]="itemData.rowStart + 2"
+            [style.gridRowEnd]="itemData.rowEnd + 2"
+            [style.backgroundColor]="
+              itemService.getItemBackgroundColor(itemData.item)
+            "
+            [style.color]="itemService.getItemTextColor(itemData.item)"
+            (click)="expandItem(itemData.item)"
+            class="day-view-item"
+          >
+            <div>{{ itemData.item.title }}</div>
+            <div>{{ getDisplayTime(itemData.item) }}</div>
+            <div *ngIf="itemData.item.location.trim() !== ''">
+              {{ itemData.item.location }}
+            </div>
           </div>
-        </div>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>
