@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
-import { Item, Repeat } from 'src/app/domain/item';
+import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
 
 export interface ItemEditDialogData {
   item: Item;
@@ -20,6 +20,7 @@ export interface ItemEditDialogData {
 })
 export class ItemEditDialogComponent {
   REPEAT_EVERY_OPTIONS = Object.values(Repeat);
+  WEEKDAYS = WEEKDAYS;
   HOURS_ARRAY = [...Array.from(Array(12).keys()).map((h) => h + 1)];
   MINUTES_ARRAY = [...Array(60).keys()];
   SEPARATOR_KEY_CODES = [ENTER, COMMA];

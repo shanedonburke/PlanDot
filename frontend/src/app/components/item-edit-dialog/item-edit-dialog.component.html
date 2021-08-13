@@ -37,7 +37,10 @@
         [value]="data.item.date"
         (dateChange)="data.item.date = $event.value"
       />
-      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="datepicker"
+      ></mat-datepicker-toggle>
       <mat-datepicker #datepicker>
         <mat-datepicker-actions>
           <button mat-button matDatepickerCancel>Cancel</button>
@@ -112,18 +115,32 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <mat-form-field appearance="fill">
-        <mat-label>Repeat every</mat-label>
-        <mat-select [(ngModel)]="data.item.repeat">
-          <mat-option
-            *ngFor="let option of REPEAT_EVERY_OPTIONS"
-            [value]="option"
-          >
-            {{ option }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
     </ng-container>
+    <mat-form-field appearance="fill">
+      <mat-label>Repeat every</mat-label>
+      <mat-select [(ngModel)]="data.item.repeat">
+        <mat-option
+          *ngFor="let option of REPEAT_EVERY_OPTIONS"
+          [value]="option"
+        >
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-button-toggle-group
+      *ngIf="data.item.repeat === 'Daily/Weekly'"
+      [(ngModel)]="data.item.weekdays"
+      multiple
+      aria-label="Toggle weekdays"
+      class="weekday-toggle-group"
+    >
+      <mat-button-toggle
+        *ngFor="let day of WEEKDAYS; index as i"
+        [value]="i"
+        [disabled]="data.item.date.getDay() === i"
+        >{{ day }}</mat-button-toggle
+      >
+    </mat-button-toggle-group>
   </ng-container>
   <mat-form-field appearance="fill">
     <mat-label>Groups</mat-label>

@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as marked from 'marked';
 import * as createDOMPurify from 'dompurify';
-import { getDisplayTime, Item } from 'src/app/domain/item';
+import { getDisplayTime, Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 
@@ -43,5 +43,15 @@ export class ItemViewDialogComponent {
 
   getDisplayTime(): string {
     return getDisplayTime(this.data.item);
+  }
+
+  getDisplayRepeat(): string {
+    if (this.data.item.repeat === Repeat.DAILY_WEEKLY) {
+      return `${Repeat.DAILY_WEEKLY} (${this.data.item.weekdays
+        .map((dayIdx) => WEEKDAYS[dayIdx])
+        .join(', ')})`;
+    } else {
+      return this.data.item.repeat;
+    }
   }
 }

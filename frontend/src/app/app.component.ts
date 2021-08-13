@@ -49,10 +49,6 @@ export class AppComponent implements OnInit {
     return this.getViewName() === 'month';
   }
 
-  isWeekView(): boolean {
-    return this.getViewName() === 'week';
-  }
-
   isDayView(): boolean {
     return this.getViewName() === 'day';
   }

@@ -8,30 +8,6 @@ $hour-height: 80px;
   flex-direction: column;
 }
 
-.day-view-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 50px;
-  background-color: #e0e0e0;
-  font-size: 16px;
-}
-
-.day-view-nav-btn {
-  display: flex;
-  align-items: center;
-  height: 100%;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  user-select: none;
-
-  &:active {
-    background: rgba(0, 0, 0, 0.1);
-  }
-}
-
 .day-view-content {
   width: 100%;
   height: 100%;

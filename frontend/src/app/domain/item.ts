@@ -9,6 +9,7 @@ export interface Item {
   date: Date;
   dateEnabled: boolean;
   repeat: Repeat;
+  weekdays: Array<number>;
   startTime: ItemTime;
   endTime: ItemTime;
   startTimeEnabled: boolean;
@@ -18,12 +19,13 @@ export interface Item {
 
 export enum Repeat {
   NEVER = 'Never',
-  DAILY = 'Daily',
-  WEEKLY = 'Weekly',
+  DAILY_WEEKLY = 'Daily/Weekly',
   BI_WEEKLY = 'Bi-weekly',
   MONTHLY = 'Monthly',
   YEARLY = 'Yearly',
 }
+
+export const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 
 export enum TimePeriod {
   AM = 'AM',
@@ -48,6 +50,7 @@ export function createItem(groups: Array<Group> = []): Item {
     date,
     dateEnabled: false,
     repeat: Repeat.NEVER,
+    weekdays: [0, 1, 2, 3, 4, 5, 6],
     startTimeEnabled: false,
     endTimeEnabled: false,
     startTime: {
@@ -104,28 +107,32 @@ export function compareItemsByDate(itemA: Item, itemB: Item): number {
       } else if (itemB.startTimeEnabled && !itemA.startTimeEnabled) {
         return 1;
       } else {
-        if (
-          itemA.startTime.period === TimePeriod.AM &&
-          itemB.startTime.period === TimePeriod.PM
-        ) {
-          return -1;
-        } else if (
-          itemA.startTime.period === TimePeriod.PM &&
-          itemB.startTime.period === TimePeriod.AM
-        ) {
-          return 1;
-        } else {
-          const hoursDiff =
-            (itemA.startTime.hours % 12) - (itemB.startTime.hours % 12);
-          if (hoursDiff === 0) {
-            return itemA.startTime.minutes - itemB.startTime.minutes;
-          } else {
-            return hoursDiff;
-          }
-        }
+        return compareItemTimes(itemA.startTime, itemB.startTime);
       }
     } else {
       return dateDiff;
+    }
+  }
+}
+
+export function compareItemTimes(timeA: ItemTime, timeB: ItemTime): number {
+  if (
+    timeA.period === TimePeriod.AM &&
+    timeB.period === TimePeriod.PM
+  ) {
+    return -1;
+  } else if (
+    timeA.period === TimePeriod.PM &&
+    timeB.period === TimePeriod.AM
+  ) {
+    return 1;
+  } else {
+    const hoursDiff =
+      (timeA.hours % 12) - (timeB.hours % 12);
+    if (hoursDiff === 0) {
+      return timeA.minutes - timeB.minutes;
+    } else {
+      return hoursDiff;
     }
   }
 }

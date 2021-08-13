@@ -94,9 +94,8 @@ export class ItemService {
               item.repeat === Repeat.MONTHLY) ||
             ((date.getTime() - item.date.getTime()) % 12096e5 === 0 &&
               item.repeat === Repeat.BI_WEEKLY) ||
-            (item.date.getDay() === date.getDay() &&
-              item.repeat === Repeat.WEEKLY) ||
-            item.repeat === Repeat.DAILY
+            (item.weekdays.includes(date.getDay()) &&
+              item.repeat === Repeat.DAILY_WEEKLY)
           );
         } else {
           return false;

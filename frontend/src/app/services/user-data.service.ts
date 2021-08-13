@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
-import { Item, TimePeriod } from '../domain/item';
+import { compareItemTimes, Item, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
@@ -26,20 +26,20 @@ function isUserData(obj: any): obj is UserData {
   providedIn: 'root',
 })
 export class UserDataService {
-  private _onUserDataLoaded = new ReplaySubject<void>();
-  private _onItemDeleted = new ReplaySubject<Item>();
-  private _onItemEdited = new ReplaySubject<Item>();
+  private _onUserDataLoaded = new Subject<void>();
+  private _onItemDeleted = new Subject<Item>();
+  private _onItemEdited = new Subject<Item>();
 
   get onUserDataLoaded(): Observable<void> {
-    return this._onUserDataLoaded;
+    return this._onUserDataLoaded.asObservable();
   }
 
   get onItemDeleted(): Observable<Item> {
-    return this._onItemDeleted;
+    return this._onItemDeleted.asObservable();
   }
-  
+
   get onItemEdited(): Observable<Item> {
-    return this._onItemEdited;
+    return this._onItemEdited.asObservable();
   }
 
   constructor(
@@ -54,7 +54,7 @@ export class UserDataService {
     const items = this.itemService.getItems();
     this.validateGroups(groups);
     this.validateItems(items);
-    
+
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
       .subscribe();
@@ -96,9 +96,14 @@ export class UserDataService {
 
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
+        result.weekdays.sort();
         result.date.setHours(0, 0, 0, 0);
 
-        if (result.startTimeEnabled && !result.endTimeEnabled) {
+        if (
+          result.startTimeEnabled &&
+          (!result.endTimeEnabled ||
+            compareItemTimes(result.startTime, result.endTime) >= 0)
+        ) {
           result.endTime.minutes = result.startTime.minutes;
 
           if (

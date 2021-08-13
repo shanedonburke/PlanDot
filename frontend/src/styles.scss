@@ -18,3 +18,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     background: rgba(0, 0, 0, 0.1);
   }
 }
+
+.view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 40px;
+  background-color: #e0e0e0;
+  font-size: 16px;
+}
+
+.view-nav-btn {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+
+  &:active {
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
