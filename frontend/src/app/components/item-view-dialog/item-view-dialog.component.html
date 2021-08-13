@@ -6,7 +6,11 @@
       <mat-icon>edit</mat-icon>
     </button>
   </div>
-  <div class="item-view-description">{{ data.item.description }}</div>
+  <div
+    *ngIf="data.item.description.trim() !== ''"
+    class="item-view-description"
+    [innerHTML]="descriptionHtml"
+  ></div>
   <ng-container *ngIf="data.item.dateEnabled">
     <div>
       <b>Date: </b>
@@ -32,7 +36,15 @@
     </div>
   </ng-container>
   <div class="item-view-controls">
-    <button (click)="dialogRef.close()" mat-raised-button class="item-view-close-btn">Close</button>
-    <button (click)="deleteItem()" mat-raised-button color="warn">Delete</button>
+    <button
+      (click)="dialogRef.close()"
+      mat-raised-button
+      class="item-view-close-btn"
+    >
+      Close
+    </button>
+    <button (click)="deleteItem()" mat-raised-button color="warn">
+      Delete
+    </button>
   </div>
 </div>

@@ -1,5 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import * as marked from 'marked';
+import * as createDOMPurify from 'dompurify';
 import { getDisplayTime, Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -14,12 +16,18 @@ export interface ItemViewDialogData {
   styleUrls: ['./item-view-dialog.component.scss'],
 })
 export class ItemViewDialogComponent {
+  descriptionHtml: string;
+
   constructor(
     public readonly dialogRef: MatDialogRef<ItemViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ItemViewDialogData,
     public readonly userDataService: UserDataService,
-    public readonly groupService: GroupService,
-  ) {}
+    public readonly groupService: GroupService
+  ) {
+    this.descriptionHtml = createDOMPurify().sanitize(
+      marked(this.data.item.description)
+    );
+  }
 
   editItem(): void {
     this.dialogRef
