@@ -35,7 +35,7 @@
         matInput
         [matDatepicker]="datepicker"
         [value]="data.item.date"
-        (dateChange)="data.item.date = $event.value"
+        (dateChange)="handleDateChange($event)"
       />
       <mat-datepicker-toggle
         matSuffix
@@ -87,7 +87,7 @@
         *ngIf="data.item.dateEnabled"
         class="time-enabled-checkbox"
         [checked]="data.item.endTimeEnabled"
-        (change)="data.item.endTimeEnabled = !data.item.endTimeEnabled"
+        (change)="handleEndTimeEnabled()"
         >Add end time</mat-checkbox
       >
       <div class="time-form" *ngIf="data.item.endTimeEnabled">

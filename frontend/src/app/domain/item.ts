@@ -1,4 +1,5 @@
 import { v4 } from 'uuid';
+import { getTodaysDate } from '../util/dates';
 import { Group } from './group';
 
 export interface Item {
@@ -39,15 +40,12 @@ export interface ItemTime {
 }
 
 export function createItem(groups: Array<Group> = []): Item {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
-  
   return {
     id: v4(),
     title: 'New Item',
     description: '',
     location: '',
-    date,
+    date: getTodaysDate(),
     dateEnabled: false,
     repeat: Repeat.NEVER,
     weekdays: [0, 1, 2, 3, 4, 5, 6],
@@ -73,9 +71,9 @@ export function getMilitaryHour(itemTime: ItemTime): number {
 }
 
 export function formatItemTime(itemTime: ItemTime): string {
-  return `${itemTime.hours}:${itemTime.minutes
-    .toString()
-    .padStart(2, '0')} ${itemTime.period}`;
+  return `${itemTime.hours}:${itemTime.minutes.toString().padStart(2, '0')} ${
+    itemTime.period
+  }`;
 }
 
 export function getItemTimeInMinutes(itemTime: ItemTime): number {
@@ -84,7 +82,9 @@ export function getItemTimeInMinutes(itemTime: ItemTime): number {
 
 export function getDisplayTime(item: Item): string {
   if (item.endTimeEnabled) {
-    return `${formatItemTime(item.startTime)} - ${formatItemTime(item.endTime)}`;
+    return `${formatItemTime(item.startTime)} - ${formatItemTime(
+      item.endTime
+    )}`;
   } else {
     return formatItemTime(item.startTime);
   }
@@ -116,23 +116,58 @@ export function compareItemsByDate(itemA: Item, itemB: Item): number {
 }
 
 export function compareItemTimes(timeA: ItemTime, timeB: ItemTime): number {
-  if (
-    timeA.period === TimePeriod.AM &&
-    timeB.period === TimePeriod.PM
-  ) {
+  if (timeA.period === TimePeriod.AM && timeB.period === TimePeriod.PM) {
     return -1;
-  } else if (
-    timeA.period === TimePeriod.PM &&
-    timeB.period === TimePeriod.AM
-  ) {
+  } else if (timeA.period === TimePeriod.PM && timeB.period === TimePeriod.AM) {
     return 1;
   } else {
-    const hoursDiff =
-      (timeA.hours % 12) - (timeB.hours % 12);
+    const hoursDiff = (timeA.hours % 12) - (timeB.hours % 12);
     if (hoursDiff === 0) {
       return timeA.minutes - timeB.minutes;
     } else {
       return hoursDiff;
     }
+  }
+}
+
+export function doesDateHaveItem(date: Date, item: Item): boolean {
+  if (!item.dateEnabled) {
+    return false;
+  }
+  return (
+    (item.repeat !== Repeat.DAILY_WEEKLY &&
+      item.date.getFullYear() === date.getFullYear() &&
+      item.date.getMonth() === date.getMonth() &&
+      item.date.getDate() === date.getDate()) ||
+    (item.date.getMonth() === date.getMonth() &&
+      item.date.getDate() === date.getDate() &&
+      item.repeat === Repeat.YEARLY) ||
+    (item.date.getDate() === date.getDate() &&
+      item.repeat === Repeat.MONTHLY) ||
+    ((date.getTime() - item.date.getTime()) % 12096e5 === 0 &&
+      item.repeat === Repeat.BI_WEEKLY) ||
+    (item.weekdays.includes(date.getDay()) &&
+      item.repeat === Repeat.DAILY_WEEKLY)
+  );
+}
+
+export function setDefaultEndTime(item: Item): void {
+  item.endTime.minutes = item.startTime.minutes;
+  if (
+    item.startTime.hours === 11 &&
+    item.startTime.period === TimePeriod.AM
+  ) {
+    item.endTime.hours = 12;
+    item.endTime.period = TimePeriod.PM;
+  } else if (
+    item.startTime.hours === 11 &&
+    item.startTime.period === TimePeriod.PM
+  ) {
+    item.endTime.hours = 11;
+    item.endTime.minutes = 59;
+    item.endTime.period = TimePeriod.PM;
+  } else {
+    item.endTime.hours = item.startTime.hours + 1;
+    item.endTime.period = item.startTime.period;
   }
 }

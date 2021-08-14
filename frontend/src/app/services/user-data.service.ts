@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
-import { compareItemTimes, Item, TimePeriod } from '../domain/item';
+import { compareItemTimes, Item, setDefaultEndTime, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
@@ -104,25 +104,7 @@ export class UserDataService {
           (!result.endTimeEnabled ||
             compareItemTimes(result.startTime, result.endTime) >= 0)
         ) {
-          result.endTime.minutes = result.startTime.minutes;
-
-          if (
-            result.startTime.hours === 11 &&
-            result.startTime.period === TimePeriod.AM
-          ) {
-            result.endTime.hours = 12;
-            result.endTime.period = TimePeriod.PM;
-          } else if (
-            result.startTime.hours === 11 &&
-            result.startTime.period === TimePeriod.PM
-          ) {
-            result.endTime.hours = 11;
-            result.endTime.minutes = 59;
-            result.endTime.period = TimePeriod.PM;
-          } else {
-            result.endTime.hours = result.startTime.hours + 1;
-            result.endTime.period = result.startTime.period;
-          }
+          setDefaultEndTime(result);
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData();

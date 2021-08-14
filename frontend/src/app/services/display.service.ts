@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { ONE_DAY_MS } from '../util/constants';
+import { getTodaysDate } from '../util/dates';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DisplayService {
-  private static ONE_DAY_MS = 86400000;
-
-  date = new Date();
-  month = new Date().getMonth();
-  year = new Date().getFullYear();
+  date = getTodaysDate();
+  month = this.date.getMonth();
+  year = this.date.getFullYear();
 
   get onDateChanged(): Observable<Date> {
     return this._onDateChanged.asObservable();
@@ -18,12 +18,12 @@ export class DisplayService {
   private _onDateChanged = new Subject<Date>();
 
   gotoPrevDate(): void {
-    this.date.setTime(this.date.getTime() - DisplayService.ONE_DAY_MS);
+    this.date.setTime(this.date.getTime() - ONE_DAY_MS);
     this._onDateChanged.next(this.date);
   }
   
   gotoNextDate(): void {
-    this.date.setTime(this.date.getTime() + DisplayService.ONE_DAY_MS);
+    this.date.setTime(this.date.getTime() + ONE_DAY_MS);
     this._onDateChanged.next(this.date);
   }
 

@@ -7,7 +7,9 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
-import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import { Item, Repeat, setDefaultEndTime, WEEKDAYS } from 'src/app/domain/item';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { getTodaysDate } from 'src/app/util/dates';
 
 export interface ItemEditDialogData {
   item: Item;
@@ -40,6 +42,19 @@ export class ItemEditDialogComponent {
       startWith(null),
       map((group: string | null) => this.filterGroups(group))
     );
+  }
+
+  handleDateChange(event: MatDatepickerInputEvent<Date>): void {
+    this.data.item.date = event.value ?? getTodaysDate();
+    if (!this.data.item.weekdays.includes(this.data.item.date.getDay())) {
+      this.data.item.weekdays.push(this.data.item.date.getDay());
+      this.data.item.weekdays.sort();
+    }
+  }
+
+  handleEndTimeEnabled(): void {
+    this.data.item.endTimeEnabled = !this.data.item.endTimeEnabled;
+    setDefaultEndTime(this.data.item);
   }
 
   addGroup(event: MatAutocompleteSelectedEvent): void {

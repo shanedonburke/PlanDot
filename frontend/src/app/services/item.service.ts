@@ -1,7 +1,15 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { getGroupTextColor, Group } from '../domain/group';
-import { compareItemsByDate, Item, Repeat, TimePeriod } from '../domain/item';
+import {
+  compareItemsByDate,
+  doesDateHaveItem,
+  Item,
+  Repeat,
+  TimePeriod,
+} from '../domain/item';
+import { ONE_DAY_MS } from '../util/constants';
+import { getTodaysDate } from '../util/dates';
 import { GroupService } from './group.service';
 
 @Injectable({
@@ -18,6 +26,15 @@ export class ItemService {
       this.itemMap.set(item.id, item);
     });
     this.itemOrder = items.map((item) => item.id);
+    items.forEach((item) => {
+      if (item.date.getTime() < getTodaysDate().getTime() && item.repeat !== Repeat.NEVER) {
+        item.date = getTodaysDate();
+        while (!doesDateHaveItem(item.date, item)) {
+          item.date.setTime(item.date.getTime() + ONE_DAY_MS);
+        }
+        console.log(item.date);
+      }
+    });
   }
 
   getItems(): ReadonlyArray<Item> {
@@ -81,46 +98,19 @@ export class ItemService {
   getDateItems(date: Date): Array<Item> {
     date.setHours(0, 0, 0, 0);
     return this.getItems()
-      .filter((item) => {
-        if (item.dateEnabled) {
-          return (
-            (item.date.getFullYear() === date.getFullYear() &&
-              item.date.getMonth() === date.getMonth() &&
-              item.date.getDate() === date.getDate()) ||
-            (item.date.getMonth() === date.getMonth() &&
-              item.date.getDate() === date.getDate() &&
-              item.repeat === Repeat.YEARLY) ||
-            (item.date.getDate() === date.getDate() &&
-              item.repeat === Repeat.MONTHLY) ||
-            ((date.getTime() - item.date.getTime()) % 12096e5 === 0 &&
-              item.repeat === Repeat.BI_WEEKLY) ||
-            (item.weekdays.includes(date.getDay()) &&
-              item.repeat === Repeat.DAILY_WEEKLY)
-          );
-        } else {
-          return false;
-        }
-      })
+      .filter((item) => doesDateHaveItem(date, item))
       .sort((a, b) => compareItemsByDate(a, b));
   }
 
   getItemBackgroundColor(item: Item): string {
-    if (item.groupIds.length === 0) {
-      return '#444444';
-    } else {
-      return (
-        this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444'
-      );
-    }
+    return item.groupIds.length === 0
+      ? '444444'
+      : this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444';
   }
 
   getItemTextColor(item: Item): string {
-    if (item.groupIds.length === 0) {
-      return 'white';
-    } else {
-      return getGroupTextColor(
-        this.groupService.getGroupById(item.groupIds[0])!!
-      );
-    }
+    return item.groupIds.length === 0
+      ? 'white'
+      : getGroupTextColor(this.groupService.getGroupById(item.groupIds[0])!!);
   }
 }
