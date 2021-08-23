@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
-import { first } from 'rxjs/operators';
 import { isView, View } from '../domain/view';
 
 @Injectable({
@@ -40,6 +38,10 @@ export class ViewService {
     this.setView(View.Day);
   }
 
+  goToItemListView() {
+    this.setView(View.ItemList);
+  }
+
   isGroupView(): boolean {
     return this.view === View.Group;
   }
@@ -50,6 +52,10 @@ export class ViewService {
 
   isDayView(): boolean {
     return this.view === View.Day;
+  }
+
+  isItemListView(): boolean {
+    return this.view === View.ItemList;
   }
 
   setViewLoader(loader: (view: View) => void): void {

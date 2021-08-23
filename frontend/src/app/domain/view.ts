@@ -2,6 +2,7 @@ export enum View {
   Group = 'group',
   Month = 'month',
   Day = 'day',
+  ItemList = 'item_list'
 }
 
 export const VIEW_VALUES = Object.values<string>(View);

@@ -1,0 +1,45 @@
+.group-item {
+  width: 100%;
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding: 10px;
+  background-color: white;
+  box-sizing: border-box;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
+    0 1px 5px 0 rgb(0 0 0 / 12%);
+
+  @media only screen and (max-width: 400px) {
+    font-size: 12px;
+  }
+}
+
+.group-item-header {
+  display: flex;
+  align-items: center;
+}
+
+.group-item-title {
+  font-weight: 450;
+  font-size: 16px;
+}
+
+// TODO remove
+.group-item-description {
+  height: 1.4em;
+  color: #555555;
+  white-space: pre-line;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.group-item-info {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+
+  mat-icon {
+    margin-right: 5px;
+  }
+}

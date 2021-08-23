@@ -3,7 +3,7 @@
     <button class="view-nav-btn" (click)="displayService.goToPrevMonth()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span>{{ displayService.date.toDateString() }}</span>
+    <span>{{ getMonthString() }}</span>
     <button class="view-nav-btn" (click)="displayService.goToNextMonth()">
       <mat-icon>arrow_forward</mat-icon>
     </button>

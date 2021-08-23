@@ -104,7 +104,7 @@ export class ItemService {
 
   getItemBackgroundColor(item: Item): string {
     return item.groupIds.length === 0
-      ? '444444'
+      ? '#444444'
       : this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444';
   }
 

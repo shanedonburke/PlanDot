@@ -7,15 +7,29 @@ import { getTodaysDate } from '../util/dates';
   providedIn: 'root'
 })
 export class DisplayService {
-  date = getTodaysDate();
-  month = this.date.getMonth();
-  year = this.date.getFullYear();
+  date!: Date;
+  month!: number;
+  year!: number;
+
+  constructor() {
+    this.resetDay();
+    this.resetMonth();
+  }
 
   get onDateChanged(): Observable<Date> {
     return this._onDateChanged.asObservable();
   }
 
   private _onDateChanged = new Subject<Date>();
+
+  resetDay(): void {
+    this.date = getTodaysDate();
+  }
+
+  resetMonth(): void {
+    this.month = this.date.getMonth();
+    this.year = this.date.getFullYear();
+  }
 
   goToPrevDate(): void {
     this.date.setTime(this.date.getTime() - ONE_DAY_MS);

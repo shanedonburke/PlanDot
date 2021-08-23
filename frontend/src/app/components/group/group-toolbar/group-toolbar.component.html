@@ -1,0 +1,29 @@
+<button (click)="toggleGroupsMenu($event)" mat-button>Groups</button>
+<div
+  *ngIf="isGroupsMenuVisible"
+  (click)="$event.stopPropagation()"
+  class="groups-menu"
+>
+  <div class="groups-menu-row-container">
+    <div
+      *ngFor="let group of groupService.getGroups(); index as i"
+      class="groups-menu-row"
+    >
+      <div class="groups-menu-row-content">
+        <app-group-name-chip [group]="group"></app-group-name-chip>
+        <div class="groups-menu-row-controls">
+          <button (click)="editGroup(group)" mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button (click)="userDataService.deleteGroup(group)" mat-icon-button>
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <button (click)="addGroup()" mat-button class="new-group-btn">
+    New group
+  </button>
+</div>

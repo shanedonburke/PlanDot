@@ -10,7 +10,7 @@ import {
 import { DisplayService } from 'src/app/services/display.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { ItemViewDialogComponent } from '../item-view-dialog/item-view-dialog.component';
+import { ItemViewDialogComponent } from '../../item-view-dialog/item-view-dialog.component';
 
 interface ItemData {
   item: Item;

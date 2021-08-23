@@ -28,7 +28,7 @@
       <b>Repeat: </b>
       <span>{{ getDisplayRepeat() }}</span>
     </div>
-    <div>
+    <div *ngIf="data.item.groupIds.length > 0">
       <b>Groups: </b>
       <div class="item-view-groups">
         <app-group-name-chip
@@ -43,6 +43,7 @@
     <button
       (click)="dialogRef.close()"
       mat-raised-button
+      color="primary"
       class="item-view-close-btn"
     >
       Close

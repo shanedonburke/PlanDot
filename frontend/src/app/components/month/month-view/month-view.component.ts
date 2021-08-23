@@ -4,6 +4,7 @@ import { DisplayService } from 'src/app/services/display.service';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
 import { ViewService } from 'src/app/services/view.service';
+import { MONTHS } from 'src/app/util/constants';
 
 @Component({
   selector: 'app-month-view',
@@ -36,5 +37,9 @@ export class MonthViewComponent {
   goToDate(date: Date): void {
     this.displayService.date = date;
     this.viewService.goToDayView();
+  }
+
+  getMonthString() {
+    return MONTHS[this.displayService.month] + ' ' + this.displayService.year;
   }
 }
