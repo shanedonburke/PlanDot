@@ -17,10 +17,15 @@ import { MonthViewModule } from './components/month-view/month-view.module';
 import { DayViewModule } from './components/day-view/day-view.module';
 import { ItemViewDialogModule } from './components/item-view-dialog/item-view-dialog.module';
 import { GroupNameChipModule } from './components/group-name-chip/group-name-chip.module';
+import { ViewDirective } from './directives/view.directive';
+import { RouterModule } from '@angular/router';
+
+const routes = [{path: '**', component: AppComponent}];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ViewDirective],
   imports: [
+    RouterModule.forRoot(routes),
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,

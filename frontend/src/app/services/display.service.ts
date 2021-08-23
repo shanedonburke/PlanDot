@@ -17,17 +17,17 @@ export class DisplayService {
 
   private _onDateChanged = new Subject<Date>();
 
-  gotoPrevDate(): void {
+  goToPrevDate(): void {
     this.date.setTime(this.date.getTime() - ONE_DAY_MS);
     this._onDateChanged.next(this.date);
   }
   
-  gotoNextDate(): void {
+  goToNextDate(): void {
     this.date.setTime(this.date.getTime() + ONE_DAY_MS);
     this._onDateChanged.next(this.date);
   }
 
-  gotoPrevMonth(): void {
+  goToPrevMonth(): void {
     if (this.month === 0) {
       this.month = 11;
       this.year--;
@@ -36,7 +36,7 @@ export class DisplayService {
     }
   }
 
-  gotoNextMonth(): void {
+  goToNextMonth(): void {
     if (this.month === 11) {
       this.month = 0;
       this.year++;

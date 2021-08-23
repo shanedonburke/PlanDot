@@ -1,16 +1,25 @@
-import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { v4 } from 'uuid';
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  Component,
+  ComponentFactoryResolver,
+  HostListener,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { v4 } from 'uuid';
+import { DayViewComponent } from './components/day-view/day-view.component';
 import { GroupEditDialogComponent } from './components/group-edit-dialog/group-edit-dialog.component';
-import { ItemEditDialogComponent } from './components/item-edit-dialog/item-edit-dialog.component';
+import { GroupViewComponent } from './components/group-view/group-view.component';
+import { MonthViewComponent } from './components/month-view/month-view.component';
+import { ViewDirective } from './directives/view.directive';
 import { Group } from './domain/group';
-import { createItem, Item, Repeat, TimePeriod } from './domain/item';
+import { createItem } from './domain/item';
+import { View } from './domain/view';
 import { GroupService } from './services/group.service';
 import { ItemService } from './services/item.service';
-import { UserDataService } from './services/user-data.service';
 import { UserAuthService } from './services/user-auth.service';
-import { getCookie, setCookie } from './util/cookies';
+import { UserDataService } from './services/user-data.service';
+import { ViewService } from './services/view.service';
 
 @Component({
   selector: 'app-root',
@@ -21,40 +30,28 @@ export class AppComponent implements OnInit {
   isGroupsMenuVisible = false;
   isGroupEditDialogOpen = false;
 
+  @ViewChild(ViewDirective, { static: true }) viewHost!: ViewDirective;
+
+  private static VIEW_COMPONENTS: { [key in View]: any } = {
+    [View.Group]: GroupViewComponent,
+    [View.Month]: MonthViewComponent,
+    [View.Day]: DayViewComponent,
+  };
+
   constructor(
     public readonly dialog: MatDialog,
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
     public readonly userAuthService: UserAuthService,
     public readonly userDataService: UserDataService,
+    public readonly viewService: ViewService,
+    private readonly componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.userDataService.loadUserData();
   }
 
   ngOnInit() {
-    if (getCookie('view') === null) {
-      setCookie('view', 'group');
-    }
-  }
-
-  getViewName(): string {
-    return getCookie('view') ?? 'group';
-  }
-
-  isGroupView(): boolean {
-    return this.getViewName() === 'group';
-  }
-
-  isMonthView(): boolean {
-    return this.getViewName() === 'month';
-  }
-
-  isDayView(): boolean {
-    return this.getViewName() === 'day';
-  }
-
-  setView(viewName: string): void {
-    setCookie('view', viewName);
+    this.viewService.setViewLoader(this.loadView.bind(this));
   }
 
   addGroup() {
@@ -96,5 +93,15 @@ export class AppComponent implements OnInit {
     if (!this.isGroupEditDialogOpen) {
       this.isGroupsMenuVisible = false;
     }
+  }
+
+  private loadView(view: View) {
+    const componentFactory =
+      this.componentFactoryResolver.resolveComponentFactory(
+        AppComponent.VIEW_COMPONENTS[view]
+      );
+    const viewContainerRef = this.viewHost.viewContainerRef;
+    viewContainerRef.clear();
+    viewContainerRef.createComponent(componentFactory);
   }
 }

@@ -3,7 +3,7 @@ import { Calendar } from 'calendar';
 import { DisplayService } from 'src/app/services/display.service';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
-import { getCookie, setCookie } from 'src/app/util/cookies';
+import { ViewService } from 'src/app/services/view.service';
 
 @Component({
   selector: 'app-month-view',
@@ -19,6 +19,7 @@ export class MonthViewComponent {
     public readonly itemService: ItemService,
     public readonly groupService: GroupService,
     public readonly displayService: DisplayService,
+    private readonly viewService: ViewService,
   ) {}
 
   getMonthDates(year: number, month: number): Array<Array<Date>> {
@@ -34,6 +35,6 @@ export class MonthViewComponent {
 
   goToDate(date: Date): void {
     this.displayService.date = date;
-    setCookie('view', 'day');
+    this.viewService.goToDayView();
   }
 }

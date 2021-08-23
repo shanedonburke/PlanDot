@@ -1,6 +1,11 @@
 $hour-label-width: 55px;
 $hour-height: 80px;
 
+:host {
+  height: 100%;
+  width: 100%;
+}
+
 .day-view-container {
   width: 100%;
   height: 100%;
