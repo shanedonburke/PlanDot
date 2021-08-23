@@ -1,9 +1,11 @@
+@import "~src/variables.scss";
+
 .item-edit-dialog {
   display: flex;
   flex-direction: column;
   width: 500px;
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: $screen-width-xs) {
     width: 100%;
   }
 }

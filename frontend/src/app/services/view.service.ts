@@ -54,6 +54,7 @@ export class ViewService {
 
   setViewLoader(loader: (view: View) => void): void {
     this.viewLoader = loader;
+    this.view && this.viewLoader(this.view);
   }
 
   private setView(view: View): void {
