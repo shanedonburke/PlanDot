@@ -1,3 +1,6 @@
 <div class="item-list">
-  <app-item-card *ngFor="let item of itemService.getItems()" [item]="item"></app-item-card>
+  <ng-container *ngFor="let item of itemService.getItems()">
+    <app-item-card [item]="item"></app-item-card>
+    <mat-divider></mat-divider>
+  </ng-container>
 </div>

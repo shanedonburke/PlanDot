@@ -18,13 +18,14 @@
         </mat-menu>
       </div>
       <div
-        class="group-item-list"
+        class="item-card-list"
         cdkDropList
         (cdkDropListDropped)="dropGroupItem(group, $event)"
       >
         <app-item-card
           *ngFor="let item of itemService.getGroupItems(group)"
           [item]="item"
+          class="group-item-card"
           cdkDrag
         >
         </app-item-card>
@@ -32,7 +33,7 @@
       <button
         (click)="addNewItemToGroup(group)"
         mat-button
-        class="new-group-item-btn"
+        class="new-item-card-btn"
       >
         New item
       </button>

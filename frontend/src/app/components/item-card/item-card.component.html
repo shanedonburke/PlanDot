@@ -1,22 +1,22 @@
-<div class="group-item">
-  <div class="group-item-header">
-    <span class="group-item-title">{{ item.title }}</span>
+<div class="item-card">
+  <div class="item-card-header">
+    <span class="item-card-title">{{ item.title }}</span>
     <div style="flex-grow: 1"></div>
     <button class="icon-btn">
       <mat-icon (click)="expandItem(item)">open_in_full</mat-icon>
     </button>
   </div>
   <div style="flex-grow: 1"></div>
-  <div class="group-item-info" *ngIf="item.location.trim() !== ''">
+  <div class="item-card-info" *ngIf="item.location.trim() !== ''">
     <mat-icon>place</mat-icon>
     <span>{{ item.location }}</span>
   </div>
   <div style="display: flex; margin: 5px 0">
-    <div class="group-item-info" *ngIf="item.dateEnabled">
+    <div class="item-card-info" *ngIf="item.dateEnabled">
       <mat-icon>event</mat-icon>
       <span>{{ item.date.toLocaleDateString() }}</span>
     </div>
-    <div class="group-item-info" *ngIf="item.startTimeEnabled">
+    <div class="item-card-info" *ngIf="item.startTimeEnabled">
       <mat-icon>schedule</mat-icon>
       <span>{{ getDisplayTime(item) }}</span>
     </div>
