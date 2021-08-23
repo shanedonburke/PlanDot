@@ -7,7 +7,7 @@ import { CONFIG } from "../config";
 
 let db: Db;
 MongoClient.connect("mongodb://localhost:27017", (_, client) => {
-  db = client.db("plan0");
+  db = client.db("plandot");
 });
 
 function getUserId(req: Request): string {

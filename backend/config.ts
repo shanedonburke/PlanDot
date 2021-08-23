@@ -8,7 +8,7 @@ export const CONFIG = {
   port,
   oauth2Credentials: {
     clientId: "50072640495-rsdl91dsmjiqq22b7kn8979vig8rjao1.apps.googleusercontent.com",
-    projectId: "plan0-322518", // The name of your project
+    projectId: "plandot-322518", // The name of your project
     authUri: "https://accounts.google.com/o/oauth2/auth",
     tokenUri: "https://oauth2.googleapis.com/token",
     authProviderX509CertUrl: "https://www.googleapis.com/oauth2/v1/certs",

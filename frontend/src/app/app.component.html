@@ -2,25 +2,30 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <div class="primary-row">
-        <span>plan0</span>
+        <span>plandot</span>
         <div [style.flexGrow]="1"></div>
-        <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
+        <button
+          *ngIf="!userAuthService.hasAuth()"
+          (click)="userAuthService.login()"
+          mat-raised-button
+        >
+          <img
+            width="20px"
+            style="margin-bottom: 3px; margin-right: 5px"
+            alt="Google sign-in"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+          />
+          Login
+        </button>
+        <button
+          mat-icon-button
+          *ngIf="userAuthService.hasAuth()"
+          [matMenuTriggerFor]="hamburgerMenu"
+        >
           <mat-icon>menu</mat-icon>
         </button>
         <mat-menu #hamburgerMenu="matMenu" yPosition="below">
-          <button
-            *ngIf="!userAuthService.hasAuth()"
-            (click)="userAuthService.login()"
-            mat-menu-item
-          >
-            <mat-icon>login</mat-icon>
-            <span>Login</span>
-          </button>
-          <button
-            *ngIf="userAuthService.hasAuth()"
-            (click)="userAuthService.logout()"
-            mat-menu-item
-          >
+          <button (click)="userAuthService.logout()" mat-menu-item>
             <mat-icon>logout</mat-icon>
             <span>Logout</span>
           </button>
