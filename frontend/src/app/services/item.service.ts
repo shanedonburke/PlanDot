@@ -1,12 +1,10 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { getGroupTextColor, Group } from '../domain/group';
 import {
   compareItemsByDate,
   doesDateHaveItem,
   Item,
-  Repeat,
-  TimePeriod,
+  Repeat
 } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';

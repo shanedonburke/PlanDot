@@ -1,5 +1,5 @@
 <div class="item-list">
-  <ng-container *ngFor="let item of itemService.getItems()">
+  <ng-container *ngFor="let item of searchService.filteredItems">
     <app-item-card [item]="item"></app-item-card>
     <mat-divider></mat-divider>
   </ng-container>

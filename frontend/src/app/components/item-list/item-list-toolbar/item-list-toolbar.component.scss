@@ -1,0 +1,19 @@
+:host {
+  width: 100%;
+}
+
+.item-list-toolbar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.search-field {
+  font-size: 14px;
+  margin-left: 5px;
+  width: 140px;
+}
+
+.clear-search-btn {
+  font-size: 16px !important;
+}

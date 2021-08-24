@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ItemService } from 'src/app/services/item.service';
+import { Component } from '@angular/core';
+import { SearchService } from 'src/app/services/search.service';
 
 @Component({
   selector: 'app-item-list-view',
@@ -7,6 +7,5 @@ import { ItemService } from 'src/app/services/item.service';
   styleUrls: ['./item-list-view.component.scss']
 })
 export class ItemListViewComponent {
-
-  constructor(public readonly itemService: ItemService) { }
+  constructor(public readonly searchService: SearchService) { }
 }
