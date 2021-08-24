@@ -13,14 +13,13 @@
       [(ngModel)]="searchService.searchValue"
       (keyup)="searchService.update()"
     />
-    <button
+    <app-icon-button
+      icon="close"
       [style.visibility]="searchService.searchValue ? 'visible' : 'hidden'"
+      size="16px"
       matSuffix
-      aria-label="Clear"
-      class="icon-btn clear-search-btn"
+      aria-label="Clear search"
       (click)="searchService.clearSearch()"
-    >
-      <mat-icon>close</mat-icon>
-    </button>
+    ></app-icon-button>
   </mat-form-field>
 </div>

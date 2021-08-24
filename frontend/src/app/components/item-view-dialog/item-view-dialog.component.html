@@ -2,9 +2,7 @@
   <div class="item-view-title">
     <span>{{ data.item.title }}</span>
     <div style="flex-grow: 1"></div>
-    <button class="icon-btn" (click)="editItem()">
-      <mat-icon>edit</mat-icon>
-    </button>
+    <app-icon-button icon="edit" (click)="editItem()"></app-icon-button>
   </div>
   <div
     *ngIf="data.item.description.trim() !== ''"
