@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { IconButtonModule } from '../../icon-button/icon-button.module';
+import { ItemSortButtonModule } from '../../item-sort-button/item-sort-button.module';
 import { ItemListToolbarComponent } from './item-list-toolbar.component';
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ItemListToolbarComponent } from './item-list-toolbar.component';
     MatMenuModule,
     MatCheckboxModule,
     IconButtonModule,
+    ItemSortButtonModule
   ],
 })
 export class ItemListToolbarModule {}

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
@@ -6,6 +6,10 @@ import { SearchService } from 'src/app/services/search.service';
   templateUrl: './item-list-view.component.html',
   styleUrls: ['./item-list-view.component.scss']
 })
-export class ItemListViewComponent {
+export class ItemListViewComponent implements OnInit {
   constructor(public readonly searchService: SearchService) { }
+
+  ngOnInit() {
+    this.searchService.update();
+  }
 }

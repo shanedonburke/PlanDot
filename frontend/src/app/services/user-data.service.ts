@@ -89,6 +89,16 @@ export class UserDataService {
     this.saveUserData();
   }
 
+  sortItemsByDate(): void {
+    this.itemService.sortItemsByDate();
+    this.saveUserData();
+  }
+
+  sortItemsByTitle(): void {
+    this.itemService.sortItemsByTitle();
+    this.saveUserData();
+  }
+
   editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       data: { item },

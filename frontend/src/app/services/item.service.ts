@@ -76,6 +76,24 @@ export class ItemService {
     this.itemOrder.splice(this.itemOrder.indexOf(item.id), 1);
   }
 
+  sortItemsByDate(): void {
+    this.itemOrder.sort((a, b) => compareItemsByDate(this.itemMap.get(a)!, this.itemMap.get(b)!));
+  }
+
+  sortItemsByTitle(): void {
+    this.itemOrder.sort((a, b) => {
+      const aItem = this.itemMap.get(a)!;
+      const bItem = this.itemMap.get(b)!;
+      if (aItem.title < bItem.title) {
+        return -1;
+      } else if (aItem.title > bItem.title) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
   getGroupItems(group: Group): Array<Item> {
     return <Array<Item>>(
       group.itemIds

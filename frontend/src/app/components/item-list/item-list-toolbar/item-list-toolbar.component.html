@@ -1,11 +1,16 @@
 <div class="item-list-toolbar">
-  <button mat-icon-button>
-    <mat-icon>sort</mat-icon>
-  </button>
+  <app-item-sort-button
+    (sortByDate)="userDataService.sortItemsByDate(); searchService.update()"
+    (sortByTitle)="userDataService.sortItemsByTitle(); searchService.update()"
+  ></app-item-sort-button>
   <button mat-icon-button (click)="toggleFilterMenu($event)">
     <mat-icon>filter_list</mat-icon>
   </button>
-  <div class="filter-menu" *ngIf="isFilterMenuVisible" (click)="$event.stopPropagation()">
+  <div
+    class="filter-menu"
+    *ngIf="isFilterMenuVisible"
+    (click)="$event.stopPropagation()"
+  >
     <mat-checkbox
       [(ngModel)]="searchService.filter.withDate"
       (change)="searchService.update()"

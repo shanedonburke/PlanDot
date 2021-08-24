@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-item-list-toolbar',
@@ -9,7 +10,10 @@ import { SearchService } from 'src/app/services/search.service';
 export class ItemListToolbarComponent {
   isFilterMenuVisible = false;
 
-  constructor(public readonly searchService: SearchService) {}
+  constructor(
+    public readonly searchService: SearchService,
+    public readonly userDataService: UserDataService
+  ) {}
 
   toggleFilterMenu(event: MouseEvent) {
     this.isFilterMenuVisible = !this.isFilterMenuVisible;
