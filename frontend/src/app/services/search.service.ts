@@ -4,11 +4,21 @@ import { isValidDate } from '../util/dates';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
+interface ItemFilter {
+  withDate: boolean;
+  withoutDate: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
   searchValue = '';
+  filter: ItemFilter = {
+    withDate: true,
+    withoutDate: true,
+  };
+
   filteredItems: ReadonlyArray<Item> = [];
 
   constructor(
@@ -21,6 +31,12 @@ export class SearchService {
   update() {
     const searchDate = new Date(this.searchValue);
     this.filteredItems = this.itemService.getItems().filter((item) => {
+      if (!this.filter.withDate && item.dateEnabled) {
+        return false;
+      } else if (!this.filter.withoutDate && !item.dateEnabled) {
+        return false;
+      }
+
       const groupNames = this.groupService.getItemGroups(item).map((group) => group.name.toLowerCase());
 
       let doesDateMatch = false;

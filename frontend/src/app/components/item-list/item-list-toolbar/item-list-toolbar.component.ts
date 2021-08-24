@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
@@ -7,5 +7,17 @@ import { SearchService } from 'src/app/services/search.service';
   styleUrls: ['./item-list-toolbar.component.scss'],
 })
 export class ItemListToolbarComponent {
+  isFilterMenuVisible = false;
+
   constructor(public readonly searchService: SearchService) {}
+
+  toggleFilterMenu(event: MouseEvent) {
+    this.isFilterMenuVisible = !this.isFilterMenuVisible;
+    event.stopPropagation();
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeFilterMenu() {
+    this.isFilterMenuVisible = false;
+  }
 }

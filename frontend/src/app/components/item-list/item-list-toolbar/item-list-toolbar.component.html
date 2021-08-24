@@ -2,9 +2,23 @@
   <button mat-icon-button>
     <mat-icon>sort</mat-icon>
   </button>
-  <button mat-icon-button>
+  <button mat-icon-button (click)="toggleFilterMenu($event)">
     <mat-icon>filter_list</mat-icon>
   </button>
+  <div class="filter-menu" *ngIf="isFilterMenuVisible" (click)="$event.stopPropagation()">
+    <mat-checkbox
+      [(ngModel)]="searchService.filter.withDate"
+      (change)="searchService.update()"
+      [disableRipple]="true"
+      >With date</mat-checkbox
+    >
+    <mat-checkbox
+      [(ngModel)]="searchService.filter.withoutDate"
+      (change)="searchService.update()"
+      [disableRipple]="true"
+      >Without date</mat-checkbox
+    >
+  </div>
   <mat-form-field class="search-field" appearance="standard">
     <input
       type="search"

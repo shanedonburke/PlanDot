@@ -80,6 +80,8 @@
 }
 
 .new-item-btn {
+  $width: 90px;
   margin-right: 10px;
-  min-width: 90px;
+  min-width: $width;
+  width: $width;
 }
