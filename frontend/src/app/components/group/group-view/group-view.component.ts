@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { getGroupTextColor, Group } from 'src/app/domain/group';
 import {
   compareItemsByDate,
-  createItem,
+  ItemJson,
   Item
 } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
@@ -23,10 +23,10 @@ export class GroupViewComponent {
   ) {}
 
   addNewItemToGroup(group: Group) {
-    this.userDataService.editItem(createItem([group]));
+    this.userDataService.editItem(new Item({groupIds: [group.id]}));
   }
 
-  dropGroupItem(group: Group, event: CdkDragDrop<Array<Item>>) {
+  dropGroupItem(group: Group, event: CdkDragDrop<Array<ItemJson>>) {
     moveItemInArray(group.itemIds, event.previousIndex, event.currentIndex);
     this.userDataService.saveUserData();
   }

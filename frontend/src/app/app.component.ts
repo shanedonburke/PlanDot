@@ -13,7 +13,7 @@ import { MonthToolbarComponent } from './components/month/month-toolbar/month-to
 import { MonthViewComponent } from './components/month/month-view/month-view.component';
 import { ToolbarDirective } from './directives/toolbar.directive';
 import { ViewDirective } from './directives/view.directive';
-import { createItem } from './domain/item';
+import { Item } from './domain/item';
 import { View } from './domain/view';
 import { GroupService } from './services/group.service';
 import { ItemService } from './services/item.service';
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit {
   }
 
   addNewItem() {
-    this.userDataService.editItem(createItem());
+    this.userDataService.editItem(new Item());
   }
 
   private loadViewAndToolbar(view: View) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Item } from '../domain/item';
+import { Item, ItemJson } from '../domain/item';
 import { isValidDate } from '../util/dates';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';

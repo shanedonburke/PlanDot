@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  getDisplayTime,
-  getItemTimeInMinutes,
-  getMilitaryHour,
-  Item,
-  ItemTime,
-} from 'src/app/domain/item';
+import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -53,10 +47,6 @@ export class DayViewComponent implements OnInit {
     return `${clockHour} ${period}`;
   }
 
-  getDisplayTime(item: Item): string {
-    return getDisplayTime(item);
-  }
-
   expandItem(item: Item): void {
     this.dialog.open(ItemViewDialogComponent, {
       data: { item },
@@ -70,7 +60,9 @@ export class DayViewComponent implements OnInit {
     for (let i = 0; i < this.numColumns; i++) {
       this.columns.push([]);
     }
-    for (const item of this.itemService.getItemsByDate(this.displayService.date)) {
+    for (const item of this.itemService.getItemsByDate(
+      this.displayService.date
+    )) {
       if (!item.startTimeEnabled) {
         this.timelessItems.push(item);
       } else {
@@ -86,8 +78,8 @@ export class DayViewComponent implements OnInit {
       const inSameRow = items.filter((item) => {
         return (
           item.startTimeEnabled &&
-          getItemTimeInMinutes(item.startTime) <= i &&
-          getItemTimeInMinutes(item.endTime) > i
+          item.getStartTimeInMinutes() <= i &&
+          item.getEndTimeInMinutes() > i
         );
       }).length;
       maxInSameRow = Math.max(maxInSameRow, inSameRow);
@@ -97,12 +89,12 @@ export class DayViewComponent implements OnInit {
 
   private placeItemInColumn(item: Item): void {
     for (const col of this.columns) {
-      const startTimeInMin = getItemTimeInMinutes(item.startTime);
+      const startTimeInMin = item.getStartTimeInMinutes();
       if (col.length === 0 || col[col.length - 1].rowEnd <= startTimeInMin) {
         col.push({
           item,
           rowStart: startTimeInMin,
-          rowEnd: getItemTimeInMinutes(item.endTime),
+          rowEnd: item.getEndTimeInMinutes(),
         });
         break;
       }

@@ -5,11 +5,16 @@ import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
-import { compareItemTimes, Item, setDefaultEndTime, TimePeriod } from '../domain/item';
+import {
+  compareItemTimes,
+  Item,
+  ItemJson,
+  setDefaultEndTime,
+} from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
-export interface ItemDto extends Omit<Item, 'date'> {
+export interface ItemDto extends Omit<ItemJson, 'date'> {
   date: string;
 }
 
@@ -27,18 +32,18 @@ function isUserData(obj: any): obj is UserData {
 })
 export class UserDataService {
   private _onUserDataLoaded = new Subject<void>();
-  private _onItemDeleted = new Subject<Item>();
-  private _onItemEdited = new Subject<Item>();
+  private _onItemDeleted = new Subject<ItemJson>();
+  private _onItemEdited = new Subject<ItemJson>();
 
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded.asObservable();
   }
 
-  get onItemDeleted(): Observable<Item> {
+  get onItemDeleted(): Observable<ItemJson> {
     return this._onItemDeleted.asObservable();
   }
 
-  get onItemEdited(): Observable<Item> {
+  get onItemEdited(): Observable<ItemJson> {
     return this._onItemEdited.asObservable();
   }
 
@@ -68,7 +73,7 @@ export class UserDataService {
           this.groupService.loadGroups(userData.groups);
           this.itemService.loadItems(
             userData.items.map((dto) => {
-              return { ...dto, date: new Date(dto.date) };
+              return new Item({ ...dto, date: new Date(dto.date) });
             })
           );
           this._onUserDataLoaded.next();
@@ -82,7 +87,7 @@ export class UserDataService {
     this.saveUserData();
   }
 
-  deleteItem(item: Item): void {
+  deleteItem(item: ItemJson): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
     this._onItemDeleted.next();
@@ -99,7 +104,7 @@ export class UserDataService {
     this.saveUserData();
   }
 
-  editItem(item: Item, showItemOnCancel: boolean = false): void {
+  editItem(item: ItemJson, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       data: { item },
     });
@@ -141,7 +146,7 @@ export class UserDataService {
     });
   }
 
-  private validateItems(items: ReadonlyArray<Item>): void {
+  private validateItems(items: ReadonlyArray<ItemJson>): void {
     items.forEach((item) => {
       item.groupIds.forEach((groupId, i) => {
         if (!this.groupService.hasGroup(groupId)) {

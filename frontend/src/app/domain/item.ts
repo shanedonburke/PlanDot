@@ -2,7 +2,7 @@ import { v4 } from 'uuid';
 import { getTodaysDate } from '../util/dates';
 import { Group } from './group';
 
-export interface Item {
+export interface ItemJson {
   id: string;
   title: string;
   description: string;
@@ -39,58 +39,64 @@ export interface ItemTime {
   period: TimePeriod;
 }
 
-export function createItem(groups: Array<Group> = []): Item {
-  return {
-    id: v4(),
-    title: 'New Item',
-    description: '',
-    location: '',
-    date: getTodaysDate(),
-    dateEnabled: false,
-    repeat: Repeat.NEVER,
-    weekdays: [0, 1, 2, 3, 4, 5, 6],
-    startTimeEnabled: false,
-    endTimeEnabled: false,
-    startTime: {
-      hours: 12,
-      minutes: 0,
-      period: TimePeriod.PM,
-    },
-    endTime: {
-      hours: 1,
-      minutes: 0,
-      period: TimePeriod.PM,
-    },
-    groupIds: groups.map((group) => group.id),
-  };
-}
+export class Item implements ItemJson {
+  id: string = v4();
+  title: string = 'New Item';
+  description: string = '';
+  location: string = '';
+  date: Date = getTodaysDate();
+  dateEnabled: boolean = false;
+  repeat: Repeat = Repeat.NEVER;
+  weekdays: Array<number> = [0, 1, 2, 3, 4, 5, 6];
+  startTime: ItemTime = { hours: 12, minutes: 0, period: TimePeriod.PM };
+  endTime: ItemTime = { hours: 1, minutes: 0, period: TimePeriod.PM };
+  startTimeEnabled: boolean = false;
+  endTimeEnabled: boolean = false;
+  groupIds: Array<string> = [];
 
-export function getMilitaryHour(itemTime: ItemTime): number {
-  const hour = itemTime.hours % 12;
-  return itemTime.period === TimePeriod.PM ? hour + 12 : hour;
-}
+  constructor(itemJson: Partial<ItemJson> = {}) {
+    Object.assign(this, itemJson);
+  }
 
-export function formatItemTime(itemTime: ItemTime): string {
-  return `${itemTime.hours}:${itemTime.minutes.toString().padStart(2, '0')} ${
-    itemTime.period
-  }`;
-}
+  getStartTimeInMinutes(): number {
+    return Item.getTimeInMinutes(this.startTime);
+  }
 
-export function getItemTimeInMinutes(itemTime: ItemTime): number {
-  return Math.round((getMilitaryHour(itemTime) * 60 + itemTime.minutes) / 2);
-}
+  getEndTimeInMinutes(): number {
+    return Item.getTimeInMinutes(this.endTime);
+  }
 
-export function getDisplayTime(item: Item): string {
-  if (item.endTimeEnabled) {
-    return `${formatItemTime(item.startTime)} - ${formatItemTime(
-      item.endTime
-    )}`;
-  } else {
-    return formatItemTime(item.startTime);
+  getFormattedStartTime(): string {
+    return Item.formatItemTime(this.startTime);
+  }
+
+  getFormattedEndTime(): string {
+    return Item.formatItemTime(this.endTime);
+  }
+
+  getDisplayTime(): string {
+    return this.endTimeEnabled
+      ? `${this.getFormattedStartTime()} - ${this.getFormattedEndTime()}`
+      : this.getFormattedStartTime();
+  }
+
+  private static getTimeInMinutes(time: ItemTime): number {
+    return Math.round((this.getMilitaryHour(time) * 60 + time.minutes) / 2);
+  }
+
+  private static getMilitaryHour(time: ItemTime): number {
+    const hour = time.hours % 12;
+    return time.period === TimePeriod.PM ? hour + 12 : hour;
+  }
+
+  private static formatItemTime(time: ItemTime): string {
+    return `${time.hours}:${time.minutes.toString().padStart(2, '0')} ${
+      time.period
+    }`;
   }
 }
 
-export function compareItemsByDate(itemA: Item, itemB: Item): number {
+export function compareItemsByDate(itemA: ItemJson, itemB: ItemJson): number {
   if (!itemA.dateEnabled && !itemB.dateEnabled) {
     return 0;
   } else if (itemA.dateEnabled && !itemB.dateEnabled) {
@@ -130,7 +136,7 @@ export function compareItemTimes(timeA: ItemTime, timeB: ItemTime): number {
   }
 }
 
-export function doesDateHaveItem(date: Date, item: Item): boolean {
+export function doesDateHaveItem(date: Date, item: ItemJson): boolean {
   if (!item.dateEnabled) {
     return false;
   }
@@ -151,12 +157,9 @@ export function doesDateHaveItem(date: Date, item: Item): boolean {
   );
 }
 
-export function setDefaultEndTime(item: Item): void {
+export function setDefaultEndTime(item: ItemJson): void {
   item.endTime.minutes = item.startTime.minutes;
-  if (
-    item.startTime.hours === 11 &&
-    item.startTime.period === TimePeriod.AM
-  ) {
+  if (item.startTime.hours === 11 && item.startTime.period === TimePeriod.AM) {
     item.endTime.hours = 12;
     item.endTime.period = TimePeriod.PM;
   } else if (

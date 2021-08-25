@@ -27,7 +27,7 @@
     </div>
     <div class="item-card-info" *ngIf="item.startTimeEnabled">
       <mat-icon>schedule</mat-icon>
-      <span>{{ getDisplayTime(item) }}</span>
+      <span>{{ item.getDisplayTime() }}</span>
     </div>
   </div>
 </div>

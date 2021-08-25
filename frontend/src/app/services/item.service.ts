@@ -4,6 +4,7 @@ import {
   compareItemsByDate,
   doesDateHaveItem,
   Item,
+  ItemJson,
   Repeat
 } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
@@ -47,7 +48,7 @@ export class ItemService {
     return this.itemMap.has(itemId);
   }
 
-  getItemById(itemId: string): Item | undefined {
+  getItemById(itemId: string): ItemJson | undefined {
     return this.itemMap.get(itemId);
   }
 
@@ -71,7 +72,7 @@ export class ItemService {
     });
   }
 
-  deleteItem(item: Item): void {
+  deleteItem(item: ItemJson): void {
     this.itemMap.delete(item.id);
     this.itemOrder.splice(this.itemOrder.indexOf(item.id), 1);
   }
@@ -118,13 +119,13 @@ export class ItemService {
       .sort((a, b) => compareItemsByDate(a, b));
   }
 
-  getItemBackgroundColor(item: Item): string {
+  getItemBackgroundColor(item: ItemJson): string {
     return item.groupIds.length === 0
       ? '#444444'
       : this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444';
   }
 
-  getItemTextColor(item: Item): string {
+  getItemTextColor(item: ItemJson): string {
     return item.groupIds.length === 0
       ? 'white'
       : getGroupTextColor(this.groupService.getGroupById(item.groupIds[0])!!);

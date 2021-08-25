@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import * as marked from 'marked';
 import * as createDOMPurify from 'dompurify';
-import { getDisplayTime, Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import * as marked from 'marked';
+import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 
@@ -39,10 +39,6 @@ export class ItemViewDialogComponent {
   deleteItem() {
     this.userDataService.deleteItem(this.data.item);
     this.dialogRef.close();
-  }
-
-  getDisplayTime(): string {
-    return getDisplayTime(this.data.item);
   }
 
   getDisplayRepeat(): string {

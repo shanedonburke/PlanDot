@@ -7,12 +7,12 @@ import { FormControl } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
-import { Item, Repeat, setDefaultEndTime, WEEKDAYS } from 'src/app/domain/item';
+import { ItemJson, Repeat, setDefaultEndTime, WEEKDAYS } from 'src/app/domain/item';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { getTodaysDate } from 'src/app/util/dates';
 
 export interface ItemEditDialogData {
-  item: Item;
+  item: ItemJson;
 }
 
 @Component({

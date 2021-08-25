@@ -43,7 +43,7 @@
             class="day-view-item"
           >
             <div>{{ itemData.item.title }}</div>
-            <div>{{ getDisplayTime(itemData.item) }}</div>
+            <div>{{ itemData.item.getDisplayTime() }}</div>
             <div *ngIf="itemData.item.location.trim() !== ''">
               {{ itemData.item.location }}
             </div>

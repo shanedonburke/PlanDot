@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { getDisplayTime, Item } from 'src/app/domain/item';
+import { Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemViewDialogComponent } from '../item-view-dialog/item-view-dialog.component';
 
@@ -21,9 +21,5 @@ export class ItemCardComponent {
     this.dialog.open(ItemViewDialogComponent, {
       data: { item: this.item },
     });
-  }
-
-  getDisplayTime(item: Item): string {
-    return getDisplayTime(item);
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
-import { Item } from '../domain/item';
+import { ItemJson } from '../domain/item';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,7 @@ export class GroupService {
     return this.groupMap.has(groupId);
   }
 
-  getItemGroups(item: Item): ReadonlyArray<Group> {
+  getItemGroups(item: ItemJson): ReadonlyArray<Group> {
     return <ReadonlyArray<Group>>(
       item.groupIds
         .filter((id) => this.groupMap.has(id))
@@ -52,7 +52,7 @@ export class GroupService {
     }
   }
 
-  removeItemFromGroups(item: Item): void {
+  removeItemFromGroups(item: ItemJson): void {
     this.getGroups().forEach((group) => {
       const itemIdIndex = group.itemIds.indexOf(item.id);
       if (itemIdIndex !== -1) {
