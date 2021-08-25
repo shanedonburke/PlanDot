@@ -1,6 +1,6 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { getGroupTextColor, Group } from 'src/app/domain/group';
+import { Group } from 'src/app/domain/group';
 import { Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
@@ -45,9 +45,5 @@ export class GroupViewComponent {
         .title.localeCompare(this.itemService.getItemById(b)!!.title);
     });
     this.userDataService.saveUserData();
-  }
-
-  getGroupTextColor(group: Group): string {
-    return getGroupTextColor(group);
   }
 }

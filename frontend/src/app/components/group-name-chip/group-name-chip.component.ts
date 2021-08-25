@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { getGroupTextColor, Group } from 'src/app/domain/group';
+import { Group } from 'src/app/domain/group';
 
 @Component({
   selector: 'app-group-name-chip',
@@ -8,10 +8,4 @@ import { getGroupTextColor, Group } from 'src/app/domain/group';
 })
 export class GroupNameChipComponent {
   @Input('group') group!: Group;
-
-  constructor() { }
-
-  getTextColor(): string {
-    return getGroupTextColor(this.group);
-  }
 }

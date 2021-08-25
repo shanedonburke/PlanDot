@@ -151,7 +151,7 @@
         [removable]="true"
         (removed)="removeGroup(group)"
         [style.backgroundColor]="group.color"
-        [style.color]="getGroupTextColor(group)"
+        [style.color]="group.getTextColor()"
       >
         {{ group.name }}
         <mat-icon matChipRemove>cancel</mat-icon>

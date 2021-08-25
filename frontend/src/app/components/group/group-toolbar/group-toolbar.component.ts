@@ -3,7 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { v4 } from 'uuid';
 import { GroupEditDialogComponent } from '../../group-edit-dialog/group-edit-dialog.component';
 
 @Component({
@@ -22,12 +21,7 @@ export class GroupToolbarComponent {
   ) {}
 
   addGroup() {
-    this.editGroup({
-      id: v4(),
-      name: `Group ${this.groupService.getGroups().length + 1}`,
-      color: '#' + Math.floor(Math.random() * 0xffffff).toString(16),
-      itemIds: [],
-    });
+    this.editGroup(new Group());
   }
 
   editGroup(group: Group) {

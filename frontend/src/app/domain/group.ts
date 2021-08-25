@@ -1,21 +1,37 @@
-export function isGroup(obj: any): obj is Group {
-  return (
-    typeof obj === 'object' && 'id' in obj && 'name' in obj && 'color' in obj
-  );
+import { v4 } from 'uuid';
+import { deepCopy } from '../util/deep-copy';
+
+export function isGroupJson(obj: any): obj is Group {
+  return typeof obj === 'object' && 'itemIds' in obj;
 }
 
-export interface Group {
+export interface GroupJson {
   id: string;
   name: string;
   color: string;
   itemIds: Array<string>;
 }
 
-export function getGroupTextColor(group: Group): string {
-  const red = parseInt(group.color.substr(1, 2), 16);
-  const green = parseInt(group.color.substr(3, 2), 16);
-  const blue = parseInt(group.color.substr(5, 2), 16);
-  return red * 0.299 + green * 0.587 + blue * 0.114 > 186
-    ? '#000000'
-    : '#ffffff';
+export class Group implements GroupJson {
+  id = v4();
+  name = 'New group';
+  color = '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+  itemIds: Array<string> = [];
+
+  constructor(groupJson: Partial<GroupJson> = {}) {
+    Object.assign(this, groupJson);
+  }
+
+  getTextColor(): string {
+    const red = parseInt(this.color.substr(1, 2), 16);
+    const green = parseInt(this.color.substr(3, 2), 16);
+    const blue = parseInt(this.color.substr(5, 2), 16);
+    return red * 0.299 + green * 0.587 + blue * 0.114 > 186
+      ? '#000000'
+      : '#ffffff';
+  }
+
+  getDeepCopy(): Group {
+    return new Group(deepCopy(this));
+  }
 }

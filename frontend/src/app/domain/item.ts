@@ -1,5 +1,6 @@
 import { v4 } from 'uuid';
 import { getTodaysDate } from '../util/dates';
+import { deepCopy } from '../util/deep-copy';
 import { Group } from './group';
 
 export interface ItemJson {
@@ -40,18 +41,18 @@ export interface ItemTime {
 }
 
 export class Item implements ItemJson {
-  id: string = v4();
-  title: string = 'New Item';
-  description: string = '';
-  location: string = '';
-  date: Date = getTodaysDate();
-  dateEnabled: boolean = false;
-  repeat: Repeat = Repeat.NEVER;
-  weekdays: Array<number> = [0, 1, 2, 3, 4, 5, 6];
+  id = v4();
+  title = 'New Item';
+  description = '';
+  location = '';
+  date = getTodaysDate();
+  dateEnabled = false;
+  repeat = Repeat.NEVER;
+  weekdays = [0, 1, 2, 3, 4, 5, 6];
   startTime: ItemTime = { hours: 12, minutes: 0, period: TimePeriod.PM };
   endTime: ItemTime = { hours: 1, minutes: 0, period: TimePeriod.PM };
-  startTimeEnabled: boolean = false;
-  endTimeEnabled: boolean = false;
+  startTimeEnabled = false;
+  endTimeEnabled = false;
   groupIds: Array<string> = [];
 
   constructor(itemJson: Partial<ItemJson> = {}) {
@@ -128,7 +129,10 @@ export class Item implements ItemJson {
 
   setEndTimeToDefault() {
     this.endTime.minutes = this.startTime.minutes;
-    if (this.startTime.hours === 11 && this.startTime.period === TimePeriod.AM) {
+    if (
+      this.startTime.hours === 11 &&
+      this.startTime.period === TimePeriod.AM
+    ) {
       this.endTime.hours = 12;
       this.endTime.period = TimePeriod.PM;
     } else if (
@@ -142,6 +146,10 @@ export class Item implements ItemJson {
       this.endTime.hours = this.startTime.hours + 1;
       this.endTime.period = this.startTime.period;
     }
+  }
+
+  getDeepCopy(): Item {
+    return new Item(deepCopy(this));
   }
 
   private static getTimeInMinutes(time: ItemTime): number {

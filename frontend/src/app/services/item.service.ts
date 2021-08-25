@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getGroupTextColor, Group } from '../domain/group';
+import { Group } from '../domain/group';
 import { Item, ItemJson, Repeat } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';
@@ -127,6 +127,6 @@ export class ItemService {
   getItemTextColor(item: ItemJson): string {
     return item.groupIds.length === 0
       ? 'white'
-      : getGroupTextColor(this.groupService.getGroupById(item.groupIds[0])!!);
+      : this.groupService.getGroupById(item.groupIds[0])!!.getTextColor();
   }
 }

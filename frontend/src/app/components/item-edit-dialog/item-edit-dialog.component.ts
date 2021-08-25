@@ -6,7 +6,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
+import { Group, isGroupJson } from 'src/app/domain/group';
 import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { getTodaysDate } from 'src/app/util/dates';
@@ -70,10 +70,6 @@ export class ItemEditDialogComponent {
     );
   }
 
-  getGroupTextColor(group: Group): string {
-    return getGroupTextColor(group);
-  }
-
   private filterGroups(group: Group | string | null): Array<Group> {
     let filtered = this.groupService
       .getGroups()
@@ -83,7 +79,10 @@ export class ItemEditDialogComponent {
         return g.name
           .toLowerCase()
           .includes(
-            (isGroup(group) ? group.name.toLowerCase() : group).toLowerCase()
+            (isGroupJson(group)
+              ? group.name.toLowerCase()
+              : group
+            ).toLowerCase()
           );
       });
     }

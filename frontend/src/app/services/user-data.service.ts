@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
-import { Group } from '../domain/group';
+import { Group, GroupJson } from '../domain/group';
 import { Item, ItemJson } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
@@ -14,7 +14,7 @@ export interface ItemDto extends Omit<ItemJson, 'date'> {
 }
 
 export interface UserData {
-  groups: Array<Group>;
+  groups: Array<GroupJson>;
   items: Array<ItemDto>;
 }
 
@@ -65,7 +65,9 @@ export class UserDataService {
       .get<UserData>('/api/user_data', { withCredentials: true })
       .subscribe((userData) => {
         if (isUserData(userData)) {
-          this.groupService.loadGroups(userData.groups);
+          this.groupService.loadGroups(
+            userData.groups.map((group) => new Group(group))
+          );
           this.itemService.loadItems(
             userData.items.map((dto) => {
               return new Item({ ...dto, date: new Date(dto.date) });
@@ -101,7 +103,7 @@ export class UserDataService {
 
   editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
-      data: { item },
+      data: { item: item.getDeepCopy() },
     });
 
     dialogRef.afterClosed().subscribe((result: Item) => {
