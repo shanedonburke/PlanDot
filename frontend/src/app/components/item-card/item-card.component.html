@@ -2,7 +2,17 @@
   <div class="item-card-header">
     <span class="item-card-title">{{ item.title }}</span>
     <div style="flex-grow: 1"></div>
-    <app-icon-button icon="open_in_full" (click)="expandItem(item)"></app-icon-button>
+    <div class="item-card-groups">
+      <div
+        class="item-card-group"
+        *ngFor="let group of groupService.getItemGroups(item)"
+        [style.backgroundColor]="group.color"
+      ></div>
+    </div>
+    <app-icon-button
+      icon="open_in_full"
+      (click)="expandItem()"
+    ></app-icon-button>
   </div>
   <div style="flex-grow: 1"></div>
   <div class="item-card-info" *ngIf="item.location.trim() !== ''">

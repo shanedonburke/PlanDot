@@ -23,15 +23,23 @@
 .item-card-title {
   font-weight: 450;
   font-size: 16px;
-}
-
-// TODO remove
-.item-card-description {
-  height: 1.4em;
-  color: #555555;
-  white-space: pre-line;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-card-groups {
+  display: flex;
+  justify-content: flex-end;
+  height: 100%;
+  align-items: center;
+}
+
+.item-card-group {
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  margin-right: 3px;
 }
 
 .item-card-info {
