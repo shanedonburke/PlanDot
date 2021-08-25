@@ -22,10 +22,17 @@
     >
       <ng-container *ngFor="let date of week">
         <div class="calendar-date" (click)="goToDate(date)">
-          <span>{{ date.getDate() }}</span>
+          <div class="calendar-date-header">
+            <span>{{ date.getDate() }}</span>
+            <span
+              class="date-item-number"
+              *ngIf="getItemsByDate(date).length > 0"
+              >{{ getItemsByDate(date).length }}</span
+            >
+          </div>
           <div class="date-items">
             <div
-              *ngFor="let item of itemService.getDateItems(date)"
+              *ngFor="let item of getItemsByDate(date)"
               class="date-item"
               [style.color]="itemService.getItemTextColor(item)"
               [style.backgroundColor]="itemService.getItemBackgroundColor(item)"

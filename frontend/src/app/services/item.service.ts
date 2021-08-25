@@ -94,7 +94,7 @@ export class ItemService {
     });
   }
 
-  getGroupItems(group: Group): Array<Item> {
+  getItemsByGroup(group: Group): Array<Item> {
     return <Array<Item>>(
       group.itemIds
         .filter((id) => this.itemMap.has(id))
@@ -111,7 +111,7 @@ export class ItemService {
     });
   }
 
-  getDateItems(date: Date): Array<Item> {
+  getItemsByDate(date: Date): Array<Item> {
     date.setHours(0, 0, 0, 0);
     return this.getItems()
       .filter((item) => doesDateHaveItem(date, item))

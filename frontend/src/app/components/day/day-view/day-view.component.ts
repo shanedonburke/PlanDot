@@ -70,7 +70,7 @@ export class DayViewComponent implements OnInit {
     for (let i = 0; i < this.numColumns; i++) {
       this.columns.push([]);
     }
-    for (const item of this.itemService.getDateItems(this.displayService.date)) {
+    for (const item of this.itemService.getItemsByDate(this.displayService.date)) {
       if (!item.startTimeEnabled) {
         this.timelessItems.push(item);
       } else {
@@ -80,7 +80,7 @@ export class DayViewComponent implements OnInit {
   }
 
   private calcNumColumns(): number {
-    const items = this.itemService.getDateItems(this.displayService.date);
+    const items = this.itemService.getItemsByDate(this.displayService.date);
     let maxInSameRow = 0;
     for (let i = 0; i < 1440 / 2; i++) {
       const inSameRow = items.filter((item) => {

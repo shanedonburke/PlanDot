@@ -11,7 +11,7 @@
         (cdkDropListDropped)="dropGroupItem(group, $event)"
       >
         <app-item-card
-          *ngFor="let item of itemService.getGroupItems(group)"
+          *ngFor="let item of itemService.getItemsByGroup(group)"
           [item]="item"
           class="group-item-card"
           cdkDrag

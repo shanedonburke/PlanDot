@@ -53,6 +53,23 @@
   border-bottom: none;
 }
 
+.calendar-date-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-item-number {
+  padding: 0 2px;
+  line-height: 1em;
+  background-color: red;
+  color: white;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  margin-bottom: 2px;
+  font-size: 12px;
+}
+
 .date-item {
   width: 100%;
   border-radius: 2px;
