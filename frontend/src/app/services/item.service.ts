@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getGroupTextColor, Group } from '../domain/group';
-import {
-  compareItemsByDate,
-  doesDateHaveItem,
-  Item,
-  ItemJson,
-  Repeat
-} from '../domain/item';
+import { doesDateHaveItem, Item, ItemJson, Repeat } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';
 import { GroupService } from './group.service';
@@ -26,7 +20,10 @@ export class ItemService {
     });
     this.itemOrder = items.map((item) => item.id);
     items.forEach((item) => {
-      if (item.date.getTime() < getTodaysDate().getTime() && item.repeat !== Repeat.NEVER) {
+      if (
+        item.date.getTime() < getTodaysDate().getTime() &&
+        item.repeat !== Repeat.NEVER
+      ) {
         item.date = getTodaysDate();
         while (!doesDateHaveItem(item.date, item)) {
           item.date.setTime(item.date.getTime() + ONE_DAY_MS);
@@ -48,7 +45,7 @@ export class ItemService {
     return this.itemMap.has(itemId);
   }
 
-  getItemById(itemId: string): ItemJson | undefined {
+  getItemById(itemId: string): Item | undefined {
     return this.itemMap.get(itemId);
   }
 
@@ -78,7 +75,9 @@ export class ItemService {
   }
 
   sortItemsByDate(): void {
-    this.itemOrder.sort((a, b) => compareItemsByDate(this.itemMap.get(a)!, this.itemMap.get(b)!));
+    this.itemOrder.sort((a, b) =>
+      this.itemMap.get(a)!.compareDateTo(this.itemMap.get(b)!)
+    );
   }
 
   sortItemsByTitle(): void {
@@ -116,7 +115,7 @@ export class ItemService {
     date.setHours(0, 0, 0, 0);
     return this.getItems()
       .filter((item) => doesDateHaveItem(date, item))
-      .sort((a, b) => compareItemsByDate(a, b));
+      .sort((a, b) => a.compareDateTo(b));
   }
 
   getItemBackgroundColor(item: ItemJson): string {

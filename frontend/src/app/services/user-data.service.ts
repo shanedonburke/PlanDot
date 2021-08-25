@@ -5,12 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
-import {
-  compareItemTimes,
-  Item,
-  ItemJson,
-  setDefaultEndTime,
-} from '../domain/item';
+import { Item, ItemJson, setDefaultEndTime } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
@@ -117,7 +112,7 @@ export class UserDataService {
         if (
           result.startTimeEnabled &&
           (!result.endTimeEnabled ||
-            compareItemTimes(result.startTime, result.endTime) >= 0)
+            result.getStartTimeInMinutes() >= result.getEndTimeInMinutes())
         ) {
           setDefaultEndTime(result);
         }

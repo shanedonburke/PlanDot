@@ -78,8 +78,8 @@ export class DayViewComponent implements OnInit {
       const inSameRow = items.filter((item) => {
         return (
           item.startTimeEnabled &&
-          item.getStartTimeInMinutes() <= i &&
-          item.getEndTimeInMinutes() > i
+          Math.round(item.getStartTimeInMinutes() / 2) <= i &&
+          Math.round(item.getEndTimeInMinutes() / 2) > i
         );
       }).length;
       maxInSameRow = Math.max(maxInSameRow, inSameRow);

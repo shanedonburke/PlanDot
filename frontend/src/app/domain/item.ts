@@ -80,8 +80,33 @@ export class Item implements ItemJson {
       : this.getFormattedStartTime();
   }
 
+  compareDateTo(item: Item): number {
+    if (!this.dateEnabled && !item.dateEnabled) {
+      return 0;
+    } else if (this.dateEnabled && !item.dateEnabled) {
+      return -1;
+    } else if (item.dateEnabled && !this.dateEnabled) {
+      return 1;
+    } else {
+      const dateDiff = this.date.getTime() - item.date.getTime();
+      if (dateDiff === 0) {
+        if (!this.startTimeEnabled && !item.startTimeEnabled) {
+          return 0;
+        } else if (this.startTimeEnabled && !item.startTimeEnabled) {
+          return -1;
+        } else if (item.startTimeEnabled && !this.startTimeEnabled) {
+          return 1;
+        } else {
+          return this.getStartTimeInMinutes() - item.getStartTimeInMinutes();
+        }
+      } else {
+        return dateDiff;
+      }
+    }
+  }
+
   private static getTimeInMinutes(time: ItemTime): number {
-    return Math.round((this.getMilitaryHour(time) * 60 + time.minutes) / 2);
+    return this.getMilitaryHour(time) * 60 + time.minutes;
   }
 
   private static getMilitaryHour(time: ItemTime): number {
@@ -93,46 +118,6 @@ export class Item implements ItemJson {
     return `${time.hours}:${time.minutes.toString().padStart(2, '0')} ${
       time.period
     }`;
-  }
-}
-
-export function compareItemsByDate(itemA: ItemJson, itemB: ItemJson): number {
-  if (!itemA.dateEnabled && !itemB.dateEnabled) {
-    return 0;
-  } else if (itemA.dateEnabled && !itemB.dateEnabled) {
-    return -1;
-  } else if (itemB.dateEnabled && !itemA.dateEnabled) {
-    return 1;
-  } else {
-    const dateDiff = itemA.date.getTime() - itemB.date.getTime();
-    if (dateDiff === 0) {
-      if (!itemA.startTimeEnabled && !itemB.startTimeEnabled) {
-        return 0;
-      } else if (itemA.startTimeEnabled && !itemB.startTimeEnabled) {
-        return -1;
-      } else if (itemB.startTimeEnabled && !itemA.startTimeEnabled) {
-        return 1;
-      } else {
-        return compareItemTimes(itemA.startTime, itemB.startTime);
-      }
-    } else {
-      return dateDiff;
-    }
-  }
-}
-
-export function compareItemTimes(timeA: ItemTime, timeB: ItemTime): number {
-  if (timeA.period === TimePeriod.AM && timeB.period === TimePeriod.PM) {
-    return -1;
-  } else if (timeA.period === TimePeriod.PM && timeB.period === TimePeriod.AM) {
-    return 1;
-  } else {
-    const hoursDiff = (timeA.hours % 12) - (timeB.hours % 12);
-    if (hoursDiff === 0) {
-      return timeA.minutes - timeB.minutes;
-    } else {
-      return hoursDiff;
-    }
   }
 }
 
