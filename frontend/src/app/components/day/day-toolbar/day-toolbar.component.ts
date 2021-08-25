@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { DisplayService } from 'src/app/services/display.service';
+import { DateService } from 'src/app/services/date.service';
 
 @Component({
   selector: 'app-day-toolbar',
@@ -7,5 +7,5 @@ import { DisplayService } from 'src/app/services/display.service';
   styleUrls: ['./day-toolbar.component.scss']
 })
 export class DayToolbarComponent {
-  constructor(public readonly displayService: DisplayService) {}
+  constructor(public readonly displayService: DateService) {}
 }

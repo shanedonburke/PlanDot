@@ -7,7 +7,7 @@ import {
   Item,
   ItemTime,
 } from 'src/app/domain/item';
-import { DisplayService } from 'src/app/services/display.service';
+import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ItemViewDialogComponent } from '../../item-view-dialog/item-view-dialog.component';
@@ -31,7 +31,7 @@ export class DayViewComponent implements OnInit {
 
   constructor(
     public readonly itemService: ItemService,
-    public readonly displayService: DisplayService,
+    public readonly displayService: DateService,
     private readonly userDataService: UserDataService,
     private readonly dialog: MatDialog
   ) {}

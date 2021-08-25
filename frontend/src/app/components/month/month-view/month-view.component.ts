@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Calendar } from 'calendar';
-import { DisplayService } from 'src/app/services/display.service';
+import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
 import { ViewService } from 'src/app/services/view.service';
@@ -19,7 +19,7 @@ export class MonthViewComponent {
   constructor(
     public readonly itemService: ItemService,
     public readonly groupService: GroupService,
-    public readonly displayService: DisplayService,
+    public readonly displayService: DateService,
     private readonly viewService: ViewService,
   ) {}
 

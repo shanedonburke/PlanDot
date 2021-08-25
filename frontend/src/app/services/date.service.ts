@@ -6,7 +6,7 @@ import { getTodaysDate } from '../util/dates';
 @Injectable({
   providedIn: 'root'
 })
-export class DisplayService {
+export class DateService {
   date!: Date;
   month!: number;
   year!: number;
