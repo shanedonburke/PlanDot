@@ -56,16 +56,17 @@
 .calendar-date-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .date-item-number {
-  padding: 0 2px;
+  padding: 3px 3px;
   line-height: 1em;
   background-color: red;
   color: white;
   display: flex;
   align-items: center;
-  border-radius: 15px;
+  border-radius: 5px;
   margin-bottom: 2px;
   font-size: 12px;
 }
