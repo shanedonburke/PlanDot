@@ -28,6 +28,13 @@
   white-space: nowrap;
 }
 
+.item-card-header-right {
+  width: auto;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .item-card-groups {
   display: flex;
   justify-content: flex-end;
