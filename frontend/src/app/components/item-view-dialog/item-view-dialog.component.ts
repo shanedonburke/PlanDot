@@ -3,8 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as createDOMPurify from 'dompurify';
 import * as marked from 'marked';
 import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { ViewService } from 'src/app/services/view.service';
 
 export interface ItemViewDialogData {
   item: Item;
@@ -22,7 +24,9 @@ export class ItemViewDialogComponent {
     public readonly dialogRef: MatDialogRef<ItemViewDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ItemViewDialogData,
     public readonly userDataService: UserDataService,
-    public readonly groupService: GroupService
+    public readonly groupService: GroupService,
+    private readonly dateService: DateService,
+    private readonly viewService: ViewService,
   ) {
     this.descriptionHtml = createDOMPurify().sanitize(
       marked(this.data.item.description)
@@ -49,5 +53,11 @@ export class ItemViewDialogComponent {
     } else {
       return this.data.item.repeat;
     }
+  }
+
+  goToItemDate(): void {
+    this.dateService.setDate(this.data.item.date);
+    this.dialogRef.close();
+    this.viewService.goToDayView();
   }
 }

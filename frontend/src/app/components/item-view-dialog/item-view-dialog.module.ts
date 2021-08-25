@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 import { GroupNameChipModule } from '../group-name-chip/group-name-chip.module';
 import { IconButtonModule } from '../icon-button/icon-button.module';
 import { ItemViewDialogComponent } from './item-view-dialog.component';
@@ -17,6 +18,7 @@ import { ItemViewDialogComponent } from './item-view-dialog.component';
     MatButtonModule,
     GroupNameChipModule,
     IconButtonModule,
+    RouterModule,
   ],
 })
 export class ItemViewDialogModule {}

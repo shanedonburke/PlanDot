@@ -1,10 +1,10 @@
 <div class="calendar-container">
   <div class="view-header">
-    <button class="view-nav-btn" (click)="displayService.goToPrevMonth()">
+    <button class="view-nav-btn" (click)="dateService.goToPrevMonth()">
       <mat-icon>arrow_back</mat-icon>
     </button>
     <span>{{ getMonthString() }}</span>
-    <button class="view-nav-btn" (click)="displayService.goToNextMonth()">
+    <button class="view-nav-btn" (click)="dateService.goToNextMonth()">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
@@ -16,7 +16,7 @@
   <div class="calendar">
     <ng-container
       *ngFor="
-        let week of getMonthDates(displayService.year, displayService.month)
+        let week of getMonthDates(dateService.year, dateService.month)
       "
       class="calendar-week"
     >

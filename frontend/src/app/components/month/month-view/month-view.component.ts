@@ -21,7 +21,7 @@ export class MonthViewComponent {
   constructor(
     public readonly itemService: ItemService,
     public readonly groupService: GroupService,
-    public readonly displayService: DateService,
+    public readonly dateService: DateService,
     private readonly viewService: ViewService,
   ) {}
 
@@ -37,12 +37,12 @@ export class MonthViewComponent {
   }
 
   goToDate(date: Date): void {
-    this.displayService.date = date;
+    this.dateService.date = date;
     this.viewService.goToDayView();
   }
 
   getMonthString() {
-    return MONTHS[this.displayService.month] + ' ' + this.displayService.year;
+    return MONTHS[this.dateService.month] + ' ' + this.dateService.year;
   }
 
   getItemsByDate(date: Date): ItemJson[] {

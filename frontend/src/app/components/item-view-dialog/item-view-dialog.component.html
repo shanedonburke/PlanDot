@@ -1,6 +1,6 @@
 <div class="item-view">
   <div class="item-view-title">
-    <span>{{ data.item.title }}</span>
+    <span class="item-view-title-text">{{ data.item.title }}</span>
     <div style="flex-grow: 1"></div>
     <app-icon-button icon="edit" (click)="editItem()"></app-icon-button>
   </div>
@@ -16,7 +16,7 @@
   <ng-container *ngIf="data.item.dateEnabled">
     <div>
       <b>Date: </b>
-      <span>{{ data.item.date.toDateString() }}</span>
+      <a [routerLink]="" (click)="goToItemDate()">{{ data.item.date.toDateString() }}</a>
     </div>
     <div *ngIf="data.item.startTimeEnabled">
       <b>Time: </b>

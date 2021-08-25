@@ -5,7 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group } from '../domain/group';
-import { Item, ItemJson, setDefaultEndTime } from '../domain/item';
+import { Item, ItemJson } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
@@ -27,18 +27,18 @@ function isUserData(obj: any): obj is UserData {
 })
 export class UserDataService {
   private _onUserDataLoaded = new Subject<void>();
-  private _onItemDeleted = new Subject<ItemJson>();
-  private _onItemEdited = new Subject<ItemJson>();
+  private _onItemDeleted = new Subject<Item>();
+  private _onItemEdited = new Subject<Item>();
 
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded.asObservable();
   }
 
-  get onItemDeleted(): Observable<ItemJson> {
+  get onItemDeleted(): Observable<Item> {
     return this._onItemDeleted.asObservable();
   }
 
-  get onItemEdited(): Observable<ItemJson> {
+  get onItemEdited(): Observable<Item> {
     return this._onItemEdited.asObservable();
   }
 
@@ -99,7 +99,7 @@ export class UserDataService {
     this.saveUserData();
   }
 
-  editItem(item: ItemJson, showItemOnCancel: boolean = false): void {
+  editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       data: { item },
     });
@@ -114,7 +114,7 @@ export class UserDataService {
           (!result.endTimeEnabled ||
             result.getStartTimeInMinutes() >= result.getEndTimeInMinutes())
         ) {
-          setDefaultEndTime(result);
+          result.setEndTimeToDefault();
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData();

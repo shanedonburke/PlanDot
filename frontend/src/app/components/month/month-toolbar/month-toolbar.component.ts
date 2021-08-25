@@ -7,5 +7,5 @@ import { DateService } from 'src/app/services/date.service';
   styleUrls: ['./month-toolbar.component.scss'],
 })
 export class MonthToolbarComponent {
-  constructor(public readonly displayService: DateService) {}
+  constructor(public readonly dateService: DateService) {}
 }

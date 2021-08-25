@@ -19,6 +19,12 @@
   width: 100%;
 }
 
+.item-view-title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .item-view-description {
   display: flex;
   flex-direction: column;

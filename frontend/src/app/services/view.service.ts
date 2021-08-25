@@ -10,20 +10,18 @@ export class ViewService {
   private viewLoader: ((view: View) => void) | null = null;
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe(
-      (params) => {
-        if (params.view) {
-          if (isView(params.view)) {
-            this.view = params.view;
-            this.viewLoader && this.viewLoader(this.view);
-          } else {
-            throw new Error(`Invalid view: ${params.view}`);
-          }
+    this.route.queryParams.subscribe((params) => {
+      if (params.view) {
+        if (isView(params.view)) {
+          this.view = params.view;
+          this.viewLoader && this.viewLoader(this.view);
         } else {
-          this.goToGroupView();
+          throw new Error(`Invalid view: ${params.view}`);
         }
+      } else {
+        this.goToGroupView();
       }
-    );
+    });
   }
 
   goToGroupView() {
@@ -63,7 +61,10 @@ export class ViewService {
     this.view && this.viewLoader(this.view);
   }
 
-  private setView(view: View): void {
-    this.router.navigate([], { queryParams: { view } });
+  private setView(
+    view: View,
+    extraQueryParams: { [key: string]: string } = {}
+  ): void {
+    this.router.navigate([], { queryParams: { view, ...extraQueryParams } });
   }
 }

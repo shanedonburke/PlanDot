@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getGroupTextColor, Group } from '../domain/group';
-import { doesDateHaveItem, Item, ItemJson, Repeat } from '../domain/item';
+import { Item, ItemJson, Repeat } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';
 import { GroupService } from './group.service';
@@ -25,7 +25,7 @@ export class ItemService {
         item.repeat !== Repeat.NEVER
       ) {
         item.date = getTodaysDate();
-        while (!doesDateHaveItem(item.date, item)) {
+        while (item.hasDate(item.date)) {
           item.date.setTime(item.date.getTime() + ONE_DAY_MS);
         }
         console.log(item.date);
@@ -114,7 +114,7 @@ export class ItemService {
   getItemsByDate(date: Date): Array<Item> {
     date.setHours(0, 0, 0, 0);
     return this.getItems()
-      .filter((item) => doesDateHaveItem(date, item))
+      .filter((item) => item.hasDate(date))
       .sort((a, b) => a.compareDateTo(b));
   }
 

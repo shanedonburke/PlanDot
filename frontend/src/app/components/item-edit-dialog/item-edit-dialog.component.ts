@@ -1,18 +1,18 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { GroupService } from 'src/app/services/group.service';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { map, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
-import { ItemJson, Repeat, setDefaultEndTime, WEEKDAYS } from 'src/app/domain/item';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { getGroupTextColor, Group, isGroup } from 'src/app/domain/group';
+import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import { GroupService } from 'src/app/services/group.service';
 import { getTodaysDate } from 'src/app/util/dates';
 
 export interface ItemEditDialogData {
-  item: ItemJson;
+  item: Item;
 }
 
 @Component({
@@ -54,7 +54,7 @@ export class ItemEditDialogComponent {
 
   handleEndTimeEnabled(): void {
     this.data.item.endTimeEnabled = !this.data.item.endTimeEnabled;
-    setDefaultEndTime(this.data.item);
+    this.data.item.setEndTimeToDefault();
   }
 
   addGroup(event: MatAutocompleteSelectedEvent): void {
@@ -64,7 +64,10 @@ export class ItemEditDialogComponent {
   }
 
   removeGroup(group: Group) {
-    this.data.item.groupIds.splice(this.data.item.groupIds.indexOf(group.id), 1);
+    this.data.item.groupIds.splice(
+      this.data.item.groupIds.indexOf(group.id),
+      1
+    );
   }
 
   getGroupTextColor(group: Group): string {

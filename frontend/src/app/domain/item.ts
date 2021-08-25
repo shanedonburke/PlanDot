@@ -105,6 +105,45 @@ export class Item implements ItemJson {
     }
   }
 
+  hasDate(date: Date): boolean {
+    if (!this.dateEnabled) {
+      return false;
+    }
+    return (
+      (this.repeat !== Repeat.DAILY_WEEKLY &&
+        this.date.getFullYear() === date.getFullYear() &&
+        this.date.getMonth() === date.getMonth() &&
+        this.date.getDate() === date.getDate()) ||
+      (this.date.getMonth() === date.getMonth() &&
+        this.date.getDate() === date.getDate() &&
+        this.repeat === Repeat.YEARLY) ||
+      (this.date.getDate() === date.getDate() &&
+        this.repeat === Repeat.MONTHLY) ||
+      ((date.getTime() - this.date.getTime()) % 12096e5 === 0 &&
+        this.repeat === Repeat.BI_WEEKLY) ||
+      (this.weekdays.includes(date.getDay()) &&
+        this.repeat === Repeat.DAILY_WEEKLY)
+    );
+  }
+
+  setEndTimeToDefault() {
+    this.endTime.minutes = this.startTime.minutes;
+    if (this.startTime.hours === 11 && this.startTime.period === TimePeriod.AM) {
+      this.endTime.hours = 12;
+      this.endTime.period = TimePeriod.PM;
+    } else if (
+      this.startTime.hours === 11 &&
+      this.startTime.period === TimePeriod.PM
+    ) {
+      this.endTime.hours = 11;
+      this.endTime.minutes = 59;
+      this.endTime.period = TimePeriod.PM;
+    } else {
+      this.endTime.hours = this.startTime.hours + 1;
+      this.endTime.period = this.startTime.period;
+    }
+  }
+
   private static getTimeInMinutes(time: ItemTime): number {
     return this.getMilitaryHour(time) * 60 + time.minutes;
   }
@@ -118,44 +157,5 @@ export class Item implements ItemJson {
     return `${time.hours}:${time.minutes.toString().padStart(2, '0')} ${
       time.period
     }`;
-  }
-}
-
-export function doesDateHaveItem(date: Date, item: ItemJson): boolean {
-  if (!item.dateEnabled) {
-    return false;
-  }
-  return (
-    (item.repeat !== Repeat.DAILY_WEEKLY &&
-      item.date.getFullYear() === date.getFullYear() &&
-      item.date.getMonth() === date.getMonth() &&
-      item.date.getDate() === date.getDate()) ||
-    (item.date.getMonth() === date.getMonth() &&
-      item.date.getDate() === date.getDate() &&
-      item.repeat === Repeat.YEARLY) ||
-    (item.date.getDate() === date.getDate() &&
-      item.repeat === Repeat.MONTHLY) ||
-    ((date.getTime() - item.date.getTime()) % 12096e5 === 0 &&
-      item.repeat === Repeat.BI_WEEKLY) ||
-    (item.weekdays.includes(date.getDay()) &&
-      item.repeat === Repeat.DAILY_WEEKLY)
-  );
-}
-
-export function setDefaultEndTime(item: ItemJson): void {
-  item.endTime.minutes = item.startTime.minutes;
-  if (item.startTime.hours === 11 && item.startTime.period === TimePeriod.AM) {
-    item.endTime.hours = 12;
-    item.endTime.period = TimePeriod.PM;
-  } else if (
-    item.startTime.hours === 11 &&
-    item.startTime.period === TimePeriod.PM
-  ) {
-    item.endTime.hours = 11;
-    item.endTime.minutes = 59;
-    item.endTime.period = TimePeriod.PM;
-  } else {
-    item.endTime.hours = item.startTime.hours + 1;
-    item.endTime.period = item.startTime.period;
   }
 }

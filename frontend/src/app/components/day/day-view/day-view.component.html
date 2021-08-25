@@ -1,10 +1,10 @@
 <div class="day-view-container">
   <div class="view-header">
-    <button class="view-nav-btn" (click)="displayService.goToPrevDate()">
+    <button class="view-nav-btn" (click)="dateService.goToPrevDate()">
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <span>{{ displayService.date.toDateString() }}</span>
-    <button class="view-nav-btn" (click)="displayService.goToNextDate()">
+    <span>{{ dateService.date.toDateString() }}</span>
+    <button class="view-nav-btn" (click)="dateService.goToNextDate()">
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>

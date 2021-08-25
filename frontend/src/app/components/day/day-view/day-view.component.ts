@@ -25,9 +25,9 @@ export class DayViewComponent implements OnInit {
 
   constructor(
     public readonly itemService: ItemService,
-    public readonly displayService: DateService,
+    public readonly dateService: DateService,
     private readonly userDataService: UserDataService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -35,7 +35,7 @@ export class DayViewComponent implements OnInit {
     this.userDataService.onUserDataLoaded.subscribe(() => this.update());
     this.userDataService.onItemDeleted.subscribe(() => this.update());
     this.userDataService.onItemEdited.subscribe(() => this.update());
-    this.displayService.onDateChanged.subscribe(() => this.update());
+    this.dateService.onDateChanged.subscribe(() => this.update());
   }
 
   getHourString(hour: number): string {
@@ -61,7 +61,7 @@ export class DayViewComponent implements OnInit {
       this.columns.push([]);
     }
     for (const item of this.itemService.getItemsByDate(
-      this.displayService.date
+      this.dateService.date
     )) {
       if (!item.startTimeEnabled) {
         this.timelessItems.push(item);
@@ -72,7 +72,7 @@ export class DayViewComponent implements OnInit {
   }
 
   private calcNumColumns(): number {
-    const items = this.itemService.getItemsByDate(this.displayService.date);
+    const items = this.itemService.getItemsByDate(this.dateService.date);
     let maxInSameRow = 0;
     for (let i = 0; i < 1440 / 2; i++) {
       const inSameRow = items.filter((item) => {

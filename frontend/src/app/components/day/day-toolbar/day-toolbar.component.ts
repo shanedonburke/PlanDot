@@ -7,5 +7,5 @@ import { DateService } from 'src/app/services/date.service';
   styleUrls: ['./day-toolbar.component.scss']
 })
 export class DayToolbarComponent {
-  constructor(public readonly displayService: DateService) {}
+  constructor(public readonly dateService: DateService) {}
 }

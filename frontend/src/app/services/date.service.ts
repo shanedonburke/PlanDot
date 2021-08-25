@@ -31,6 +31,11 @@ export class DateService {
     this.year = this.date.getFullYear();
   }
 
+  setDate(date: Date): void {
+    this.date = date;
+    this._onDateChanged.next(this.date);
+  }
+
   goToPrevDate(): void {
     this.date.setTime(this.date.getTime() - ONE_DAY_MS);
     this._onDateChanged.next(this.date);
