@@ -24,11 +24,11 @@ export class ItemService {
         item.date.getTime() < getTodaysDate().getTime() &&
         item.repeat !== Repeat.NEVER
       ) {
-        item.date = getTodaysDate();
-        while (item.hasDate(item.date)) {
-          item.date.setTime(item.date.getTime() + ONE_DAY_MS);
+        let date = getTodaysDate();
+        while (!item.hasDate(date)) {
+          date.setTime(date.getTime() + ONE_DAY_MS);
         }
-        console.log(item.date);
+        item.date = date;
       }
     });
   }
