@@ -1,3 +1,5 @@
+@import '~src/variables.scss';
+
 .icon-btn {
   display: flex;
   background: transparent;
@@ -6,6 +8,7 @@
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
+  color: $icon-btn-grey;
 
   &:hover {
     background: rgba(0, 0, 0, 0.05);

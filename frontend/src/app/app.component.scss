@@ -69,13 +69,15 @@
 
   &:not(.sidenav-btn-selected):hover {
     background-color: #D7DBEA;
+    border-right: 1px solid #c5cbe1;
+    width: calc(100% + 1px);
   }
 }
 
 .sidenav-btn-selected {
   color: #465486;
   background-color: #c5cbe1;
-  border-right: 1px solid #3949ab1f;
+  border-right: 1px solid #c5cbe1;
   width: calc(100% + 1px);
 }
 

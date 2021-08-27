@@ -1,3 +1,5 @@
+@use '~@angular/material' as mat;
+@import '~src/theme.scss';
 @import "~src/variables.scss";
 
 .groups-menu {
@@ -41,4 +43,12 @@
 
 .new-group-btn {
   margin: 0 10px 10px 10px;
+}
+
+.edit-group-icon {
+  color: $icon-btn-grey;
+}
+
+.delete-group-icon {
+  color: mat.get-color-from-palette($mat-warn, 'default');
 }

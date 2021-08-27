@@ -42,6 +42,18 @@
   }
 }
 
+.item-view-detail {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 5px;
+
+  mat-icon {
+    margin-right: 5px;
+    color: #555;
+  }
+}
+
 .item-view-groups {
   display: flex;
   align-items: center;

@@ -50,12 +50,40 @@ $green-palette: (
   )
 );
 
+$red-palette: (
+  50: #F18C7E,
+  100: #EF7B6C,
+  200: #ED6B5A,
+  300: #EB5A47,
+  400: #E94A35,
+  500: #E73A23,
+  600: #DC2F18,
+  700: #CA2B16,
+  800: #B82714,
+  900: #A52312,
+  contrast: (
+    50: black,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white
+  )
+);
+
 $mat-primary: mat.define-palette($blue-palette, 500);
 $mat-accent: mat.define-palette($green-palette, 500);
+$mat-warn: mat.define-palette($red-palette, 500);
+
 $mat-theme: mat.define-light-theme((
   color: (
     primary: $mat-primary,
-    accent: $mat-accent
+    accent: $mat-accent,
+    warn: $mat-warn
   )
 ));
 
@@ -63,3 +91,4 @@ $mat-theme: mat.define-light-theme((
 @include mat.button-theme($mat-theme);
 @include mat.toolbar-theme($mat-theme);
 @include mat.icon-theme($mat-theme);
+@include mat.checkbox-theme($mat-theme);

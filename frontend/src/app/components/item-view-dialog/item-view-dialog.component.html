@@ -9,25 +9,39 @@
     class="item-view-description"
     [innerHTML]="descriptionHtml"
   ></div>
-  <div *ngIf="data.item.location.trim() !== ''">
-    <b>Location: </b>
-    <span>{{ data.item.location }}</span>
+  <div *ngIf="data.item.location.trim() !== ''" class="item-view-detail">
+    <mat-icon>place</mat-icon>
+    <div>
+      <div><b>Location</b></div>
+      <span>{{ data.item.location }}</span>
+    </div>
   </div>
   <ng-container *ngIf="data.item.dateEnabled">
-    <div>
-      <b>Date: </b>
-      <a [routerLink]="" (click)="goToItemDate()">{{ data.item.date.toDateString() }}</a>
+    <div class="item-view-detail">
+      <mat-icon>event</mat-icon>
+      <div>
+        <div><b>Date</b></div>
+        <a [routerLink]="" (click)="goToItemDate()">{{
+          data.item.date.toDateString()
+        }}</a>
+      </div>
     </div>
-    <div *ngIf="data.item.startTimeEnabled">
-      <b>Time: </b>
-      <span>{{ data.item.getDisplayTime() }}</span>
+    <div *ngIf="data.item.startTimeEnabled" class="item-view-detail">
+      <mat-icon>schedule</mat-icon>
+      <div>
+        <div><b>Time</b></div>
+        <span>{{ data.item.getDisplayTime() }}</span>
+      </div>
     </div>
-    <div>
-      <b>Repeat: </b>
-      <span>{{ getDisplayRepeat() }}</span>
+    <div class="item-view-detail">
+      <mat-icon>repeat</mat-icon>
+      <div>
+        <div><b>Repeat</b></div>
+        <span>{{ getDisplayRepeat() }}</span>
+      </div>
     </div>
     <div *ngIf="data.item.groupIds.length > 0">
-      <b>Groups: </b>
+      <b>Groups</b>
       <div class="item-view-groups">
         <app-group-name-chip
           *ngFor="let groupId of data.item.groupIds"

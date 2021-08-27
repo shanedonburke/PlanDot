@@ -19,8 +19,8 @@ export class GroupService {
   getGroups(): ReadonlyArray<Group> {
     return <ReadonlyArray<Group>>(
       this.groupOrder
-        .filter((group) => this.groupMap.has(group))
-        .map((group) => this.groupMap.get(group))
+        .filter((groupId) => this.groupMap.has(groupId))
+        .map((groupId) => this.groupMap.get(groupId))
     );
   }
 

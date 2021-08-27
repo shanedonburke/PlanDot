@@ -27,7 +27,7 @@ export class GroupToolbarComponent {
   editGroup(group: Group) {
     this.isGroupEditDialogOpen = true;
     const dialogRef = this.dialog.open(GroupEditDialogComponent, {
-      data: { group: { ...group } },
+      data: { group: group.getDeepCopy() },
     });
 
     dialogRef.afterClosed().subscribe((result: Group) => {

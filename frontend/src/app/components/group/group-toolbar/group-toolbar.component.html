@@ -13,10 +13,10 @@
         <app-group-name-chip [group]="group"></app-group-name-chip>
         <div class="groups-menu-row-controls">
           <button (click)="editGroup(group)" mat-icon-button>
-            <mat-icon>edit</mat-icon>
+            <mat-icon class="edit-group-icon">edit</mat-icon>
           </button>
           <button (click)="userDataService.deleteGroup(group)" mat-icon-button>
-            <mat-icon>delete</mat-icon>
+            <mat-icon class="delete-group-icon">delete</mat-icon>
           </button>
         </div>
       </div>
