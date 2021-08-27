@@ -1,6 +1,5 @@
 @use '~@angular/material' as mat;
-
-$my-palette: mat.define-palette(mat.$indigo-palette);
+@import '~src/theme.scss';
 
 .group-edit-dialog {
   display: flex;
@@ -46,7 +45,7 @@ $my-palette: mat.define-palette(mat.$indigo-palette);
 ::ng-deep .color-picker-btn-save {
   @include color-picker-btn;
   color: white;
-  background: mat.get-color-from-palette($my-palette, 'default');
+  background: mat.get-color-from-palette($blue-palette, 500);
 }
 
 ::ng-deep .color-picker-btn-cancel {
