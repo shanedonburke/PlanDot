@@ -2,7 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
-import { UserDataService } from 'src/app/services/user-data.service';
+import { UserDataAction, UserDataService } from 'src/app/services/user-data.service';
 import { GroupEditDialogComponent } from '../../group-edit-dialog/group-edit-dialog.component';
 
 @Component({
@@ -35,7 +35,7 @@ export class GroupToolbarComponent {
       if (result) {
         this.isGroupsMenuVisible = false;
         this.groupService.updateOrCreateGroup(group, result);
-        this.userDataService.saveUserData();
+        this.userDataService.saveUserData(UserDataAction.EDIT_GROUP);
       }
     });
   }

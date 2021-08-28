@@ -13,12 +13,28 @@ export interface ItemDto extends Omit<ItemJson, 'date'> {
   date: string;
 }
 
-export interface UserData {
+export interface UserDataJson {
   groups: Array<GroupJson>;
   items: Array<ItemDto>;
 }
 
-function isUserData(obj: any): obj is UserData {
+export enum UserDataAction {
+  EDIT_GROUP,
+  REORDER_GROUP_ITEMS,
+  SORT_GROUP_ITEMS,
+  DELETE_GROUP,
+  EDIT_ITEM,
+  SORT_ITEMS,
+  DELETE_ITEM,
+}
+
+interface HistoryEntry {
+  items: ReadonlyArray<Item>;
+  groups: ReadonlyArray<Group>;
+  action: UserDataAction;
+}
+
+function isUserDataJson(obj: any): obj is UserDataJson {
   return obj && typeof obj === 'object' && 'groups' in obj;
 }
 
@@ -26,10 +42,6 @@ function isUserData(obj: any): obj is UserData {
   providedIn: 'root',
 })
 export class UserDataService {
-  private _onUserDataLoaded = new Subject<void>();
-  private _onItemDeleted = new Subject<Item>();
-  private _onItemEdited = new Subject<Item>();
-
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded.asObservable();
   }
@@ -42,6 +54,12 @@ export class UserDataService {
     return this._onItemEdited.asObservable();
   }
 
+  private _onUserDataLoaded = new Subject<void>();
+  private _onItemDeleted = new Subject<Item>();
+  private _onItemEdited = new Subject<Item>();
+
+  private history: Array<HistoryEntry> = [];
+
   constructor(
     private readonly httpClient: HttpClient,
     private readonly groupService: GroupService,
@@ -49,11 +67,17 @@ export class UserDataService {
     private readonly dialog: MatDialog
   ) {}
 
-  saveUserData(): void {
+  saveUserData(action: UserDataAction): void {
     const groups = this.groupService.getGroups();
     const items = this.itemService.getItems();
     this.validateGroups(groups);
     this.validateItems(items);
+
+    this.history.push({
+      groups,
+      items,
+      action,
+    });
 
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
@@ -62,9 +86,9 @@ export class UserDataService {
 
   loadUserData(): void {
     this.httpClient
-      .get<UserData>('/api/user_data', { withCredentials: true })
+      .get<UserDataJson>('/api/user_data', { withCredentials: true })
       .subscribe((userData) => {
-        if (isUserData(userData)) {
+        if (isUserDataJson(userData)) {
           this.groupService.loadGroups(
             userData.groups.map((group) => new Group(group))
           );
@@ -81,24 +105,24 @@ export class UserDataService {
   deleteGroup(group: Group): void {
     this.groupService.deleteGroup(group);
     this.itemService.removeGroupFromItems(group);
-    this.saveUserData();
+    this.saveUserData(UserDataAction.DELETE_GROUP);
   }
 
   deleteItem(item: ItemJson): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
     this._onItemDeleted.next();
-    this.saveUserData();
+    this.saveUserData(UserDataAction.DELETE_ITEM);
   }
 
   sortItemsByDate(): void {
     this.itemService.sortItemsByDate();
-    this.saveUserData();
+    this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
   sortItemsByTitle(): void {
     this.itemService.sortItemsByTitle();
-    this.saveUserData();
+    this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
   editItem(item: Item, showItemOnCancel: boolean = false): void {
@@ -119,7 +143,7 @@ export class UserDataService {
           result.setEndTimeToDefault();
         }
         this.itemService.updateOrCreateItem(result);
-        this.saveUserData();
+        this.saveUserData(UserDataAction.EDIT_ITEM);
         this._onItemEdited.next(result);
 
         this.dialog.open(ItemViewDialogComponent, {
@@ -152,4 +176,6 @@ export class UserDataService {
       });
     });
   }
+
+  private loadUserDataFromHistory(historyEntry: HistoryEntry): void {}
 }

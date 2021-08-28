@@ -4,7 +4,7 @@ import { Group } from 'src/app/domain/group';
 import { Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
-import { UserDataService } from 'src/app/services/user-data.service';
+import { UserDataAction, UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-group-view',
@@ -24,7 +24,7 @@ export class GroupViewComponent {
 
   dropGroupItem(group: Group, event: CdkDragDrop<Array<Item>>) {
     moveItemInArray(group.itemIds, event.previousIndex, event.currentIndex);
-    this.userDataService.saveUserData();
+    this.userDataService.saveUserData(UserDataAction.REORDER_GROUP_ITEMS);
   }
 
   sortByDate(group: Group) {
@@ -35,7 +35,7 @@ export class GroupViewComponent {
         .getItemById(a)!
         .compareDateTo(this.itemService.getItemById(b)!);
     });
-    this.userDataService.saveUserData();
+    this.userDataService.saveUserData(UserDataAction.SORT_GROUP_ITEMS);
   }
 
   sortByTitle(group: Group) {
@@ -44,6 +44,6 @@ export class GroupViewComponent {
         .getItemById(a)!!
         .title.localeCompare(this.itemService.getItemById(b)!!.title);
     });
-    this.userDataService.saveUserData();
+    this.userDataService.saveUserData(UserDataAction.SORT_GROUP_ITEMS);
   }
 }

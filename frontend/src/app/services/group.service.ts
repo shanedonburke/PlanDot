@@ -10,6 +10,9 @@ export class GroupService {
   private groupMap = new Map<string, Group>();
 
   loadGroups(groups: Array<Group>) {
+    this.groupMap.clear();
+    this.groupOrder = [];
+    
     groups.forEach((group) => {
       this.groupMap.set(group.id, group);
     });

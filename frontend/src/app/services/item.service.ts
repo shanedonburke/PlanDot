@@ -15,6 +15,9 @@ export class ItemService {
   constructor(private groupService: GroupService) {}
 
   loadItems(items: Array<Item>) {
+    this.itemMap.clear();
+    this.itemOrder = [];
+    
     items.forEach((item) => {
       this.itemMap.set(item.id, item);
     });
