@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
+import { HistorySnackBarComponent, HistorySnackBarData } from '../components/history-snack-bar/history-snack-bar.component';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group, GroupJson } from '../domain/group';
@@ -186,11 +187,15 @@ export class UserDataService {
 
   undo(): void {
     if (this.history[this.historyIndex - 1] !== undefined) {
-      this.snackBar.open(
-        `Undid '${ACTION_DESCRIPTIONS[this.getLastAction()]}'`,
-        '',
-        { duration: 2000 }
-      );
+      const snackBarData: HistorySnackBarData = {
+        event: HistorySnackBarComponent.UNDO_EVENT,
+        actionDescription: ACTION_DESCRIPTIONS[this.getLastAction()],
+      };
+      this.snackBar.openFromComponent(HistorySnackBarComponent, {
+        duration: 2000,
+        data: snackBarData,
+      });
+
       this.historyIndex--;
       this.loadHistoryEntry(this.history[this.historyIndex]);
       this.saveUserData(UserDataAction.NONE, false);
@@ -202,11 +207,15 @@ export class UserDataService {
       this.historyIndex++;
       this.loadHistoryEntry(this.history[this.historyIndex]);
       this.saveUserData(UserDataAction.NONE, false);
-      this.snackBar.open(
-        `Redid '${ACTION_DESCRIPTIONS[this.getLastAction()]}'`,
-        '',
-        { duration: 2000 }
-      );
+
+      const snackBarData: HistorySnackBarData = {
+        event: HistorySnackBarComponent.REDO_EVENT,
+        actionDescription: ACTION_DESCRIPTIONS[this.getLastAction()],
+      };
+      this.snackBar.openFromComponent(HistorySnackBarComponent, {
+        duration: 2000,
+        data: snackBarData,
+      });
     }
   }
 
