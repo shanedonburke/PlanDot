@@ -1,0 +1,6 @@
+@use '~@angular/material' as mat;
+@import '~src/theme.scss';
+
+.snack-bar-action {
+  color: mat.get-color-from-palette($green-palette, 500) !important;
+}
