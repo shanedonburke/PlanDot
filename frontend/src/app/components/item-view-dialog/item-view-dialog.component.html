@@ -40,8 +40,11 @@
         <span>{{ getDisplayRepeat() }}</span>
       </div>
     </div>
-    <div *ngIf="data.item.groupIds.length > 0">
-      <b>Groups</b>
+  </ng-container>
+  <div *ngIf="data.item.groupIds.length > 0" class="item-view-detail">
+    <mat-icon>category</mat-icon>
+    <div>
+      <div><b>Groups</b></div>
       <div class="item-view-groups">
         <app-group-name-chip
           *ngFor="let groupId of data.item.groupIds"
@@ -50,7 +53,7 @@
         </app-group-name-chip>
       </div>
     </div>
-  </ng-container>
+  </div>
   <div class="item-view-controls">
     <button
       (click)="dialogRef.close()"
