@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { merge } from 'rxjs';
 import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
@@ -27,15 +28,12 @@ export class DayViewComponent implements OnInit {
     public readonly itemService: ItemService,
     public readonly dateService: DateService,
     private readonly userDataService: UserDataService,
-    private readonly dialog: MatDialog,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {
     this.update();
-    this.userDataService.onUserDataLoaded.subscribe(() => this.update());
-    this.userDataService.onItemDeleted.subscribe(() => this.update());
-    this.userDataService.onItemEdited.subscribe(() => this.update());
-    this.dateService.onDateChanged.subscribe(() => this.update());
+    this.userDataService.onUserDataChanged.subscribe(() => this.update());
   }
 
   getHourString(hour: number): string {
@@ -60,9 +58,7 @@ export class DayViewComponent implements OnInit {
     for (let i = 0; i < this.numColumns; i++) {
       this.columns.push([]);
     }
-    for (const item of this.itemService.getItemsByDate(
-      this.dateService.date
-    )) {
+    for (const item of this.itemService.getItemsByDate(this.dateService.date)) {
       if (!item.startTimeEnabled) {
         this.timelessItems.push(item);
       } else {

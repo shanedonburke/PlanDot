@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { merge } from 'rxjs';
 import { Item, ItemJson } from '../domain/item';
 import { isValidDate } from '../util/dates';
 import { GroupService } from './group.service';
@@ -28,10 +29,7 @@ export class SearchService {
     userDataService: UserDataService,
   ) {
     this.filteredItems = this.itemService.getItems();
-
-    userDataService.onUserDataLoaded.subscribe(() => this.update());
-    userDataService.onItemEdited.subscribe(() => this.update());
-    userDataService.onItemDeleted.subscribe(() => this.update());
+    userDataService.onUserDataChanged.subscribe(() => this.update());
   }
 
   update() {

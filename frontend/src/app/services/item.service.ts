@@ -1,3 +1,4 @@
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
 import { Item, ItemJson, Repeat } from '../domain/item';
@@ -131,5 +132,9 @@ export class ItemService {
     return item.groupIds.length === 0
       ? 'white'
       : this.groupService.getGroupById(item.groupIds[0])!!.getTextColor();
+  }
+
+  handleItemListDragDrop(event: CdkDragDrop<Array<Item>>): void {
+    moveItemInArray(this.itemOrder, event.previousIndex, event.currentIndex);
   }
 }

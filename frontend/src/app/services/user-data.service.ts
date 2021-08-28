@@ -1,9 +1,14 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
-import { HistorySnackBarComponent, HistorySnackBarData } from '../components/history-snack-bar/history-snack-bar.component';
+import { Observable, of, Subject } from 'rxjs';
+import { mergeAll } from 'rxjs/operators';
+import {
+  HistorySnackBarComponent,
+  HistorySnackBarData,
+} from '../components/history-snack-bar/history-snack-bar.component';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group, GroupJson } from '../domain/group';
@@ -27,6 +32,7 @@ export enum UserDataAction {
   SORT_GROUP_ITEMS,
   DELETE_GROUP,
   EDIT_ITEM,
+  REORDER_ITEMS,
   SORT_ITEMS,
   DELETE_ITEM,
   NONE,
@@ -42,6 +48,7 @@ const ACTION_DESCRIPTIONS: { [key in UserDataAction]: string } = {
   [UserDataAction.SORT_GROUP_ITEMS]: 'Sort group items',
   [UserDataAction.DELETE_GROUP]: 'Delete group',
   [UserDataAction.EDIT_ITEM]: 'Edit item',
+  [UserDataAction.REORDER_ITEMS]: 'Reorder items',
   [UserDataAction.SORT_ITEMS]: 'Sort items',
   [UserDataAction.DELETE_ITEM]: 'Delete item',
   [UserDataAction.NONE]: '',
@@ -51,21 +58,21 @@ const ACTION_DESCRIPTIONS: { [key in UserDataAction]: string } = {
   providedIn: 'root',
 })
 export class UserDataService {
-  get onUserDataLoaded(): Observable<void> {
-    return this._onUserDataLoaded.asObservable();
+  get onUserDataChanged(): Observable<void> {
+    return of(
+      this.onUserDataLoaded,
+      this.onItemEdited,
+      this.onItemDeleted,
+      this.onItemListChanged,
+      this.onHistoryChanged,
+    ).pipe(mergeAll())
   }
 
-  get onItemDeleted(): Observable<Item> {
-    return this._onItemDeleted.asObservable();
-  }
-
-  get onItemEdited(): Observable<Item> {
-    return this._onItemEdited.asObservable();
-  }
-
-  private _onUserDataLoaded = new Subject<void>();
-  private _onItemDeleted = new Subject<Item>();
-  private _onItemEdited = new Subject<Item>();
+  private onUserDataLoaded = new Subject<void>();
+  private onItemDeleted = new Subject<void>();
+  private onItemEdited = new Subject<void>();
+  private onItemListChanged = new Subject<void>();
+  private onHistoryChanged = new Subject<void>();
 
   private history: Array<HistoryEntry> = [];
   private historyIndex: number = 0;
@@ -115,7 +122,7 @@ export class UserDataService {
               this.itemService.getItems()
             )
           );
-          this._onUserDataLoaded.next();
+          this.onUserDataLoaded.next();
         } else {
           this.history.push(new HistoryEntry(UserDataAction.NONE));
         }
@@ -131,7 +138,7 @@ export class UserDataService {
   deleteItem(item: ItemJson): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
-    this._onItemDeleted.next();
+    this.onItemDeleted.next();
     this.saveUserData(UserDataAction.DELETE_ITEM);
   }
 
@@ -164,7 +171,7 @@ export class UserDataService {
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData(UserDataAction.EDIT_ITEM);
-        this._onItemEdited.next(result);
+        this.onItemEdited.next();
 
         this.dialog.open(ItemViewDialogComponent, {
           data: { item: result },
@@ -199,6 +206,7 @@ export class UserDataService {
       this.historyIndex--;
       this.loadHistoryEntry(this.history[this.historyIndex]);
       this.saveUserData(UserDataAction.NONE, false);
+      this.onHistoryChanged.next();
     }
   }
 
@@ -216,7 +224,14 @@ export class UserDataService {
         duration: 2000,
         data: snackBarData,
       });
+      this.onHistoryChanged.next();
     }
+  }
+
+  handleItemListDragDrop(event: CdkDragDrop<Array<Item>>): void {
+    this.itemService.handleItemListDragDrop(event);
+    this.onItemListChanged.next();
+    this.saveUserData(UserDataAction.REORDER_ITEMS);
   }
 
   private getLastAction(): UserDataAction {

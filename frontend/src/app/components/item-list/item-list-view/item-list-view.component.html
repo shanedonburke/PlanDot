@@ -1,6 +1,14 @@
-<div class="item-list">
-  <ng-container *ngFor="let item of searchService.filteredItems">
+<div
+  class="item-list"
+  cdkDropList
+  (cdkDropListDropped)="userDataService.handleItemListDragDrop($event)"
+>
+  <div
+    *ngFor="let item of searchService.filteredItems"
+    cdkDrag
+    cdkDragLockAxis="y"
+  >
     <app-item-card [item]="item"></app-item-card>
     <mat-divider></mat-divider>
-  </ng-container>
+  </div>
 </div>
