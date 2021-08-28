@@ -3,6 +3,7 @@ import { Item, ItemJson } from '../domain/item';
 import { isValidDate } from '../util/dates';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
+import { UserDataService } from './user-data.service';
 
 interface ItemFilter {
   withDate: boolean;
@@ -23,9 +24,14 @@ export class SearchService {
 
   constructor(
     private readonly itemService: ItemService,
-    private readonly groupService: GroupService
+    private readonly groupService: GroupService,
+    userDataService: UserDataService,
   ) {
     this.filteredItems = this.itemService.getItems();
+
+    userDataService.onUserDataLoaded.subscribe(() => this.update());
+    userDataService.onItemEdited.subscribe(() => this.update());
+    userDataService.onItemDeleted.subscribe(() => this.update());
   }
 
   update() {
