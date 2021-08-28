@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
 import { Group, GroupJson } from '../domain/group';
+import { HistoryEntry } from '../domain/history-entry';
 import { Item, ItemJson } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
@@ -26,17 +28,23 @@ export enum UserDataAction {
   EDIT_ITEM,
   SORT_ITEMS,
   DELETE_ITEM,
-}
-
-interface HistoryEntry {
-  items: ReadonlyArray<Item>;
-  groups: ReadonlyArray<Group>;
-  action: UserDataAction;
+  NONE,
 }
 
 function isUserDataJson(obj: any): obj is UserDataJson {
   return obj && typeof obj === 'object' && 'groups' in obj;
 }
+
+const ACTION_DESCRIPTIONS: { [key in UserDataAction]: string } = {
+  [UserDataAction.EDIT_GROUP]: 'Edit group',
+  [UserDataAction.REORDER_GROUP_ITEMS]: 'Reorder group items',
+  [UserDataAction.SORT_GROUP_ITEMS]: 'Sort group items',
+  [UserDataAction.DELETE_GROUP]: 'Delete group',
+  [UserDataAction.EDIT_ITEM]: 'Edit item',
+  [UserDataAction.SORT_ITEMS]: 'Sort items',
+  [UserDataAction.DELETE_ITEM]: 'Delete item',
+  [UserDataAction.NONE]: '',
+};
 
 @Injectable({
   providedIn: 'root',
@@ -59,25 +67,27 @@ export class UserDataService {
   private _onItemEdited = new Subject<Item>();
 
   private history: Array<HistoryEntry> = [];
+  private historyIndex: number = 0;
 
   constructor(
     private readonly httpClient: HttpClient,
     private readonly groupService: GroupService,
     private readonly itemService: ItemService,
-    private readonly dialog: MatDialog
+    private readonly dialog: MatDialog,
+    private readonly snackBar: MatSnackBar
   ) {}
 
-  saveUserData(action: UserDataAction): void {
+  saveUserData(action: UserDataAction, pushToHistory: boolean = true): void {
     const groups = this.groupService.getGroups();
     const items = this.itemService.getItems();
     this.validateGroups(groups);
     this.validateItems(items);
 
-    this.history.push({
-      groups,
-      items,
-      action,
-    });
+    if (pushToHistory) {
+      this.historyIndex++;
+      this.history.splice(this.historyIndex);
+      this.history.push(new HistoryEntry(action, groups, items));
+    }
 
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
@@ -97,7 +107,16 @@ export class UserDataService {
               return new Item({ ...dto, date: new Date(dto.date) });
             })
           );
+          this.history.push(
+            new HistoryEntry(
+              UserDataAction.NONE,
+              this.groupService.getGroups(),
+              this.itemService.getItems()
+            )
+          );
           this._onUserDataLoaded.next();
+        } else {
+          this.history.push(new HistoryEntry(UserDataAction.NONE));
         }
       });
   }
@@ -157,6 +176,44 @@ export class UserDataService {
     });
   }
 
+  canUndo(): boolean {
+    return this.history[this.historyIndex - 1] !== undefined;
+  }
+
+  canRedo(): boolean {
+    return this.history[this.historyIndex + 1] !== undefined;
+  }
+
+  undo(): void {
+    if (this.history[this.historyIndex - 1] !== undefined) {
+      this.snackBar.open(
+        `Undid '${ACTION_DESCRIPTIONS[this.getLastAction()]}'`,
+        '',
+        { duration: 2000 }
+      );
+      this.historyIndex--;
+      this.loadHistoryEntry(this.history[this.historyIndex]);
+      this.saveUserData(UserDataAction.NONE, false);
+    }
+  }
+
+  redo(): void {
+    if (this.history[this.historyIndex + 1] !== undefined) {
+      this.historyIndex++;
+      this.loadHistoryEntry(this.history[this.historyIndex]);
+      this.saveUserData(UserDataAction.NONE, false);
+      this.snackBar.open(
+        `Redid '${ACTION_DESCRIPTIONS[this.getLastAction()]}'`,
+        '',
+        { duration: 2000 }
+      );
+    }
+  }
+
+  private getLastAction(): UserDataAction {
+    return this.history[this.historyIndex]?.action;
+  }
+
   private validateGroups(groups: ReadonlyArray<Group>): void {
     groups.forEach((group) => {
       group.itemIds.forEach((itemId, i) => {
@@ -177,5 +234,8 @@ export class UserDataService {
     });
   }
 
-  private loadUserDataFromHistory(historyEntry: HistoryEntry): void {}
+  private loadHistoryEntry(historyEntry: HistoryEntry): void {
+    this.groupService.loadGroups(historyEntry.groups as Group[]);
+    this.itemService.loadItems(historyEntry.items as Item[]);
+  }
 }

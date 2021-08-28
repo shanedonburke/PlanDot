@@ -15,7 +15,7 @@ export class GroupViewComponent {
   constructor(
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
-    public readonly userDataService: UserDataService
+    public readonly userDataService: UserDataService,
   ) {}
 
   addNewItemToGroup(group: Group) {
@@ -28,8 +28,6 @@ export class GroupViewComponent {
   }
 
   sortByDate(group: Group) {
-    console.log(this.groupService.getGroups());
-    console.log(this.itemService.getItems());
     group.itemIds.sort((a, b) => {
       return this.itemService
         .getItemById(a)!

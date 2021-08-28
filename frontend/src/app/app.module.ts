@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -40,6 +41,7 @@ const routes = [{ path: '**', component: AppComponent }];
     MatIconModule,
     MatDialogModule,
     MatSidenavModule,
+    MatSnackBarModule,
     MatMenuModule,
     GroupEditDialogModule,
     ItemEditDialogModule,

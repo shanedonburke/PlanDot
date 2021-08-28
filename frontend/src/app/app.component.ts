@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     public readonly userAuthService: UserAuthService,
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,
-    private readonly componentFactoryResolver: ComponentFactoryResolver
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
   ) {
     this.userDataService.loadUserData();
   }
