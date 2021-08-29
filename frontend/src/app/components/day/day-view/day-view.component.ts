@@ -85,12 +85,12 @@ export class DayViewComponent implements OnInit {
 
   private placeItemInColumn(item: Item): void {
     for (const col of this.columns) {
-      const startTimeInMin = item.getStartTimeInMinutes();
+      const startTimeInMin = Math.round(item.getStartTimeInMinutes() / 2);
       if (col.length === 0 || col[col.length - 1].rowEnd <= startTimeInMin) {
         col.push({
           item,
           rowStart: startTimeInMin,
-          rowEnd: item.getEndTimeInMinutes(),
+          rowEnd: Math.round(item.getEndTimeInMinutes() / 2),
         });
         break;
       }

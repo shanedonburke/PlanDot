@@ -142,6 +142,9 @@ export class Item implements ItemJson {
       this.endTime.hours = 11;
       this.endTime.minutes = 59;
       this.endTime.period = TimePeriod.PM;
+    } else if (this.startTime.hours === 12) {
+      this.endTime.hours = 1;
+      this.endTime.period = this.startTime.period;
     } else {
       this.endTime.hours = this.startTime.hours + 1;
       this.endTime.period = this.startTime.period;
