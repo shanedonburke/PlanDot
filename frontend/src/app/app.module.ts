@@ -28,6 +28,10 @@ import { ViewDirective } from './directives/view.directive';
 
 const routes = [{ path: '**', component: AppComponent }];
 
+if (!("scrollBehavior" in document.documentElement.style)) {
+  import("scroll-behavior-polyfill");
+}
+
 @NgModule({
   declarations: [AppComponent, ViewDirective, ToolbarDirective],
   imports: [
