@@ -3,11 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of, Subject } from 'rxjs';
-import { mergeAll } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import {
   HistorySnackBarComponent,
-  HistorySnackBarData,
+  HistorySnackBarData
 } from '../components/history-snack-bar/history-snack-bar.component';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
@@ -59,20 +58,10 @@ const ACTION_DESCRIPTIONS: { [key in UserDataAction]: string } = {
 })
 export class UserDataService {
   get onUserDataChanged(): Observable<void> {
-    return of(
-      this.onUserDataLoaded,
-      this.onItemEdited,
-      this.onItemDeleted,
-      this.onItemListChanged,
-      this.onHistoryChanged,
-    ).pipe(mergeAll())
+    return this._onUserDataChanged.asObservable();
   }
 
-  private onUserDataLoaded = new Subject<void>();
-  private onItemDeleted = new Subject<void>();
-  private onItemEdited = new Subject<void>();
-  private onItemListChanged = new Subject<void>();
-  private onHistoryChanged = new Subject<void>();
+  private _onUserDataChanged = new Subject<void>();
 
   private history: Array<HistoryEntry> = [];
   private historyIndex: number = 0;
@@ -96,6 +85,7 @@ export class UserDataService {
       this.history.splice(this.historyIndex);
       this.history.push(new HistoryEntry(action, groups, items));
     }
+    this._onUserDataChanged.next();
 
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
@@ -122,7 +112,6 @@ export class UserDataService {
               this.itemService.getItems()
             )
           );
-          this.onUserDataLoaded.next();
         } else {
           this.history.push(new HistoryEntry(UserDataAction.NONE));
         }
@@ -138,7 +127,6 @@ export class UserDataService {
   deleteItem(item: Item): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
-    this.onItemDeleted.next();
     this.saveUserData(UserDataAction.DELETE_ITEM);
   }
 
@@ -171,7 +159,6 @@ export class UserDataService {
         }
         this.itemService.updateOrCreateItem(result);
         this.saveUserData(UserDataAction.EDIT_ITEM);
-        this.onItemEdited.next();
 
         this.dialog.open(ItemViewDialogComponent, {
           data: { item: result },
@@ -206,7 +193,6 @@ export class UserDataService {
       this.historyIndex--;
       this.loadHistoryEntry(this.history[this.historyIndex]);
       this.saveUserData(UserDataAction.NONE, false);
-      this.onHistoryChanged.next();
     }
   }
 
@@ -224,13 +210,11 @@ export class UserDataService {
         duration: 2000,
         data: snackBarData,
       });
-      this.onHistoryChanged.next();
     }
   }
 
   handleItemListDragDrop(event: CdkDragDrop<Array<Item>>): void {
     this.itemService.handleItemListDragDrop(event);
-    this.onItemListChanged.next();
     this.saveUserData(UserDataAction.REORDER_ITEMS);
   }
 
