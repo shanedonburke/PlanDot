@@ -1,3 +1,6 @@
+@use '~@angular/material' as mat;
+@import '~src/theme.scss';
+
 :host {
   height: 100%;
   width: 100%;
@@ -7,6 +10,29 @@
   background-color: #0000001f;
   box-sizing: border-box;
   height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
   width: 100%;
+}
+
+.item-list-item {
+  width: 100%;
+  display: flex;
+  overflow-x: auto;
+  background-color: red;
+}
+
+.item-list-item-content {
+  min-width: 100%;
+  border-bottom: 1px solid #222;
+}
+
+.item-list-item-delete {
+  min-width: 50px;
+  min-height: 100%;
+  background-color: mat.get-color-from-palette($mat-warn, 500);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

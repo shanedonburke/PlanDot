@@ -135,7 +135,7 @@ export class UserDataService {
     this.saveUserData(UserDataAction.DELETE_GROUP);
   }
 
-  deleteItem(item: ItemJson): void {
+  deleteItem(item: Item): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
     this.onItemDeleted.next();

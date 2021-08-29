@@ -7,8 +7,16 @@
     *ngFor="let item of searchService.filteredItems"
     cdkDrag
     cdkDragLockAxis="y"
+    class="item-list-item"
+    swipeReveal
   >
-    <app-item-card [item]="item"></app-item-card>
-    <mat-divider></mat-divider>
+    <div class="item-list-item-content">
+      <app-item-card [item]="item" style="border-bottom-color: #222">
+        <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
+      </app-item-card>
+    </div>
+    <div class="item-list-item-delete" (click)="userDataService.deleteItem(item)">
+      <mat-icon>delete</mat-icon>
+    </div>
   </div>
 </div>
