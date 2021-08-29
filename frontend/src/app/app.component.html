@@ -5,20 +5,6 @@
         <span>plan.</span>
         <div [style.flexGrow]="1"></div>
         <button
-          mat-icon-button
-          [disabled]="!userDataService.canUndo()"
-          (click)="userDataService.undo()"
-        >
-          <mat-icon>undo</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          [disabled]="!userDataService.canRedo()"
-          (click)="userDataService.redo()"
-        >
-          <mat-icon>redo</mat-icon>
-        </button>
-        <button
           *ngIf="!userAuthService.hasAuth()"
           (click)="userAuthService.login()"
           mat-raised-button
@@ -31,19 +17,31 @@
           />
           Login
         </button>
-        <button
-          mat-icon-button
-          *ngIf="userAuthService.hasAuth()"
-          [matMenuTriggerFor]="hamburgerMenu"
-        >
-          <mat-icon>menu</mat-icon>
-        </button>
-        <mat-menu #hamburgerMenu="matMenu" yPosition="below">
-          <button (click)="userAuthService.logout()" mat-menu-item>
-            <mat-icon>logout</mat-icon>
-            <span>Logout</span>
+        <ng-container *ngIf="userAuthService.hasAuth()">
+          <button
+            mat-icon-button
+            [disabled]="!userDataService.canUndo()"
+            (click)="userDataService.undo()"
+          >
+            <mat-icon>undo</mat-icon>
           </button>
-        </mat-menu>
+          <button
+            mat-icon-button
+            [disabled]="!userDataService.canRedo()"
+            (click)="userDataService.redo()"
+          >
+            <mat-icon>redo</mat-icon>
+          </button>
+          <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <mat-menu #hamburgerMenu="matMenu" yPosition="below">
+            <button (click)="userAuthService.logout()" mat-menu-item>
+              <mat-icon>logout</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </ng-container>
       </div>
     </mat-toolbar-row>
   </mat-toolbar>

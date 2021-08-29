@@ -1,6 +1,8 @@
 @use '~@angular/material' as mat;
 @import '~src/theme.scss';
 
+$warn-color: mat.get-color-from-palette($mat-warn, 500);
+
 :host {
   height: 100%;
   width: 100%;
@@ -19,7 +21,7 @@
   width: 100%;
   display: flex;
   overflow-x: auto;
-  background-color: red;
+  background-color: $warn-color;
 }
 
 .item-list-item-content {
@@ -30,7 +32,7 @@
 .item-list-item-delete {
   min-width: 50px;
   min-height: 100%;
-  background-color: mat.get-color-from-palette($mat-warn, 500);
+  background-color: $warn-color;
   color: white;
   display: flex;
   justify-content: center;
