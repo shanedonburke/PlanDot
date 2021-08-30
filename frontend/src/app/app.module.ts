@@ -28,6 +28,7 @@ import { ViewDirective } from './directives/view.directive';
 
 const routes = [{ path: '**', component: AppComponent }];
 
+// Polyfill for { scroll-behavior: 'smooth' } on element.scrollTo(..)
 if (!("scrollBehavior" in document.documentElement.style)) {
   import("scroll-behavior-polyfill");
 }

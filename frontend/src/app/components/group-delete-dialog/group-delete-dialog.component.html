@@ -1,0 +1,34 @@
+<div class="group-delete-header">
+  <span class="group-delete-header-text">Deleting group: </span
+  ><app-group-name-chip [group]="data.group"></app-group-name-chip>
+</div>
+<div class="group-delete-item-prompt">
+  This group contains {{ data.group.itemIds.length }} item(s). What should
+  happen to them?
+</div>
+<mat-radio-group [(ngModel)]="itemAction">
+  <mat-radio-button *ngFor="let action of ITEM_ACTIONS" [value]="action">{{
+    action
+  }}</mat-radio-button>
+</mat-radio-group>
+<div *ngIf="shouldShowReplacementGroupForm">
+  <div>
+    You may (optionally) select another existing group to replace the deleted
+    one for all affected items.
+  </div>
+  <mat-form-field appearance="fill" class="replacement-group-select">
+    <mat-label>Select new group</mat-label>
+    <mat-select [(value)]="replacementGroup">
+      <mat-option>None</mat-option>
+      <mat-option
+        *ngFor="let group of getReplacementGroupOptions()"
+        [value]="group"
+        ><app-group-name-chip [group]="group"></app-group-name-chip
+      ></mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+<div class="group-delete-controls">
+  <button mat-button (click)="dialogRef.close()">Cancel</button>
+  <button mat-raised-button color="warn" (click)="deleteGroup()">Delete</button>
+</div>

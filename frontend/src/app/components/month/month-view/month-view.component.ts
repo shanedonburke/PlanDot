@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Calendar } from 'calendar';
-import { ItemJson } from 'src/app/domain/item';
+import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
@@ -16,7 +16,7 @@ export class MonthViewComponent {
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
   private calendar = new Calendar();
-  private cachedDateItems = new Map<Date, ItemJson[]>();
+  private cachedDateItems = new Map<Date, Item[]>();
 
   constructor(
     public readonly itemService: ItemService,
@@ -45,7 +45,7 @@ export class MonthViewComponent {
     return MONTHS[this.dateService.month] + ' ' + this.dateService.year;
   }
 
-  getItemsByDate(date: Date): ItemJson[] {
+  getItemsByDate(date: Date): Item[] {
     if (this.cachedDateItems.has(date)) {
       return this.cachedDateItems.get(date)!!;
     }

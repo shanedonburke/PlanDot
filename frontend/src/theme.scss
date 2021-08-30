@@ -92,3 +92,4 @@ $mat-theme: mat.define-light-theme((
 @include mat.toolbar-theme($mat-theme);
 @include mat.icon-theme($mat-theme);
 @include mat.checkbox-theme($mat-theme);
+@include mat.radio-theme($mat-theme);

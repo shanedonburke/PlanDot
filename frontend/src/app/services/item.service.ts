@@ -1,7 +1,7 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
-import { Item, ItemJson, Repeat } from '../domain/item';
+import { Item, Repeat } from '../domain/item';
 import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';
 import { GroupService } from './group.service';
@@ -73,9 +73,38 @@ export class ItemService {
     });
   }
 
-  deleteItem(item: ItemJson): void {
+  deleteItem(item: Item): void {
     this.itemMap.delete(item.id);
     this.itemOrder.splice(this.itemOrder.indexOf(item.id), 1);
+  }
+
+  deleteItemsByGroup(group: Group): void {
+    this.getItems().forEach((item) => {
+      if (item.groupIds.includes(group.id)) {
+        this.deleteItem(item);
+      }
+    });
+  }
+
+  deleteItemsWithSingleGroup(group: Group): void {
+    this.getItems().forEach((item) => {
+      if (item.groupIds.length === 1 && item.groupIds[0] === group.id) {
+        this.deleteItem(item);
+      }
+    });
+  }
+
+  removeGroupFromItems(group: Group, replacementGroup: Group | null = null): void {
+    this.getItems().forEach((item) => {
+      const groupIdIndex = item.groupIds.indexOf(group.id);
+      if (groupIdIndex !== -1) {
+        if (replacementGroup !== null) {
+          item.groupIds.splice(groupIdIndex, 1, replacementGroup.id);
+        } else {
+          item.groupIds.splice(groupIdIndex, 1);
+        }
+      }
+    });
   }
 
   sortItemsByDate(): void {
@@ -106,15 +135,6 @@ export class ItemService {
     );
   }
 
-  removeGroupFromItems(group: Group): void {
-    this.getItems().forEach((item) => {
-      const groupIdIndex = item.groupIds.indexOf(group.id);
-      if (groupIdIndex !== -1) {
-        item.groupIds.splice(groupIdIndex, 1);
-      }
-    });
-  }
-
   getItemsByDate(date: Date): Array<Item> {
     date.setHours(0, 0, 0, 0);
     return this.getItems()
@@ -122,13 +142,13 @@ export class ItemService {
       .sort((a, b) => a.compareDateTo(b));
   }
 
-  getItemBackgroundColor(item: ItemJson): string {
+  getItemBackgroundColor(item: Item): string {
     return item.groupIds.length === 0
       ? '#444444'
       : this.groupService.getGroupById(item.groupIds[0])?.color ?? '#444444';
   }
 
-  getItemTextColor(item: ItemJson): string {
+  getItemTextColor(item: Item): string {
     return item.groupIds.length === 0
       ? 'white'
       : this.groupService.getGroupById(item.groupIds[0])!!.getTextColor();

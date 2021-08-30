@@ -4,6 +4,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { MatIconModule } from "@angular/material/icon";
+import { GroupDeleteDialogModule } from "../../group-delete-dialog/group-delete-dialog.module";
 import { GroupNameChipModule } from "../../group-name-chip/group-name-chip.module";
 import { GroupToolbarComponent } from "./group-toolbar.component";
 
@@ -17,6 +18,7 @@ import { GroupToolbarComponent } from "./group-toolbar.component";
     MatDialogModule,
     MatDividerModule,
     MatButtonModule,
+    GroupDeleteDialogModule,
   ]
 })
 export class GroupToolbarModule {}

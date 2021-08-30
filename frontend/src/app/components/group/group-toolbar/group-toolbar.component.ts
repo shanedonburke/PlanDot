@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataAction, UserDataService } from 'src/app/services/user-data.service';
+import { GroupDeleteDialogComponent } from '../../group-delete-dialog/group-delete-dialog.component';
 import { GroupEditDialogComponent } from '../../group-edit-dialog/group-edit-dialog.component';
 
 @Component({
@@ -15,16 +16,16 @@ export class GroupToolbarComponent {
   isGroupEditDialogOpen = false;
 
   constructor(
-    public readonly userDataService: UserDataService,
     public readonly groupService: GroupService,
+    private readonly userDataService: UserDataService,
     private readonly dialog: MatDialog,
   ) {}
 
-  addGroup() {
+  addGroup(): void {
     this.editGroup(new Group());
   }
 
-  editGroup(group: Group) {
+  editGroup(group: Group): void {
     this.isGroupEditDialogOpen = true;
     const dialogRef = this.dialog.open(GroupEditDialogComponent, {
       data: { group: group.getDeepCopy() },
@@ -40,13 +41,23 @@ export class GroupToolbarComponent {
     });
   }
 
-  toggleGroupsMenu(event: MouseEvent) {
+  deleteGroup(group: Group): void {
+    if (group.itemIds.length > 0) {
+      this.dialog.open(GroupDeleteDialogComponent, {
+        data: { group },
+      });   
+    } else {
+      this.userDataService.deleteGroup(group);
+    }
+  }
+
+  toggleGroupsMenu(event: MouseEvent): void {
     this.isGroupsMenuVisible = !this.isGroupsMenuVisible;
     event.stopPropagation();
   }
 
   @HostListener('document:click', ['$event'])
-  closeGroupsMenu() {
+  closeGroupsMenu(): void {
     if (!this.isGroupEditDialogOpen) {
       this.isGroupsMenuVisible = false;
     }

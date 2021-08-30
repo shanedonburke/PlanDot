@@ -1,0 +1,34 @@
+.group-delete-header {
+  display: flex;
+  align-items: center;
+}
+
+.group-delete-header-text {
+  margin-right: 10px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.group-delete-item-prompt {
+  margin: 10px 0;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px;
+
+  mat-radio-button {
+    margin: 10px 5px;
+  }
+}
+
+.replacement-group-select {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.group-delete-controls {
+  display: flex;
+  justify-content: space-between;
+}

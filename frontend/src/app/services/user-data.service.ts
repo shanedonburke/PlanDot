@@ -6,7 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, Subject } from 'rxjs';
 import {
   HistorySnackBarComponent,
-  HistorySnackBarData
+  HistorySnackBarData,
 } from '../components/history-snack-bar/history-snack-bar.component';
 import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
 import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
@@ -35,6 +35,12 @@ export enum UserDataAction {
   SORT_ITEMS,
   DELETE_ITEM,
   NONE,
+}
+
+export enum GroupDeletionItemAction {
+  DELETE_SINGLE_GROUP_ITEMS = 'Delete items with no other groups',
+  DELETE_ALL_ITEMS = 'Delete all items',
+  KEEP_ALL_ITEMS = 'Keep all items',
 }
 
 function isUserDataJson(obj: any): obj is UserDataJson {
@@ -119,9 +125,26 @@ export class UserDataService {
       });
   }
 
-  deleteGroup(group: Group): void {
+  deleteGroup(
+    group: Group,
+    itemAction: GroupDeletionItemAction = GroupDeletionItemAction.KEEP_ALL_ITEMS,
+    replacementGroup: Group | null = null
+  ): void {    
+    switch (itemAction) {
+      case GroupDeletionItemAction.DELETE_SINGLE_GROUP_ITEMS:
+        this.itemService.deleteItemsWithSingleGroup(group);
+        break;
+      case GroupDeletionItemAction.DELETE_ALL_ITEMS:
+        this.itemService.deleteItemsByGroup(group);
+        break;
+      case GroupDeletionItemAction.KEEP_ALL_ITEMS:
+        this.itemService.removeGroupFromItems(group, replacementGroup);
+        if (replacementGroup !== null) {
+          replacementGroup.itemIds.push(...group.itemIds);
+        }
+        break;
+    }
     this.groupService.deleteGroup(group);
-    this.itemService.removeGroupFromItems(group);
     this.saveUserData(UserDataAction.DELETE_GROUP);
   }
 
