@@ -13,11 +13,6 @@ export class SwipeRevealDirective {
     this.renderer.addClass(this.element.nativeElement, 'disable-scrollbar');
   }
 
-  @HostListener('mousewheel', ['$event'])
-  onMouseWheel(event: MouseEvent) {
-    event.preventDefault();
-  }
-
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     this.lastTouchX = event.changedTouches[0].clientX;

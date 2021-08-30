@@ -20,7 +20,7 @@ $warn-color: mat.get-color-from-palette($mat-warn, 500);
 .item-list-item {
   width: 100%;
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden;
   background-color: $warn-color;
 }
 
