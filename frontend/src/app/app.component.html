@@ -18,20 +18,6 @@
           Login
         </button>
         <ng-container *ngIf="userAuthService.hasAuth()">
-          <button
-            mat-icon-button
-            [disabled]="!userDataService.canUndo()"
-            (click)="userDataService.undo()"
-          >
-            <mat-icon>undo</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            [disabled]="!userDataService.canRedo()"
-            (click)="userDataService.redo()"
-          >
-            <mat-icon>redo</mat-icon>
-          </button>
           <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
             <mat-icon>menu</mat-icon>
           </button>
@@ -87,6 +73,21 @@
         [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
       >
         <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
+      </button>
+      <div style="flex-grow: 1"></div>
+      <button
+        mat-icon-button
+        [disabled]="!userDataService.canUndo()"
+        (click)="userDataService.undo()"
+      >
+        <mat-icon>undo</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        [disabled]="!userDataService.canRedo()"
+        (click)="userDataService.redo()"
+      >
+        <mat-icon>redo</mat-icon>
       </button>
     </div>
     <ng-template viewHost></ng-template>
