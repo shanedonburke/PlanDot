@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { isView, View } from '../domain/view';
 
 @Injectable({
@@ -10,16 +10,27 @@ export class ViewService {
   private viewLoader: ((view: View) => void) | null = null;
 
   constructor(private router: Router, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe((params) => {
-      if (params.view) {
-        if (isView(params.view)) {
-          this.view = params.view;
+    // this.route.queryParams.subscribe((params) => {
+    //   if (params.view) {
+    //     if (isView(params.view)) {
+    //       this.view = params.view;
+    //       this.viewLoader && this.viewLoader(this.view);
+    //     } else {
+    //       throw new Error(`Invalid view: ${params.view}`);
+    //     }
+    //   } else {
+    //     this.goToGroupView();
+    //   }
+    // });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const { view } = this.route.snapshot.queryParams;
+        if (isView(view)) {
+          this.view = view;
           this.viewLoader && this.viewLoader(this.view);
         } else {
-          throw new Error(`Invalid view: ${params.view}`);
+          this.goToGroupView();
         }
-      } else {
-        this.goToGroupView();
       }
     });
   }

@@ -10,7 +10,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 export class ItemListViewComponent implements OnInit {
   constructor(
     public readonly searchService: SearchService,
-    public readonly userDataService: UserDataService
+    public readonly userDataService: UserDataService,
   ) {}
 
   ngOnInit() {

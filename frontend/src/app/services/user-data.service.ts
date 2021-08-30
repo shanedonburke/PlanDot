@@ -112,6 +112,7 @@ export class UserDataService {
               this.itemService.getItems()
             )
           );
+          this._onUserDataChanged.next();
         } else {
           this.history.push(new HistoryEntry(UserDataAction.NONE));
         }
