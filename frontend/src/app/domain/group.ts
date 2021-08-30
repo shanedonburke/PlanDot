@@ -15,11 +15,14 @@ export interface GroupJson {
 export class Group implements GroupJson {
   id = v4();
   name = 'New group';
-  color = '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+  color = Group.generateColor();
   itemIds: Array<string> = [];
 
   constructor(groupJson: Partial<GroupJson> = {}) {
     Object.assign(this, groupJson);
+    while (this.color === '#ffffff') {
+      this.color = Group.generateColor();
+    }
   }
 
   getTextColor(): string {
@@ -33,5 +36,9 @@ export class Group implements GroupJson {
 
   getDeepCopy(): Group {
     return new Group(deepCopy(this));
+  }
+
+  private static generateColor(): string {
+    return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
   }
 }

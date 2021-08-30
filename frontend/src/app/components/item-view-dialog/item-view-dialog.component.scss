@@ -57,11 +57,12 @@
 
 .item-view-groups {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   margin-top: 5px;
 
   app-group-name-chip {
-    margin-right: 5px;
+    margin: 0 5px 5px 0;
   }
 }
 
