@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { merge } from 'rxjs';
-import { Item, ItemJson } from '../domain/item';
+import { Item } from '../domain/item';
 import { isValidDate } from '../util/dates';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
@@ -26,7 +25,7 @@ export class SearchService {
   constructor(
     private readonly itemService: ItemService,
     private readonly groupService: GroupService,
-    userDataService: UserDataService,
+    userDataService: UserDataService
   ) {
     this.filteredItems = this.itemService.getItems();
     userDataService.onUserDataChanged.subscribe(() => this.update());
@@ -41,19 +40,23 @@ export class SearchService {
         return false;
       }
 
-      const groupNames = this.groupService.getItemGroups(item).map((group) => group.name.toLowerCase());
+      const groupNames = this.groupService
+        .getItemGroups(item)
+        .map((group) => group.name.toLowerCase());
 
       let doesDateMatch = false;
       if (isValidDate(searchDate)) {
         doesDateMatch =
           item.dateEnabled && item.date.getTime() === searchDate.getTime();
       }
-      
+
       return (
         this.searchValue.trim() === '' ||
         doesDateMatch ||
         item.title.toLowerCase().includes(this.searchValue.toLowerCase()) ||
-        item.description.toLowerCase().includes(this.searchValue.toLowerCase()) ||
+        item.description
+          .toLowerCase()
+          .includes(this.searchValue.toLowerCase()) ||
         item.location.toLowerCase().includes(this.searchValue.toLowerCase()) ||
         groupNames.some((name) => name.includes(this.searchValue.toLowerCase()))
       );
