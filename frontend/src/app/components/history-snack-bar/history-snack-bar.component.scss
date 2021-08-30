@@ -2,5 +2,5 @@
 @import '~src/theme.scss';
 
 .snack-bar-action {
-  color: mat.get-color-from-palette($green-palette, 500) !important;
+  color: mat.get-color-from-palette($mat-accent, 500) !important;
 }
