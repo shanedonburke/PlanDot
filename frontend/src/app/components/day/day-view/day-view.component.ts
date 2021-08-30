@@ -34,6 +34,7 @@ export class DayViewComponent implements OnInit {
   ngOnInit() {
     this.update();
     this.userDataService.onUserDataChanged.subscribe(() => this.update());
+    this.dateService.onDateChanged.subscribe(() => this.update());
   }
 
   getHourString(hour: number): string {
@@ -74,8 +75,8 @@ export class DayViewComponent implements OnInit {
       const inSameRow = items.filter((item) => {
         return (
           item.startTimeEnabled &&
-          Math.round(item.getStartTimeInMinutes() / 2) <= i &&
-          Math.round(item.getEndTimeInMinutes() / 2) > i
+          DayViewComponent.getItemRowStart(item) <= i &&
+          DayViewComponent.getItemRowEnd(item) > i
         );
       }).length;
       maxInSameRow = Math.max(maxInSameRow, inSameRow);
@@ -85,15 +86,27 @@ export class DayViewComponent implements OnInit {
 
   private placeItemInColumn(item: Item): void {
     for (const col of this.columns) {
-      const startTimeInMin = Math.round(item.getStartTimeInMinutes() / 2);
+      const startTimeInMin = DayViewComponent.getItemRowStart(item);
       if (col.length === 0 || col[col.length - 1].rowEnd <= startTimeInMin) {
         col.push({
           item,
           rowStart: startTimeInMin,
-          rowEnd: Math.round(item.getEndTimeInMinutes() / 2),
+          rowEnd: DayViewComponent.getItemRowEnd(item),
         });
         break;
       }
     }
+  }
+
+  private static getItemRowStart(item: Item): number {
+    return this.convertMinutesToRowNumber(item.getStartTimeInMinutes());
+  }
+
+  private static getItemRowEnd(item: Item): number {
+    return this.convertMinutesToRowNumber(item.getEndTimeInMinutes());
+  }
+
+  private static convertMinutesToRowNumber(minutes: number): number {
+    return Math.round(minutes / 2) - 1;
   }
 }

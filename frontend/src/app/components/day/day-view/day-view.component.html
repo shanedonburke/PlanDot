@@ -9,7 +9,7 @@
     </button>
   </div>
   <div class="day-view-content">
-    <div class="timeless-items">
+    <div class="timeless-items" *ngIf="timelessItems.length > 0">
       <span class="timeless-items-header">Items without times</span>
       <div
         *ngFor="let item of timelessItems"
