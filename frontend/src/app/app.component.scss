@@ -6,14 +6,14 @@
    Material dialog overrides
    ========================================================================== */
 
-::ng-deep div.cdk-overlay-pane {
+div.cdk-overlay-pane {
   /* Allow dialogs with larger widths */
   @media screen and (max-width: $screen-width-xs) {
     max-width: unset !important;
   }
 }
 
-::ng-deep mat-dialog-container {
+mat-dialog-container {
   margin: 10px 0 !important;
   max-height: calc(100% - 20px) !important;
   height: unset !important;
