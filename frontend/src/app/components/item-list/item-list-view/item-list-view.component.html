@@ -10,12 +10,11 @@
     class="item-list-item"
     swipeReveal
   >
-    <div class="item-list-item-content">
-      <app-item-card [item]="item" style="border-bottom-color: #222">
-        <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
-      </app-item-card>
-    </div>
+    <app-item-card [item]="item" class="item-list-item-content">
+      <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
+    </app-item-card>
     <div class="item-list-item-delete" (click)="userDataService.deleteItem(item)">
+      <div class="item-list-item-delete-backdrop"></div>
       <mat-icon>delete</mat-icon>
     </div>
   </div>

@@ -19,22 +19,32 @@ $warn-color: mat.get-color-from-palette($mat-warn, 500);
 
 .item-list-item {
   width: 100%;
-  display: flex;
-  overflow-x: hidden;
-  background-color: $warn-color;
+  display: grid;
+  grid-template-columns: 100% 50px;
+  overflow-x: auto;
 }
 
 .item-list-item-content {
   min-width: 100%;
+  max-width: 100%;
   border-bottom: 1px solid #222;
 }
 
 .item-list-item-delete {
-  min-width: 50px;
+  position: relative;
   min-height: 100%;
-  background-color: $warn-color;
+  background-color: transparent;
   color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.item-list-item-delete-backdrop {
+  background-color: $warn-color;
+  left: 0;
+  height: 100%;
+  position: absolute;
+  width: 100vw;
+  z-index: -1;
 }
