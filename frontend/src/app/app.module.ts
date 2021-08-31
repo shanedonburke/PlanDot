@@ -6,8 +6,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -28,9 +29,9 @@ import { ViewDirective } from './directives/view.directive';
 
 const routes = [{ path: '**', component: AppComponent }];
 
-// Polyfill for { scroll-behavior: 'smooth' } on element.scrollTo(..)
-if (!("scrollBehavior" in document.documentElement.style)) {
-  import("scroll-behavior-polyfill");
+// Polyfill for { scroll-behavior: 'smooth' } on HTMLElement.scrollTo(..)
+if (!('scrollBehavior' in document.documentElement.style)) {
+  import('scroll-behavior-polyfill');
 }
 
 @NgModule({
@@ -42,6 +43,7 @@ if (!("scrollBehavior" in document.documentElement.style)) {
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
+    MatTooltipModule,
     MatDividerModule,
     MatIconModule,
     MatDialogModule,

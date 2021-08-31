@@ -26,15 +26,15 @@ export interface UserDataJson {
 }
 
 export enum UserDataAction {
-  EDIT_GROUP,
-  REORDER_GROUP_ITEMS,
-  SORT_GROUP_ITEMS,
-  DELETE_GROUP,
-  EDIT_ITEM,
-  REORDER_ITEMS,
-  SORT_ITEMS,
-  DELETE_ITEM,
-  NONE,
+  EDIT_GROUP = 'Edit group',
+  REORDER_GROUP_ITEMS = 'Reorder group items',
+  SORT_GROUP_ITEMS = 'Sort group items',
+  DELETE_GROUP = 'Delete group',
+  EDIT_ITEM = 'Edit item',
+  REORDER_ITEMS = 'Reorder items',
+  SORT_ITEMS = 'Sort items',
+  DELETE_ITEM = 'Delete item',
+  NONE = '',
 }
 
 export enum GroupDeletionItemAction {
@@ -46,18 +46,6 @@ export enum GroupDeletionItemAction {
 function isUserDataJson(obj: any): obj is UserDataJson {
   return obj && typeof obj === 'object' && 'groups' in obj;
 }
-
-const ACTION_DESCRIPTIONS: { [key in UserDataAction]: string } = {
-  [UserDataAction.EDIT_GROUP]: 'Edit group',
-  [UserDataAction.REORDER_GROUP_ITEMS]: 'Reorder group items',
-  [UserDataAction.SORT_GROUP_ITEMS]: 'Sort group items',
-  [UserDataAction.DELETE_GROUP]: 'Delete group',
-  [UserDataAction.EDIT_ITEM]: 'Edit item',
-  [UserDataAction.REORDER_ITEMS]: 'Reorder items',
-  [UserDataAction.SORT_ITEMS]: 'Sort items',
-  [UserDataAction.DELETE_ITEM]: 'Delete item',
-  [UserDataAction.NONE]: '',
-};
 
 @Injectable({
   providedIn: 'root',
@@ -207,7 +195,7 @@ export class UserDataService {
     if (this.history[this.historyIndex - 1] !== undefined) {
       const snackBarData: HistorySnackBarData = {
         event: HistorySnackBarComponent.UNDO_EVENT,
-        actionDescription: ACTION_DESCRIPTIONS[this.getLastAction()],
+        actionDescription: this.getLastAction(),
       };
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
         duration: 2000,
@@ -228,7 +216,7 @@ export class UserDataService {
 
       const snackBarData: HistorySnackBarData = {
         event: HistorySnackBarComponent.REDO_EVENT,
-        actionDescription: ACTION_DESCRIPTIONS[this.getLastAction()],
+        actionDescription: this.getLastAction(),
       };
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
         duration: 2000,
@@ -242,8 +230,12 @@ export class UserDataService {
     this.saveUserData(UserDataAction.REORDER_ITEMS);
   }
 
-  private getLastAction(): UserDataAction {
-    return this.history[this.historyIndex]?.action;
+  getLastAction(): UserDataAction {
+    return this.history[this.historyIndex]?.action ?? UserDataAction.NONE;
+  }
+
+  getNextAction(): UserDataAction {
+    return this.history[this.historyIndex + 1]?.action ?? UserDataAction.NONE;
   }
 
   private validateGroups(groups: ReadonlyArray<Group>): void {

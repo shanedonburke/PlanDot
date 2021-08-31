@@ -1,7 +1,13 @@
 @use '~@angular/material' as mat;
+@use '~src/theme';
 @import "~src/variables.scss";
 
+/* ==========================================================================
+   Material dialog overrides
+   ========================================================================== */
+
 ::ng-deep div.cdk-overlay-pane {
+  /* Allow dialogs with larger widths */
   @media screen and (max-width: $screen-width-xs) {
     max-width: unset !important;
   }
@@ -12,10 +18,15 @@
   max-height: calc(100% - 20px) !important;
   height: unset !important;
   
+  /** On mobile, use the screen's width + 10px margins */
   @media screen and (max-width: $screen-width-xs) {
-    width: calc(100vw - 20px) !important;
+    width: calc(100vw - (10px * 2)) !important;
   }
 }
+
+/* ==========================================================================
+   Top-level containers
+   ========================================================================== */
 
 .page-container {
   width: 100%;
@@ -31,18 +42,33 @@
   overflow: hidden;
 }
 
-.primary-row {
+/* ==========================================================================
+   Toolbars
+   ========================================================================== */
+
+.primary-toolbar-row {
   display: flex;
   align-items: center;
   width: 100%;
 }
 
-.secondary-row {
+.secondary-toolbar-row {
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 30%);
   position: relative;
   padding: 0 14px !important;
   z-index: 2;
 }
+
+.new-item-btn {
+  $width: 90px;
+  margin-right: 10px;
+  min-width: $width;
+  width: $width;
+}
+
+/* ==========================================================================
+   Sidenav
+   ========================================================================== */
 
 .sidenav {
   background-color: #fafafa;
@@ -81,9 +107,16 @@
   width: calc(100% + 1px);
 }
 
-.new-item-btn {
-  $width: 90px;
-  margin-right: 10px;
-  min-width: $width;
-  width: $width;
+/* ==========================================================================
+   Miscellaneous
+   ========================================================================== */
+
+/**
+ * Tooltip shown for undo/redo buttons. Styled similarly to the
+ * snack bar shown when undoing/redoing a change.
+ */
+.history-tooltip {
+  background-color: #323232;
+  color: mat.get-color-from-palette(theme.$mat-accent, 500) !important;
+  font-size: 14px;
 }

@@ -1,7 +1,8 @@
 import {
   Component,
   ComponentFactoryResolver, OnInit,
-  ViewChild
+  ViewChild,
+  ViewEncapsulation
 } from '@angular/core';
 import { DayToolbarComponent } from './components/day/day-toolbar/day-toolbar.component';
 import { DayViewComponent } from './components/day/day-view/day-view.component';
@@ -25,6 +26,7 @@ import { ViewService } from './services/view.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
   @ViewChild(ViewDirective, { static: true }) viewHost!: ViewDirective;

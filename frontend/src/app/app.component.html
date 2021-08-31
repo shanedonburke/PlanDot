@@ -1,7 +1,7 @@
 <div class="page-container">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <div class="primary-row">
+      <div class="primary-toolbar-row">
         <span>plan.</span>
         <div [style.flexGrow]="1"></div>
         <button
@@ -32,7 +32,7 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <mat-toolbar>
-    <mat-toolbar-row class="secondary-row">
+    <mat-toolbar-row class="secondary-toolbar-row">
       <button
         (click)="addNewItem()"
         mat-raised-button
@@ -78,6 +78,9 @@
       <button
         mat-icon-button
         [disabled]="!userDataService.canUndo()"
+        [matTooltip]="userDataService.getLastAction()"
+        matTooltipPosition="right"
+        matTooltipClass="history-tooltip"
         (click)="userDataService.undo()"
       >
         <mat-icon>undo</mat-icon>
@@ -85,6 +88,9 @@
       <button
         mat-icon-button
         [disabled]="!userDataService.canRedo()"
+        [matTooltip]="userDataService.getNextAction()"
+        matTooltipPosition="right"
+        matTooltipClass="history-tooltip"
         (click)="userDataService.redo()"
       >
         <mat-icon>redo</mat-icon>
