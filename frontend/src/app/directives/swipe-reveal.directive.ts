@@ -1,50 +1,10 @@
-import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 
 @Directive({
   selector: '[swipeReveal]',
 })
 export class SwipeRevealDirective {
-  private lastTouchX = 0;
-
-  private onTouchStart = (event: TouchEvent) => {
-    this.lastTouchX = event.touches[0].clientX;
-    this.addEventListener('touchmove', this.onTouchMove);
-    this.addEventListener('touchend', this.onTouchEnd);
-    this.removeAllListeners!!('touchstart');
-  };
-
-  private onTouchMove = (event: TouchEvent) => {
-    const elem = this.element.nativeElement;
-    const touch = event.touches[0];
-    const deltaX = touch.clientX - this.lastTouchX;
-
-    if (elem.scrollLeft - deltaX >= 0) {
-      // elem.scrollBy({ left: -deltaX });
-    } else {
-      // elem.scrollLeft = 0;
-    }
-    this.lastTouchX = touch.clientX;
-    if (elem.scrollLeft <= 0) {
-      // elem.style.backgroundColor = 'white';
-      // event.preventDefault();
-    } else {
-      // elem.style.backgroundColor = 'red';
-    }
-  };
-
-  private onTouchEnd = (_: TouchEvent) => {
-    const elem = this.element.nativeElement;
-    if (elem.scrollLeft > 0) {
-      if (elem.scrollLeft < 50) {
-        this.scrollToBeginning();
-      } else {
-        this.scrollToEnd();
-      }
-    }
-    this.removeAllListeners('touchmove');
-    this.removeAllListeners('touchend');
-    this.addEventListener('touchstart', this.onTouchStart);
-  };
+  @Input('hiddenPanelWidth') hiddenPanelWidth = 50;
 
   constructor(
     private readonly element: ElementRef<HTMLElement>,
@@ -53,20 +13,25 @@ export class SwipeRevealDirective {
     this.renderer.addClass(this.element.nativeElement, 'disable-scrollbar');
   }
 
-  ngOnInit() {
-    this.element.nativeElement.addEventListener(
-      'touchstart',
-      this.onTouchStart
-    );
+  @HostListener('mousewheel', ['$event'])
+  onMouseWheel(event: WheelEvent) {
+    event.preventDefault();
+    const parent = this.element.nativeElement.parentElement;
+    if (parent !== null) {
+      parent.scrollTop += event.deltaY;
+    }
   }
 
-  scrollToBeginning(): void {
-    this.scrollTo(0);
-  }
-
-  scrollToEnd(): void {
+  @HostListener('touchend')
+  onTouchEnd() {
     const elem = this.element.nativeElement;
-    this.scrollTo(50);
+    if (elem.scrollLeft > 0) {
+      if (elem.scrollLeft < this.hiddenPanelWidth) {
+        this.scrollToBeginning();
+      } else {
+        this.scrollToEnd();
+      }
+    }
   }
 
   @HostListener('document:mousedown')
@@ -74,20 +39,15 @@ export class SwipeRevealDirective {
     this.scrollToBeginning();
   }
 
+  private scrollToBeginning(): void {
+    this.scrollTo(0);
+  }
+
+  private scrollToEnd(): void {
+    this.scrollTo(this.hiddenPanelWidth);
+  }
+
   private scrollTo(x: number): void {
     this.element.nativeElement.scrollTo({ left: x, behavior: 'smooth' });
-  }
-
-  private addEventListener<K extends keyof GlobalEventHandlersEventMap>(
-    eventName: K,
-    handler: (event: GlobalEventHandlersEventMap[K]) => void
-  ): void {
-    this.element.nativeElement.addEventListener(eventName, handler, {
-      passive: true,
-    });
-  }
-
-  private removeAllListeners(eventName: string): void {
-    this.element.nativeElement.removeAllListeners!!(eventName);
   }
 }
