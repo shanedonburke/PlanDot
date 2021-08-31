@@ -3,7 +3,7 @@ import { Db, MongoClient } from "mongodb";
 import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
-import { CONFIG } from "../config";
+import { config } from "../config";
 
 let db: Db;
 MongoClient.connect("mongodb://localhost:27017", (_, client) => {
@@ -12,12 +12,12 @@ MongoClient.connect("mongodb://localhost:27017", (_, client) => {
 
 function getUserId(req: Request): string {
   const oauth2Client = new google.auth.OAuth2(
-    CONFIG.oauth2Credentials.clientId,
-    CONFIG.oauth2Credentials.clientSecret,
-    CONFIG.oauth2Credentials.redirectUris[0]
+    config.oauth2Credentials.clientId,
+    config.oauth2Credentials.clientSecret,
+    config.oauth2Credentials.redirectUris[0]
   );
   oauth2Client.credentials = <Credentials>(
-    jwt.verify(req.cookies.jwt, CONFIG.jwtSecret)
+    jwt.verify(req.cookies.jwt, config.jwtSecret)
   );
   return <string>jwt.decode(oauth2Client.credentials.id_token).sub;
 }
@@ -26,14 +26,14 @@ export const api = Router();
 
 api.get("/auth_url", (req, res) => {
   const oauth2Client = new google.auth.OAuth2(
-    CONFIG.oauth2Credentials.clientId,
-    CONFIG.oauth2Credentials.clientSecret,
-    CONFIG.oauth2Credentials.redirectUris[0]
+    config.oauth2Credentials.clientId,
+    config.oauth2Credentials.clientSecret,
+    config.oauth2Credentials.redirectUris[0]
   );
   res.send(
     oauth2Client.generateAuthUrl({
       access_type: "offline",
-      scope: CONFIG.oauth2Credentials.scope,
+      scope: config.oauth2Credentials.scope,
     })
   );
 });

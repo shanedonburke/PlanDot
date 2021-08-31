@@ -21,7 +21,7 @@
       <mat-icon>event</mat-icon>
       <div>
         <div><b>Date</b></div>
-        <a [routerLink]="" (click)="goToItemDate()">{{
+        <a [routerLink]="" (click)="goToItemDate()" style="color: blue">{{
           data.item.date.toDateString()
         }}</a>
       </div>
@@ -57,7 +57,7 @@
   <div class="item-view-controls">
     <button
       (click)="dialogRef.close()"
-      mat-flat-button
+      mat-button
       color="primary"
       class="item-view-close-btn"
     >
