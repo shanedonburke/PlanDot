@@ -22,11 +22,11 @@ export class SwipeRevealDirective {
     }
   }
 
-  @HostListener('touchend')
+  @HostListener('document:touchend')
   onTouchEnd() {
     const elem = this.element.nativeElement;
     if (elem.scrollLeft > 0) {
-      if (elem.scrollLeft < this.hiddenPanelWidth) {
+      if (elem.scrollLeft < this.hiddenPanelWidth - 1) {
         this.scrollToBeginning();
       } else {
         this.scrollToEnd();
