@@ -61,9 +61,9 @@ mat-dialog-container {
 
 .new-item-btn {
   $width: 90px;
-  margin-right: 10px;
-  min-width: $width;
-  width: $width;
+  margin-right: 10px !important;
+  min-width: $width !important;
+  width: $width !important;
 }
 
 /* ==========================================================================
