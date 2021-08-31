@@ -6,7 +6,6 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
 export class SwipeRevealDirective {
   @Input('hiddenPanelWidth') hiddenPanelWidth = 50;
 
-  private scrollTimeout: any;
   private lastTouch!: Touch;
 
   constructor(
