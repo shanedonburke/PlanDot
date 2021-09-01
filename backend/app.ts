@@ -21,8 +21,8 @@ if (process.env.NODE_ENV === "development") {
   console.log('Attempting to read SSL certificate files...');
 
   const options = {
-    key: readFileSync(join(plandotDir, "ssl.pem"), "utf8"),
-    cert: readFileSync(join(plandotDir, "ssl.crt"), "utf8"),
+    key: readFileSync(join(plandotDir, "plandot.app.key"), "utf8"),
+    cert: readFileSync(join(plandotDir, "plandot.app.crt"), "utf8"),
     ca: [
       readFileSync(join(plandotDir, "gd1.crt")),
       readFileSync(join(plandotDir, "gd2.crt")),
