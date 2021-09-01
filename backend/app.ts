@@ -18,6 +18,8 @@ if (process.env.NODE_ENV === "development") {
     console.log(`Server listening on port ${config.port}`);
   });
 } else {
+  console.log('Attempting to read SSL certificate files...');
+
   const options = {
     key: readFileSync(join(plandotDir, "ssl.pem"), "utf8"),
     cert: readFileSync(join(plandotDir, "ssl.crt"), "utf8"),
@@ -27,11 +29,12 @@ if (process.env.NODE_ENV === "development") {
       readFileSync(join(plandotDir, "gd2.crt")),
     ],
   };
+  console.log('Successfully read SSL certificate files.');
 
   const server = createServer(options, app).listen(config.port, () => {
     console.log(`Server listening on port ${config.port}`);
   });
-  
+
   server.addListener("error", (err) => {
     console.error(err);
   }
