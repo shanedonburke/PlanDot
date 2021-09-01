@@ -7,7 +7,10 @@ if [ -f $SERVICE_FILE ]; then
 fi
 
 ( cd frontend && ng build || exit 1 )
-mkdir -p backend/public && cp -r frontend/dist/* backend/public/
+
+mkdir -p backend/public
+cp -r frontend/dist/* backend/public/
+
 cp plandot.service $SERVICE_FILE
-sudo systemctl daemon-reload
-sudo systemctl start plandot
+systemctl daemon-reload
+systemctl start plandot
