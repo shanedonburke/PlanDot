@@ -31,71 +31,73 @@
       </div>
     </mat-toolbar-row>
   </mat-toolbar>
-  <mat-toolbar>
-    <mat-toolbar-row class="secondary-toolbar-row">
-      <button
-        (click)="addNewItem()"
-        mat-raised-button
-        class="new-item-btn"
-        color="primary"
-      >
-        New item
-      </button>
-      <ng-template toolbarHost></ng-template>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <div class="page-content">
-    <div class="sidenav">
-      <button
-        (click)="viewService.goToGroupView()"
-        class="sidenav-btn"
-        [ngClass]="{ 'sidenav-btn-selected': viewService.isGroupView() }"
-      >
-        <mat-icon fontSet="material-icons-outlined">view_agenda</mat-icon>
-      </button>
-      <button
-        (click)="viewService.goToMonthView()"
-        class="sidenav-btn"
-        [ngClass]="{ 'sidenav-btn-selected': viewService.isMonthView() }"
-      >
-        <mat-icon>calendar_view_month</mat-icon>
-      </button>
-      <button
-        (click)="viewService.goToDayView()"
-        class="sidenav-btn"
-        [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
-      >
-        <mat-icon fontSet="material-icons-outlined">calendar_view_day</mat-icon>
-      </button>
-      <button
-        (click)="viewService.goToItemListView()"
-        class="sidenav-btn"
-        [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
-      >
-        <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
-      </button>
-      <div style="flex-grow: 1"></div>
-      <button
-        mat-icon-button
-        [disabled]="!userDataService.canUndo()"
-        [matTooltip]="userDataService.getLastAction()"
-        matTooltipPosition="right"
-        matTooltipClass="history-tooltip"
-        (click)="userDataService.undo()"
-      >
-        <mat-icon>undo</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        [disabled]="!userDataService.canRedo()"
-        [matTooltip]="userDataService.getNextAction()"
-        matTooltipPosition="right"
-        matTooltipClass="history-tooltip"
-        (click)="userDataService.redo()"
-      >
-        <mat-icon>redo</mat-icon>
-      </button>
+  <ng-container *ngIf="userAuthService.hasAuth()">
+    <mat-toolbar>
+      <mat-toolbar-row class="secondary-toolbar-row">
+        <button
+          (click)="addNewItem()"
+          mat-raised-button
+          class="new-item-btn"
+          color="primary"
+        >
+          New item
+        </button>
+        <ng-template toolbarHost></ng-template>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="page-content">
+      <div class="sidenav">
+        <button
+          (click)="viewService.goToGroupView()"
+          class="sidenav-btn"
+          [ngClass]="{ 'sidenav-btn-selected': viewService.isGroupView() }"
+        >
+          <mat-icon fontSet="material-icons-outlined">view_agenda</mat-icon>
+        </button>
+        <button
+          (click)="viewService.goToMonthView()"
+          class="sidenav-btn"
+          [ngClass]="{ 'sidenav-btn-selected': viewService.isMonthView() }"
+        >
+          <mat-icon>calendar_view_month</mat-icon>
+        </button>
+        <button
+          (click)="viewService.goToDayView()"
+          class="sidenav-btn"
+          [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
+        >
+          <mat-icon fontSet="material-icons-outlined">calendar_view_day</mat-icon>
+        </button>
+        <button
+          (click)="viewService.goToItemListView()"
+          class="sidenav-btn"
+          [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
+        >
+          <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
+        </button>
+        <div style="flex-grow: 1"></div>
+        <button
+          mat-icon-button
+          [disabled]="!userDataService.canUndo()"
+          [matTooltip]="userDataService.getLastAction()"
+          matTooltipPosition="right"
+          matTooltipClass="history-tooltip"
+          (click)="userDataService.undo()"
+        >
+          <mat-icon>undo</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          [disabled]="!userDataService.canRedo()"
+          [matTooltip]="userDataService.getNextAction()"
+          matTooltipPosition="right"
+          matTooltipClass="history-tooltip"
+          (click)="userDataService.redo()"
+        >
+          <mat-icon>redo</mat-icon>
+        </button>
+      </div>
+      <ng-template viewHost></ng-template>
     </div>
-    <ng-template viewHost></ng-template>
-  </div>
+  </ng-container>
 </div>

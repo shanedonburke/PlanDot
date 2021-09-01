@@ -53,12 +53,13 @@ export class AppComponent implements OnInit {
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
-  ) {
-    this.userDataService.loadUserData();
-  }
+  ) {}
 
   ngOnInit() {
-    this.viewService.setViewLoader(this.loadViewAndToolbar.bind(this));
+    if (this.userAuthService.hasAuth()) {
+      this.userDataService.loadUserData();
+      this.viewService.setViewLoader(this.loadViewAndToolbar.bind(this));
+    }
   }
 
   addNewItem() {

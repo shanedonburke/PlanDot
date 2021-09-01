@@ -1,0 +1,15 @@
+---
+# Add Google Cloud Platform credentials and move to ~/.plandot/config.yaml
+jwtSecret: myJwtSecret
+baseUrl: http://localhost:8080
+port: 8080
+oauth2Credentials:
+  projectId: myProjectId
+  clientId: myClientId
+  clientSecret: myClientSecret
+  redirectUri: http://localhost:8080/api/auth_callback
+  authUri: https://accounts.google.com/o/oauth2/auth
+  tokenUri: https://oauth2.googleapis.com/token
+  authProviderX509CertUrl: https://www.googleapis.com/oauth2/v1/certs
+  scope:
+  - "https://www.googleapis.com/auth/userinfo.email"
