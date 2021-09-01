@@ -1,10 +1,9 @@
 import express from "express";
-import { createServer } from 'https';
+import { createServer } from "https";
 import { readFileSync } from "fs";
 import cookieParser from "cookie-parser";
-import { config } from "./config";
+import { config, plandotDir } from "./config";
 import { api } from "./routers/api";
-import { homedir } from "os";
 import { join } from "path";
 
 const app = express();
@@ -14,11 +13,22 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api", api);
 
-const serverOptions = {
-  key: readFileSync(join(homedir(), ".plandot", "ssl.pem"), "utf8"),
-  cert: readFileSync(join(homedir(), ".plandot", "ssl.crt"), "utf8"),
-}
+if (process.env.NODE_ENV === "development") {
+  app.listen(config.port, () => {
+    console.log(`Server listening on port ${config.port}`);
+  });
+} else {
+  const options = {
+    key: readFileSync(join(plandotDir, "ssl.pem"), "utf8"),
+    cert: readFileSync(join(plandotDir, "ssl.crt"), "utf8"),
+    ca: [
+      readFileSync(join(plandotDir, "gd1.crt")),
+      readFileSync(join(plandotDir, "gd2.crt")),
+      readFileSync(join(plandotDir, "gd2.crt")),
+    ],
+  };
 
-const server = createServer(serverOptions, app).listen(config.port, () => {
-  console.log(`Server listening on port ${config.port}`);
-});
+  const server = createServer(options, app).listen(config.port, () => {
+    console.log(`Server listening on port ${config.port}`);
+  });
+}
