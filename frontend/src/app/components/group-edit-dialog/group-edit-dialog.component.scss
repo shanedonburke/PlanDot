@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@import '~src/theme.scss';
+@use 'sass:map';
+@use '~src/styles/palettes';
 
 .group-edit-dialog {
   display: flex;
@@ -45,7 +45,7 @@
 ::ng-deep .color-picker-btn-save {
   @include color-picker-btn;
   color: white;
-  background: mat.get-color-from-palette($blue-palette, 500);
+  background: map.get(palettes.$primary-palette, 500);
 }
 
 ::ng-deep .color-picker-btn-cancel {

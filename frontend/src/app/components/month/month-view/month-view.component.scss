@@ -1,5 +1,5 @@
-@use '~@angular/material' as mat;
-@import '~src/theme.scss';
+@use 'sass:map';
+@use '~src/styles/palettes';
 
 :host {
   height: 100%;
@@ -65,7 +65,7 @@
 .date-item-number {
   width: 18px;
   line-height: 1.4em;
-  background-color: mat.get-color-from-palette($mat-accent, 500);
+  background-color: map.get(palettes.$accent-palette, 500);
   color: white;
   display: flex;
   justify-content: center;

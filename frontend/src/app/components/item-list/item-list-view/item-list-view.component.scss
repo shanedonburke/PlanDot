@@ -1,7 +1,5 @@
-@use '~@angular/material' as mat;
-@import '~src/theme.scss';
-
-$warn-color: mat.get-color-from-palette($mat-warn, 500);
+@use 'sass:map';
+@use '~src/styles/palettes';
 
 :host {
   height: 100%;
@@ -41,7 +39,7 @@ $warn-color: mat.get-color-from-palette($mat-warn, 500);
 }
 
 .item-list-item-delete-backdrop {
-  background-color: $warn-color;
+  background-color: map.get(palettes.$warn-palette, 500);
   left: 0;
   height: 100%;
   position: absolute;

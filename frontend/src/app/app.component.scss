@@ -1,6 +1,6 @@
-@use '~@angular/material' as mat;
-@use '~src/theme';
-@import "~src/variables.scss";
+@use "sass:map";
+@use '~src/styles/palettes';
+@use "~src/styles/variables";
 
 /* ==========================================================================
    Material dialog overrides
@@ -8,7 +8,7 @@
 
 div.cdk-overlay-pane {
   /* Allow dialogs with larger widths */
-  @media screen and (max-width: $screen-width-xs) {
+  @media screen and (max-width: variables.$screen-width-xs) {
     max-width: unset !important;
   }
 }
@@ -19,7 +19,7 @@ mat-dialog-container {
   height: unset !important;
   
   /** On mobile, use the screen's width + 10px margins */
-  @media screen and (max-width: $screen-width-xs) {
+  @media screen and (max-width: variables.$screen-width-xs) {
     width: calc(100vw - (10px * 2)) !important;
   }
 }
@@ -117,5 +117,5 @@ mat-dialog-container {
  */
 .history-tooltip {
   background-color: #323232;
-  color: mat.get-color-from-palette(theme.$mat-accent, 500) !important;
+  color: map.get(palettes.$accent-palette, 500) !important;
 }

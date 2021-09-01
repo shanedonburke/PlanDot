@@ -1,4 +1,4 @@
-@import "~src/variables.scss";
+@use "~src/styles/variables";
 
 :host {
   overflow: auto;
@@ -16,7 +16,7 @@
   height: 100%;
   overflow: auto;
 
-  @media only screen and (max-width: $screen-width-xs) {
+  @media only screen and (max-width: variables.$screen-width-xs) {
     scroll-snap-type: x mandatory;
   }
 }
@@ -32,7 +32,7 @@
   box-sizing: border-box;
   padding: 0 5px;
 
-  @media only screen and (max-width: $screen-width-xs) {
+  @media only screen and (max-width: variables.$screen-width-xs) {
     scroll-snap-align: center;
   }
 }
@@ -51,11 +51,11 @@
   flex-direction: column;
   border-radius: 5px;
 
-  @media only screen and (max-width: $screen-width-s) {
+  @media only screen and (max-width: variables.$screen-width-s) {
     width: calc((100vw - 70px) / 2);
   }
 
-  @media only screen and (max-width: $screen-width-xs) {
+  @media only screen and (max-width: variables.$screen-width-xs) {
     width: calc(100vw - 60px);
   }
 }

@@ -1,0 +1,21 @@
+@use '~@angular/material' as mat;
+@use '~src/styles/palettes';
+
+$mat-primary: mat.define-palette(palettes.$primary-palette, 500);
+$mat-accent: mat.define-palette(palettes.$accent-palette, 500);
+$mat-warn: mat.define-palette(palettes.$warn-palette, 500);
+
+$mat-theme: mat.define-light-theme((
+  color: (
+    primary: $mat-primary,
+    accent: $mat-accent,
+    warn: $mat-warn
+  )
+));
+
+@include mat.core-theme($mat-theme);
+@include mat.button-theme($mat-theme);
+@include mat.toolbar-theme($mat-theme);
+@include mat.icon-theme($mat-theme);
+@include mat.checkbox-theme($mat-theme);
+@include mat.radio-theme($mat-theme);

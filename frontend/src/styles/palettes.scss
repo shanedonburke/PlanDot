@@ -1,6 +1,4 @@
-@use '~@angular/material' as mat;
-
-$blue-palette: (
+$primary-palette: (
   50: #5094E2,
   100: #3E89E0,
   200: #2C7FDD,
@@ -25,7 +23,7 @@ $blue-palette: (
   )
 );
 
-$green-palette: (
+$accent-palette: (
   50: #84D7BD,
   100: #74D2B4,
   200: #65CDAC,
@@ -50,7 +48,7 @@ $green-palette: (
   )
 );
 
-$red-palette: (
+$warn-palette: (
   50: #F18C7E,
   100: #EF7B6C,
   200: #ED6B5A,
@@ -74,22 +72,3 @@ $red-palette: (
     900: white
   )
 );
-
-$mat-primary: mat.define-palette($blue-palette, 500);
-$mat-accent: mat.define-palette($green-palette, 500);
-$mat-warn: mat.define-palette($red-palette, 500);
-
-$mat-theme: mat.define-light-theme((
-  color: (
-    primary: $mat-primary,
-    accent: $mat-accent,
-    warn: $mat-warn
-  )
-));
-
-@include mat.core-theme($mat-theme);
-@include mat.button-theme($mat-theme);
-@include mat.toolbar-theme($mat-theme);
-@include mat.icon-theme($mat-theme);
-@include mat.checkbox-theme($mat-theme);
-@include mat.radio-theme($mat-theme);

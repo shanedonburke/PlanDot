@@ -1,6 +1,6 @@
-@use '~@angular/material' as mat;
-@import '~src/theme.scss';
-@import "~src/variables.scss";
+@use "sass:map";
+@use '~src/styles/palettes';
+@use "~src/styles/variables";
 
 .groups-menu {
   position: absolute;
@@ -13,7 +13,7 @@
     0 1px 5px 0 rgb(0 0 0 / 12%);
   border-radius: 5px;
 
-  @media screen and (max-width: $screen-width-xs) {
+  @media screen and (max-width: variables.$screen-width-xs) {
     top: 67px;
   }
 }
@@ -46,9 +46,9 @@
 }
 
 .edit-group-icon {
-  color: $icon-btn-grey;
+  color: variables.$icon-btn-grey;
 }
 
 .delete-group-icon {
-  color: mat.get-color-from-palette($mat-warn, 'default');
+  color: map.get(palettes.$warn-palette, 500);
 }

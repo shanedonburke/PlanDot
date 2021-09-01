@@ -1,4 +1,4 @@
-@import '~src/variables.scss';
+@use '~src/styles/variables';
 
 .icon-btn {
   display: flex;
@@ -8,7 +8,7 @@
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
-  color: $icon-btn-grey;
+  color: variables.$icon-btn-grey;
 
   &:hover {
     background: rgba(0, 0, 0, 0.05);

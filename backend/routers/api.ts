@@ -1,8 +1,8 @@
 import { Request, Router } from "express";
-import { Db, MongoClient } from "mongodb";
 import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
+import { Db, MongoClient } from "mongodb";
 import { config } from "../config";
 
 let db: Db;
@@ -51,11 +51,33 @@ api.post("/user_data", (req, res) => {
 
 api.get("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    db.collection("userData").findOne({ _id: getUserId(req) }).then(
-      (doc) => res.send(doc),
-      (err) => res.send(err),
-    );
+    db.collection("userData")
+      .findOne({ _id: getUserId(req) })
+      .then(
+        (doc) => res.send(doc),
+        (err) => res.send(err)
+      );
   } else {
     res.send({});
+  }
+});
+
+api.get("/auth_callback", (req, res) => {
+  const oauth2Client = new google.auth.OAuth2(
+    config.oauth2Credentials.clientId,
+    config.oauth2Credentials.clientSecret,
+    config.oauth2Credentials.redirectUris[0]
+  );
+
+  if (req.query.error) {
+    // The user did not give us permission.
+    return res.redirect("/");
+  } else {
+    oauth2Client.getToken(<string>req.query.code, function (err, token) {
+      if (err) return res.redirect("/");
+
+      res.cookie("jwt", jwt.sign(token, config.jwtSecret));
+      return res.redirect("/");
+    });
   }
 });
