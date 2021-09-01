@@ -1,10 +1,8 @@
 import express from "express";
 import { createServer } from "https";
-import { readFileSync } from "fs";
 import cookieParser from "cookie-parser";
 import { config, readLocalFileSync } from "./utils";
 import { api } from "./routers/api";
-import { join } from "path";
 
 const app = express();
 
