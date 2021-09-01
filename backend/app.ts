@@ -29,10 +29,7 @@ if (process.env.NODE_ENV === "development") {
   };
   console.log('Successfully read SSL certificate files.');
 
-  const server = createServer(options, (req, res) => {
-    res.writeHead(200);
-    res.end("Hello World\n");
-  }).listen(config.port, () => {
+  const server = createServer(options, app).listen(config.port, () => {
     console.log(`Server listening on port ${config.port}`);
   });
 
