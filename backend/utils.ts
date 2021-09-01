@@ -3,7 +3,7 @@ import { homedir } from "os";
 import { join } from "path";
 import YAML from "yaml";
 
-export const getConfig = ((): any => {
+export const getConfig = (() => {
   let config: any;
   return () => {
     return config || (config = YAML.parse(readLocalFileSync("config.yaml")));
@@ -18,8 +18,13 @@ export function readLocalFileSync(...path: string[]): string {
   return readFileSync(getLocalFilePath(...path), "utf8");
 }
 
-const plandotDir = join(homedir(), ".plandot");
+const getPlanDotDir = (() => {
+  let planDotDir: string;
+  return (): string => {
+    return planDotDir || (planDotDir = join(homedir(), ".plandot"));
+  }
+})();
 
 function getLocalFilePath(...path: string[]): string {
-  return join(plandotDir, ...path);
+  return join(getPlanDotDir(), ...path);
 }
