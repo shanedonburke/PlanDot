@@ -10,9 +10,6 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", api);
-app.use('/', (req, res) => {
-  res.send('Hi');
-});
 
 if (process.env.NODE_ENV === "development") {
   app.listen(config.port, () => {
@@ -32,7 +29,10 @@ if (process.env.NODE_ENV === "development") {
   };
   console.log('Successfully read SSL certificate files.');
 
-  const server = createServer(options, app).listen(config.port, () => {
+  const server = createServer(options, (req, res) => {
+    res.writeHead(200);
+    res.end("Hello World\n");
+  }).listen(config.port, () => {
     console.log(`Server listening on port ${config.port}`);
   });
 
