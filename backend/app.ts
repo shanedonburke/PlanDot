@@ -1,5 +1,5 @@
 import express from "express";
-import { createServer } from "https";
+import { createServer, ServerOptions } from "https";
 import cookieParser from "cookie-parser";
 import { config, readLocalFileSync } from "./utils";
 import { api } from "./routers/api";
@@ -10,6 +10,9 @@ app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", api);
+app.use('/', (req, res) => {
+  res.send('Hi');
+});
 
 if (process.env.NODE_ENV === "development") {
   app.listen(config.port, () => {
@@ -18,7 +21,7 @@ if (process.env.NODE_ENV === "development") {
 } else {
   console.log('Attempting to read SSL certificate files...');
 
-  const options = {
+  const options: ServerOptions = {
     key: readLocalFileSync("plandot.app.key"),
     cert: readLocalFileSync("plandot.app.crt"),
     ca: [
