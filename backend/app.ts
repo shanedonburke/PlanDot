@@ -26,7 +26,7 @@ if (process.env.NODE_ENV === "development") {
     ca: [
       readLocalFileSync("gd1.crt"),
       readLocalFileSync("gd2.crt"),
-      readLocalFileSync("gd2.crt"),
+      readLocalFileSync("gd3.crt"),
     ],
   };
   console.log('Successfully read SSL certificate files.');
