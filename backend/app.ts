@@ -31,6 +31,7 @@ if (process.env.NODE_ENV === "development") {
   const server = createServer(options, app).listen(config.port, () => {
     console.log(`Server listening on port ${config.port}`);
   });
+  
   server.addListener("error", (err) => {
     console.error(err);
   }
