@@ -3,7 +3,7 @@ import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
 import { Db, MongoClient } from "mongodb";
-import { config } from "../config";
+import { config } from "../utils";
 
 let db: Db;
 MongoClient.connect("mongodb://localhost:27017", (_, client) => {

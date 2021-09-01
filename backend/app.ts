@@ -2,7 +2,7 @@ import express from "express";
 import { createServer } from "https";
 import { readFileSync } from "fs";
 import cookieParser from "cookie-parser";
-import { config, plandotDir } from "./config";
+import { config, readLocalFileSync } from "./utils";
 import { api } from "./routers/api";
 import { join } from "path";
 
@@ -21,12 +21,12 @@ if (process.env.NODE_ENV === "development") {
   console.log('Attempting to read SSL certificate files...');
 
   const options = {
-    key: readFileSync(join(plandotDir, "plandot.app.key"), "utf8"),
-    cert: readFileSync(join(plandotDir, "plandot.app.crt"), "utf8"),
+    key: readLocalFileSync("plandot.app.key"),
+    cert: readLocalFileSync("plandot.app.crt"),
     ca: [
-      readFileSync(join(plandotDir, "gd1.crt")),
-      readFileSync(join(plandotDir, "gd2.crt")),
-      readFileSync(join(plandotDir, "gd2.crt")),
+      readLocalFileSync("gd1.crt"),
+      readLocalFileSync("gd2.crt"),
+      readLocalFileSync("gd2.crt"),
     ],
   };
   console.log('Successfully read SSL certificate files.');
