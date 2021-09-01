@@ -3,7 +3,7 @@ import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
 import { Db, MongoClient } from "mongodb";
-import { config } from "../utils";
+import { getConfig } from "../utils";
 
 let db: Db;
 MongoClient.connect("mongodb://localhost:27017", (_, client) => {
@@ -11,6 +11,8 @@ MongoClient.connect("mongodb://localhost:27017", (_, client) => {
 });
 
 function getUserId(req: Request): string {
+  const config = getConfig();
+
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
@@ -25,6 +27,8 @@ function getUserId(req: Request): string {
 export const api = Router();
 
 api.get("/auth_url", (req, res) => {
+  const config = getConfig();
+
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
@@ -63,6 +67,8 @@ api.get("/user_data", (req, res) => {
 });
 
 api.get("/auth_callback", (req, res) => {
+  const config = getConfig();
+  
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
