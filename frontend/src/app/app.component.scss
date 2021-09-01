@@ -124,7 +124,18 @@ mat-dialog-container {
  * Shown when the user is not logged in.
  */
 .welcome-message {
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+  font-size: 20px;
   height: 100%;
   width: 100%;
-  background-color: #f5f5f5;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    text-align: center;
+  }
 }
