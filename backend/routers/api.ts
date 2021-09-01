@@ -16,7 +16,7 @@ function getUserId(req: Request): string {
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
-    config.oauth2Credentials.redirectUris[0]
+    config.oauth2Credentials.redirectUri
   );
   oauth2Client.credentials = <Credentials>(
     jwt.verify(req.cookies.jwt, config.jwtSecret)
@@ -26,13 +26,13 @@ function getUserId(req: Request): string {
 
 export const api = Router();
 
-api.get("/auth_url", (req, res) => {
+api.get("/auth_url", (_, res) => {
   const config = getConfig();
 
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
-    config.oauth2Credentials.redirectUris[0]
+    config.oauth2Credentials.redirectUri
   );
   res.send(
     oauth2Client.generateAuthUrl({
@@ -68,15 +68,15 @@ api.get("/user_data", (req, res) => {
 
 api.get("/auth_callback", (req, res) => {
   const config = getConfig();
-  
+
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
     config.oauth2Credentials.clientSecret,
-    config.oauth2Credentials.redirectUris[0]
+    config.oauth2Credentials.redirectUri
   );
 
   if (req.query.error) {
-    // The user did not give us permission.
+    // The user did not give us permission
     return res.redirect("/");
   } else {
     oauth2Client.getToken(<string>req.query.code, function (err, token) {
