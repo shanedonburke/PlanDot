@@ -2,7 +2,7 @@ import { Request, Router } from "express";
 import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
-import { Db, MongoClient } from "mongodb";
+import { Collection, Db, Document, MongoClient } from "mongodb";
 import { getConfig, isDevProfile } from "../utils";
 
 let db: Db;
@@ -44,7 +44,7 @@ api.get("/auth_url", (_, res) => {
 
 api.post("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    db.collection("userData").updateOne(
+    getUserDataCollection().updateOne(
       { _id: getUserId(req) },
       { $set: req.body },
       { upsert: true }
@@ -55,7 +55,7 @@ api.post("/user_data", (req, res) => {
 
 api.get("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    db.collection("userData")
+    getUserDataCollection()
       .findOne({ _id: getUserId(req) })
       .then(
         (doc) => res.send(doc),
@@ -88,3 +88,10 @@ api.get("/auth_callback", (req, res) => {
     });
   }
 });
+
+const getUserDataCollection = (() => {
+  let collection: Collection<Document>;
+  return () => {
+    return collection || (collection = db.collection("user_data"));
+  };
+})();
