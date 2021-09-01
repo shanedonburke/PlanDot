@@ -3,7 +3,7 @@ import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
 import { Db, MongoClient } from "mongodb";
-import { getConfig } from "../utils";
+import { getConfig, isDevProfile } from "../utils";
 
 let db: Db;
 MongoClient.connect("mongodb://localhost:27017", (_, client) => {
@@ -68,6 +68,7 @@ api.get("/user_data", (req, res) => {
 
 api.get("/auth_callback", (req, res) => {
   const config = getConfig();
+  const redirectUrl = isDevProfile() ? config.angularDevUrl!! : "/";
 
   const oauth2Client = new google.auth.OAuth2(
     config.oauth2Credentials.clientId,
@@ -77,13 +78,13 @@ api.get("/auth_callback", (req, res) => {
 
   if (req.query.error) {
     // The user did not give us permission
-    return res.redirect("/");
+    return res.redirect(redirectUrl);
   } else {
     oauth2Client.getToken(<string>req.query.code, function (err, token) {
-      if (err) return res.redirect("/");
+      if (err) return res.redirect(redirectUrl);
 
       res.cookie("jwt", jwt.sign(token, config.jwtSecret));
-      return res.redirect("/");
+      return res.redirect(redirectUrl);
     });
   }
 });

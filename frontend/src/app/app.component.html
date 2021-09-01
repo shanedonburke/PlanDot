@@ -100,4 +100,7 @@
       <ng-template viewHost></ng-template>
     </div>
   </ng-container>
+  <div *ngIf="!userAuthService.hasAuth()" class="welcome-message">
+    Welcome to plan.
+  </div>
 </div>

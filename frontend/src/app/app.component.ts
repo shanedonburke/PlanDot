@@ -1,4 +1,5 @@
 import {
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver, OnInit,
   ViewChild,
@@ -29,8 +30,8 @@ import { ViewService } from './services/view.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
-  @ViewChild(ViewDirective, { static: true }) viewHost!: ViewDirective;
-  @ViewChild(ToolbarDirective, { static: true }) toolbarHost!: ToolbarDirective;
+  @ViewChild(ViewDirective) viewHost!: ViewDirective;
+  @ViewChild(ToolbarDirective) toolbarHost!: ToolbarDirective;
 
   private static VIEW_COMPONENTS: { [key in View]: any } = {
     [View.Group]: GroupViewComponent,

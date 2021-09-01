@@ -5,7 +5,7 @@ import YAML from "yaml";
 
 interface Config {
   jwtSecret: string;
-  baseUrl: string;
+  angularDevUrl?: string;
   port: number;
   oauth2Credentials: {
     projectId: string;

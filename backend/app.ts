@@ -1,13 +1,12 @@
-import express from "express";
-import { createServer, ServerOptions } from "https";
 import cookieParser from "cookie-parser";
-import { getConfig, readLocalFileSync, isDevProfile } from "./utils";
-import { api } from "./routers/api";
+import express from "express";
 import { Server } from "http";
+import { createServer, ServerOptions } from "https";
+import { api } from "./routers/api";
+import { getConfig, isDevProfile, readLocalFileSync } from "./utils";
 
 const app = express();
 
-app.use(express.static("public"));
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", api);
@@ -25,7 +24,9 @@ function startDevServer(): Server {
   });
 }
 
-function startProdServer(): Server {  
+function startProdServer(): Server {
+  app.use(express.static("public"));
+
   console.log('Attempting to read SSL certificate files...');
 
   const options: ServerOptions = {
