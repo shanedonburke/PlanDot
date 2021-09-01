@@ -1,0 +1,13 @@
+[Unit]
+Description=PlanDot
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=npm start
+WorkingDirectory=/root/plandot/backend
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
