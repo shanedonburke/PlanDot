@@ -37,5 +37,5 @@ if (process.env.NODE_ENV === "development") {
 
   server.addListener("error", (err) => {
     console.error(err);
-  }
+  });
 }
