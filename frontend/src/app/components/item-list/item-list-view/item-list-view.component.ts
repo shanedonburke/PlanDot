@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import * as createDOMPurify from 'dompurify';
+import * as marked from 'marked';
+import { Item } from 'src/app/domain/item';
 import { SearchService } from 'src/app/services/search.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 
@@ -16,4 +19,17 @@ export class ItemListViewComponent implements OnInit {
   ngOnInit() {
     this.searchService.update();
   }
+
+  getDescriptionHtml(item: Item): string {
+    return createDOMPurify().sanitize(
+      marked(item.description)
+    );
+  }
+
+  onDescriptionMouseWheel(event: Event, element: HTMLDivElement): void {
+    event.preventDefault();
+    event.stopPropagation();
+    element.scrollTop += (event as WheelEvent).deltaY;
+  }
 }
+

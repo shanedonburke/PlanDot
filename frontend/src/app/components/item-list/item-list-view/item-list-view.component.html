@@ -11,10 +11,21 @@
     swipeReveal
     [hiddenPanelWidth]="50"
   >
-    <app-item-card [item]="item" class="item-list-item-content">
-      <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
-    </app-item-card>
-    <div class="item-list-item-delete" (click)="userDataService.deleteItem(item)">
+    <div class="item-list-item-content">
+      <app-item-card [item]="item" class="item-list-item-card">
+        <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
+      </app-item-card>
+      <div
+        #description
+        [innerHTML]="getDescriptionHtml(item)"
+        (mousewheel)="onDescriptionMouseWheel($event, description)"
+        class="item-list-item-description"
+      ></div>
+    </div>
+    <div
+      class="item-list-item-delete"
+      (click)="userDataService.deleteItem(item)"
+    >
       <div class="item-list-item-delete-backdrop"></div>
       <mat-icon>delete</mat-icon>
     </div>
