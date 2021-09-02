@@ -25,7 +25,7 @@
 .item-list-item-content {
   min-width: 100%;
   max-width: 100%;
-  border-bottom: 1px solid #222;
+  border-bottom: 1px solid map.get(palettes.$primary-palette, 500);
 }
 
 .item-list-item-delete {

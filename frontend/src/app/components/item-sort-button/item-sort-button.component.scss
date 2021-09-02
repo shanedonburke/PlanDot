@@ -2,5 +2,5 @@
 @use '~src/styles/palettes';
 
 .menu-item-text {
-  color: map.get(palettes.$accent-palette, 500);
+  color: map.get(palettes.$primary-palette, 500);
 }
