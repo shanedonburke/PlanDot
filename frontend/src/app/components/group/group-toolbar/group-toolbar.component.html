@@ -1,4 +1,6 @@
-<button (click)="toggleGroupsMenu($event)" mat-button>Groups</button>
+<button (click)="toggleGroupsMenu($event)" mat-button color="primary">
+  Groups
+</button>
 <div
   *ngIf="isGroupsMenuVisible"
   (click)="$event.stopPropagation()"
@@ -13,7 +15,7 @@
         <app-group-name-chip [group]="group"></app-group-name-chip>
         <div class="groups-menu-row-controls">
           <button (click)="editGroup(group)" mat-icon-button>
-            <mat-icon class="edit-group-icon">edit</mat-icon>
+            <mat-icon class="edit-group-icon" color="accent">edit</mat-icon>
           </button>
           <button (click)="deleteGroup(group)" mat-icon-button>
             <mat-icon class="delete-group-icon">delete</mat-icon>

@@ -111,18 +111,10 @@ mat-dialog-container {
    Miscellaneous
    ========================================================================== */
 
-/**
- * Tooltip shown for undo/redo buttons. Styled similarly to the
- * snack bar shown when undoing/redoing a change.
- */
-.history-tooltip {
+.tooltip {
   background-color: #323232;
-  color: map.get(palettes.$accent-palette, 500) !important;
 }
 
-/**
- * Shown when the user is not logged in.
- */
 .welcome-message {
   background-color: #f5f5f5;
   box-sizing: border-box;

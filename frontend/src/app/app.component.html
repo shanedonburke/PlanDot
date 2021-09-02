@@ -49,6 +49,10 @@
       <div class="sidenav">
         <button
           (click)="viewService.goToGroupView()"
+          matTooltip="Group view"
+          [matTooltipShowDelay]="1000"
+          matTooltipClass="tooltip"
+          matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isGroupView() }"
         >
@@ -56,6 +60,10 @@
         </button>
         <button
           (click)="viewService.goToMonthView()"
+          matTooltip="Month view"
+          [matTooltipShowDelay]="1000"
+          matTooltipClass="tooltip"
+          matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isMonthView() }"
         >
@@ -63,6 +71,10 @@
         </button>
         <button
           (click)="viewService.goToDayView()"
+          matTooltip="Day view"
+          [matTooltipShowDelay]="1000"
+          matTooltipClass="tooltip"
+          matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
         >
@@ -70,6 +82,10 @@
         </button>
         <button
           (click)="viewService.goToItemListView()"
+          matTooltip="Item list view"
+          [matTooltipShowDelay]="1000"
+          matTooltipClass="tooltip"
+          matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
         >
@@ -81,7 +97,7 @@
           [disabled]="!userDataService.canUndo()"
           [matTooltip]="userDataService.getLastAction()"
           matTooltipPosition="right"
-          matTooltipClass="history-tooltip"
+          matTooltipClass="tooltip"
           (click)="userDataService.undo()"
         >
           <mat-icon>undo</mat-icon>
@@ -91,7 +107,7 @@
           [disabled]="!userDataService.canRedo()"
           [matTooltip]="userDataService.getNextAction()"
           matTooltipPosition="right"
-          matTooltipClass="history-tooltip"
+          matTooltipClass="tooltip"
           (click)="userDataService.redo()"
         >
           <mat-icon>redo</mat-icon>
