@@ -1,0 +1,6 @@
+@use 'sass:map';
+@use '~src/styles/palettes';
+
+.menu-item-text {
+  color: map.get(palettes.$accent-palette, 500);
+}

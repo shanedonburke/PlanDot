@@ -45,10 +45,6 @@
   margin: 0 10px 10px 10px;
 }
 
-.edit-group-icon {
-  color: variables.$icon-btn-grey;
-}
-
 .delete-group-icon {
   color: map.get(palettes.$warn-palette, 500);
 }

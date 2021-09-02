@@ -14,18 +14,18 @@
       <div class="groups-menu-row-content">
         <app-group-name-chip [group]="group"></app-group-name-chip>
         <div class="groups-menu-row-controls">
-          <button (click)="editGroup(group)" mat-icon-button>
-            <mat-icon class="edit-group-icon" color="accent">edit</mat-icon>
+          <button (click)="editGroup(group)" mat-icon-button color="accent">
+            <mat-icon>edit</mat-icon>
           </button>
-          <button (click)="deleteGroup(group)" mat-icon-button>
-            <mat-icon class="delete-group-icon">delete</mat-icon>
+          <button (click)="deleteGroup(group)" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
           </button>
         </div>
       </div>
       <mat-divider></mat-divider>
     </div>
   </div>
-  <button (click)="addGroup()" mat-button class="new-group-btn">
+  <button (click)="addGroup()" mat-button class="new-group-btn" color="primary">
     New group
   </button>
 </div>
