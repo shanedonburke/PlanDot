@@ -23,8 +23,8 @@
           </button>
           <mat-menu #hamburgerMenu="matMenu" yPosition="below">
             <button (click)="userAuthService.logout()" mat-menu-item>
-              <mat-icon>logout</mat-icon>
-              <span>Logout</span>
+              <mat-icon color="accent">logout</mat-icon>
+              <span class="logout-text">Logout</span>
             </button>
           </mat-menu>
         </ng-container>
@@ -32,7 +32,7 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <ng-container *ngIf="userAuthService.hasAuth()">
-    <mat-toolbar>
+    <mat-toolbar class="secondary-toolbar">
       <mat-toolbar-row class="secondary-toolbar-row">
         <button
           (click)="addNewItem()"
@@ -99,6 +99,7 @@
           matTooltipPosition="right"
           matTooltipClass="tooltip"
           (click)="userDataService.undo()"
+          color="primary"
         >
           <mat-icon>undo</mat-icon>
         </button>
@@ -109,6 +110,7 @@
           matTooltipPosition="right"
           matTooltipClass="tooltip"
           (click)="userDataService.redo()"
+          color="primary"
         >
           <mat-icon>redo</mat-icon>
         </button>

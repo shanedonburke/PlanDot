@@ -19,7 +19,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: 1fr;
-  background-color: #f5f5f5;
+  background-color: map.get(palettes.$primary-palette, 10);
   flex-basis: auto;
 }
 

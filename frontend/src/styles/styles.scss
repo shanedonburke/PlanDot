@@ -1,4 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use '~src/styles/palettes';
 
 html,
 body {
@@ -13,16 +14,18 @@ body {
 }
 
 .view-header {
+  color: white;
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
   min-height: 40px;
-  background-color: #e0e0e0;
+  background-color: map.get(palettes.$primary-palette, 100);
   font-size: 16px;
 }
 
 .view-nav-btn {
+  color: white;
   display: flex;
   align-items: center;
   height: 100%;
@@ -32,11 +35,11 @@ body {
   user-select: none;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.1);
   }
 
   &:active {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
   }
 }
 
@@ -54,7 +57,7 @@ body {
 
 .disable-scrollbar {
   scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* IE 10+ */
+  -ms-overflow-style: none; /* IE 10+ */
   &::-webkit-scrollbar {
     height: 0;
     width: 0;

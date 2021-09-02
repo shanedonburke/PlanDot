@@ -52,6 +52,11 @@ mat-dialog-container {
   width: 100%;
 }
 
+.secondary-toolbar {
+  background-color: map.get(palettes.$primary-palette, 0);
+  color: map.get(palettes.$primary-palette, 500);
+}
+
 .secondary-toolbar-row {
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 30%);
   position: relative;
@@ -64,6 +69,10 @@ mat-dialog-container {
   margin-right: 10px !important;
   min-width: $width !important;
   width: $width !important;
+}
+
+.logout-text {
+  color: map.get(palettes.$accent-palette, 500);
 }
 
 /* ==========================================================================
@@ -94,16 +103,18 @@ mat-dialog-container {
   cursor: pointer;
 
   &:not(.sidenav-btn-selected):hover {
-    background-color: #D7DBEA;
-    border-right: 1px solid #c5cbe1;
+    $accent-color: rgba(map.get(palettes.$accent-palette, 50), 0.2);
+    background-color: $accent-color;
+    border-right: 1px solid $accent-color;
     width: calc(100% + 1px);
   }
 }
 
 .sidenav-btn-selected {
-  color: #465486;
-  background-color: #c5cbe1;
-  border-right: 1px solid #c5cbe1;
+  $accent-color: map.get(palettes.$accent-palette, 500);
+  background-color: $accent-color;
+  border-right: 1px solid $accent-color;
+  color: white;
   width: calc(100% + 1px);
 }
 
