@@ -5,6 +5,7 @@
 .groups-menu {
   position: absolute;
   min-width: 300px;
+  max-width: calc(100% - 20px);
   z-index: 3;
   top: 75px;
   left: 10px;
@@ -21,18 +22,22 @@
 .groups-menu-row-container {
   height: 200px;
   margin: 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .groups-menu-row-content {
+  box-sizing: border-box;
   padding: 5px 10px;
   font-size: 14px;
-  display: flex;
+  display: grid;
+  grid-template: 1fr / 1fr 90px;
   justify-content: space-between;
   align-items: center;
+  width: 100%;
 }
 
 .groups-menu-row-controls {
+  grid-column: 2 / 2;
   display: flex;
   align-items: center;
 
@@ -47,4 +52,9 @@
 
 .delete-group-icon {
   color: map.get(palettes.$warn-palette, 500);
+}
+
+app-group-name-chip {
+  overflow: hidden;
+  grid-column: 1 / 1;
 }

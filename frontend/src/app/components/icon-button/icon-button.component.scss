@@ -8,12 +8,18 @@
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
+  justify-content: center;
+  align-items: center;
 
-  &:hover {
-    background: rgba(0, 0, 0, 0.05);
+  mat-icon {
+    color: #aaaaaa;
   }
 
-  &:active {
-    background: rgba(0, 0, 0, 0.1);
+  &:hover > mat-icon {
+    color: #888888;
+  }
+
+  &:active > mat-icon {
+    color: #666666;
   }
 }
