@@ -2,9 +2,18 @@
   <app-item-sort-button
     (sortByDate)="userDataService.sortItemsByDate(); searchService.update()"
     (sortByTitle)="userDataService.sortItemsByTitle(); searchService.update()"
-    (sortByFavorited)="userDataService.sortItemsByFavorited(); searchService.update()"
+    (sortByFavorited)="
+      userDataService.sortItemsByFavorited(); searchService.update()
+    "
   ></app-item-sort-button>
-  <button mat-icon-button (click)="toggleFilterMenu($event)">
+  <button
+    mat-icon-button
+    (click)="toggleFilterMenu($event)"
+    matTooltip="Filter items"
+    matTooltipPosition="below"
+    matTooltipClass="tooltip"
+    [matTooltipShowDelay]="1000"
+  >
     <mat-icon>filter_list</mat-icon>
   </button>
   <div
@@ -28,7 +37,8 @@
       [(ngModel)]="searchService.filter.notFavorited"
       (change)="searchService.update()"
       [disableRipple]="true"
-    >Not favorited</mat-checkbox>
+      >Not favorited</mat-checkbox
+    >
   </div>
   <mat-form-field class="search-field" appearance="standard" color="primary">
     <input

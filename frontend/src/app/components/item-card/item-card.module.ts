@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FavoriteButtonModule } from '../favorite-button/favorite-button.module';
 import { IconButtonModule } from '../icon-button/icon-button.module';
 import { ItemViewDialogModule } from '../item-view-dialog/item-view-dialog.module';
@@ -17,6 +18,7 @@ import { ItemCardComponent } from './item-card.component';
     ItemViewDialogModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
     IconButtonModule,
     FavoriteButtonModule,
   ],

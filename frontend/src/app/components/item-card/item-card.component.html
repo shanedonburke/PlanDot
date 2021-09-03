@@ -32,6 +32,10 @@
     <app-icon-button
       icon="open_in_full"
       (click)="expandItem()"
+      matTooltip="View details"
+      matTooltipClass="tooltip"
+      matTooltipPosition="left"
+      [matTooltipShowDelay]="1000"
     ></app-icon-button>
     <app-favorite-button [item]="item"></app-favorite-button>
     <ng-content></ng-content>
