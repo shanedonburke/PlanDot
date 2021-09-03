@@ -122,10 +122,6 @@ mat-dialog-container {
    Miscellaneous
    ========================================================================== */
 
-.tooltip {
-  background-color: #323232;
-}
-
 .welcome-message {
   background-color: map.get(palettes.$accent-palette, 0);
   box-sizing: border-box;

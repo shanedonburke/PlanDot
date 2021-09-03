@@ -95,7 +95,7 @@
         <button
           mat-icon-button
           [disabled]="!userDataService.canUndo()"
-          [matTooltip]="userDataService.getLastAction()"
+          [matTooltip]="'Undo: ' + userDataService.getLastAction()"
           matTooltipPosition="right"
           matTooltipClass="tooltip"
           (click)="userDataService.undo()"
@@ -106,7 +106,7 @@
         <button
           mat-icon-button
           [disabled]="!userDataService.canRedo()"
-          [matTooltip]="userDataService.getNextAction()"
+          [matTooltip]="'Redo: ' + userDataService.getNextAction()"
           matTooltipPosition="right"
           matTooltipClass="tooltip"
           (click)="userDataService.redo()"

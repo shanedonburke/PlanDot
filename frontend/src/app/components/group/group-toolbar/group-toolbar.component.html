@@ -14,10 +14,26 @@
       <div class="groups-menu-row-content">
         <app-group-name-chip [group]="group"></app-group-name-chip>
         <div class="groups-menu-row-controls">
-          <button (click)="editGroup(group)" mat-icon-button color="accent">
+          <button
+            (click)="editGroup(group)"
+            mat-icon-button
+            color="accent"
+            matTooltip="Edit group"
+            matTooltipPosition="below"
+            matTooltipClass="tooltip"
+            [matTooltipShowDelay]="1000"
+          >
             <mat-icon>edit</mat-icon>
           </button>
-          <button (click)="deleteGroup(group)" mat-icon-button color="warn">
+          <button
+            (click)="deleteGroup(group)"
+            mat-icon-button
+            color="warn"
+            matTooltip="Delete group"
+            matTooltipPosition="below"
+            matTooltipClass="tooltip"
+            [matTooltipShowDelay]="1000"
+          >
             <mat-icon>delete</mat-icon>
           </button>
         </div>
