@@ -2,7 +2,7 @@
   mat-icon-button
   color="accent"
   class="favorite-button"
-  (click)="item.toggleFavorite()"
+  (click)="toggleFavorite()"
 >
-  <mat-icon>{{ item.favorited ? 'star' : 'star_border' }}</mat-icon>
+  <mat-icon>{{ item.isFavorited ? 'star' : 'star_border' }}</mat-icon>
 </button>

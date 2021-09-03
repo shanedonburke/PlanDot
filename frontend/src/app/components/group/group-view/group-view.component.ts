@@ -44,4 +44,19 @@ export class GroupViewComponent {
     });
     this.userDataService.saveUserData(UserDataAction.SORT_GROUP_ITEMS);
   }
+
+  sortByFavorited(group: Group) {
+    const favorited: Array<string> = [];
+    const notFavorited: Array<string> = [];
+
+    group.itemIds.forEach((itemId) => {
+      if (this.itemService.getItemById(itemId)!.isFavorited) {
+        favorited.push(itemId);
+      } else {
+        notFavorited.push(itemId);
+      }
+    });
+    group.itemIds = [...favorited, ...notFavorited];
+    this.userDataService.saveUserData(UserDataAction.SORT_GROUP_ITEMS);
+  }
 }

@@ -24,11 +24,11 @@
   </mat-form-field>
   <mat-checkbox
     class="time-enabled-checkbox"
-    [checked]="data.item.dateEnabled"
-    (change)="data.item.dateEnabled = !data.item.dateEnabled"
+    [checked]="data.item.isDateEnabled"
+    (change)="data.item.isDateEnabled = !data.item.isDateEnabled"
     >Add date</mat-checkbox
   >
-  <ng-container *ngIf="data.item.dateEnabled">
+  <ng-container *ngIf="data.item.isDateEnabled">
     <mat-form-field appearance="fill">
       <mat-label>Date</mat-label>
       <input
@@ -51,13 +51,13 @@
       </mat-datepicker>
     </mat-form-field>
     <mat-checkbox
-      *ngIf="data.item.dateEnabled"
+      *ngIf="data.item.isDateEnabled"
       class="time-enabled-checkbox"
-      [checked]="data.item.startTimeEnabled"
-      (change)="data.item.startTimeEnabled = !data.item.startTimeEnabled"
+      [checked]="data.item.isStartTimeEnabled"
+      (change)="data.item.isStartTimeEnabled = !data.item.isStartTimeEnabled"
       >Add start time</mat-checkbox
     >
-    <ng-container *ngIf="data.item.startTimeEnabled">
+    <ng-container *ngIf="data.item.isStartTimeEnabled">
       <div class="time-form">
         <mat-form-field appearance="fill">
           <mat-label>Hours</mat-label>
@@ -84,13 +84,13 @@
         </mat-form-field>
       </div>
       <mat-checkbox
-        *ngIf="data.item.dateEnabled"
+        *ngIf="data.item.isDateEnabled"
         class="time-enabled-checkbox"
-        [checked]="data.item.endTimeEnabled"
+        [checked]="data.item.isEndTimeEnabled"
         (change)="handleEndTimeEnabled()"
         >Add end time</mat-checkbox
       >
-      <div class="time-form" *ngIf="data.item.endTimeEnabled">
+      <div class="time-form" *ngIf="data.item.isEndTimeEnabled">
         <mat-form-field appearance="fill">
           <mat-label>Hours</mat-label>
           <mat-select [(ngModel)]="data.item.endTime.hours">

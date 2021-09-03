@@ -34,9 +34,9 @@ export class SearchService {
   update() {
     const searchDate = new Date(this.searchValue);
     this.filteredItems = this.itemService.getItems().filter((item) => {
-      if (!this.filter.withDate && item.dateEnabled) {
+      if (!this.filter.withDate && item.isDateEnabled) {
         return false;
-      } else if (!this.filter.withoutDate && !item.dateEnabled) {
+      } else if (!this.filter.withoutDate && !item.isDateEnabled) {
         return false;
       }
 
@@ -47,7 +47,7 @@ export class SearchService {
       let doesDateMatch = false;
       if (isValidDate(searchDate)) {
         doesDateMatch =
-          item.dateEnabled && item.date.getTime() === searchDate.getTime();
+          item.isDateEnabled && item.date.getTime() === searchDate.getTime();
       }
 
       return (

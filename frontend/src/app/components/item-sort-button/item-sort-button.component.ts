@@ -8,6 +8,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ItemSortButtonComponent {
   @Output() sortByDate = new EventEmitter();
   @Output() sortByTitle = new EventEmitter();
+  @Output() sortByFavorited = new EventEmitter();
   
   constructor() {}
 }

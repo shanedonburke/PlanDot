@@ -127,6 +127,20 @@ export class ItemService {
     });
   }
 
+  sortItemsByFavorited(): void {
+    const favorited: Array<string> = [];
+    const notFavorited: Array<string> = [];
+
+    this.itemOrder.forEach((itemId) => {
+      if (this.getItemById(itemId)!.isFavorited) {
+        favorited.push(itemId);
+      } else {
+        notFavorited.push(itemId);
+      }
+    });
+    this.itemOrder = [...favorited, ...notFavorited];
+  }
+
   getItemsByGroup(group: Group): Array<Item> {
     return <Array<Item>>(
       group.itemIds

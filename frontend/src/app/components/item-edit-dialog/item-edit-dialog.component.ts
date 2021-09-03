@@ -53,7 +53,7 @@ export class ItemEditDialogComponent {
   }
 
   handleEndTimeEnabled(): void {
-    this.data.item.endTimeEnabled = !this.data.item.endTimeEnabled;
+    this.data.item.isEndTimeEnabled = !this.data.item.isEndTimeEnabled;
     this.data.item.setEndTimeToDefault();
   }
 

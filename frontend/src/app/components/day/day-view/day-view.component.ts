@@ -60,7 +60,7 @@ export class DayViewComponent implements OnInit {
       this.columns.push([]);
     }
     for (const item of this.itemService.getItemsByDate(this.dateService.date)) {
-      if (!item.startTimeEnabled) {
+      if (!item.isStartTimeEnabled) {
         this.timelessItems.push(item);
       } else {
         this.placeItemInColumn(item);
@@ -74,7 +74,7 @@ export class DayViewComponent implements OnInit {
     for (let i = 0; i < 1440 / 2; i++) {
       const inSameRow = items.filter((item) => {
         return (
-          item.startTimeEnabled &&
+          item.isStartTimeEnabled &&
           DayViewComponent.getItemRowStart(item) <= i &&
           DayViewComponent.getItemRowEnd(item) > i
         );

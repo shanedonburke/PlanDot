@@ -3,7 +3,11 @@
     <div class="group">
       <div class="group-header">
         <app-group-name-chip [group]="group"></app-group-name-chip>
-        <app-item-sort-button (sortByDate)="sortByDate(group)" (sortByTitle)="sortByTitle(group)"></app-item-sort-button>
+        <app-item-sort-button
+          (sortByDate)="sortByDate(group)"
+          (sortByTitle)="sortByTitle(group)"
+          (sortByFavorited)="sortByFavorited(group)"
+        ></app-item-sort-button>
       </div>
       <div
         class="item-card-list"

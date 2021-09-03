@@ -9,15 +9,15 @@ export interface ItemJson {
   description: string;
   location: string;
   date: Date;
-  dateEnabled: boolean;
+  isDateEnabled: boolean;
   repeat: Repeat;
   weekdays: Array<number>;
   startTime: ItemTime;
   endTime: ItemTime;
-  startTimeEnabled: boolean;
-  endTimeEnabled: boolean;
+  isStartTimeEnabled: boolean;
+  isEndTimeEnabled: boolean;
   groupIds: Array<string>;
-  favorited: boolean;
+  isFavorited: boolean;
 }
 
 export enum Repeat {
@@ -47,22 +47,22 @@ export class Item implements ItemJson {
   description = '';
   location = '';
   date = getTodaysDate();
-  dateEnabled = false;
+  isDateEnabled = false;
   repeat = Repeat.NEVER;
   weekdays = [0, 1, 2, 3, 4, 5, 6];
   startTime: ItemTime = { hours: 12, minutes: 0, period: TimePeriod.PM };
   endTime: ItemTime = { hours: 1, minutes: 0, period: TimePeriod.PM };
-  startTimeEnabled = false;
-  endTimeEnabled = false;
+  isStartTimeEnabled = false;
+  isEndTimeEnabled = false;
   groupIds: Array<string> = [];
-  favorited = false;
+  isFavorited = false;
 
   constructor(itemJson: Partial<ItemJson> = {}) {
     Object.assign(this, itemJson);
   }
 
   toggleFavorite(): void {
-    this.favorited = !this.favorited;
+    this.isFavorited = !this.isFavorited;
   }
 
   getStartTimeInMinutes(): number {
@@ -82,26 +82,26 @@ export class Item implements ItemJson {
   }
 
   getDisplayTime(): string {
-    return this.endTimeEnabled
+    return this.isEndTimeEnabled
       ? `${this.getFormattedStartTime()} - ${this.getFormattedEndTime()}`
       : this.getFormattedStartTime();
   }
 
   compareDateTo(item: Item): number {
-    if (!this.dateEnabled && !item.dateEnabled) {
+    if (!this.isDateEnabled && !item.isDateEnabled) {
       return 0;
-    } else if (this.dateEnabled && !item.dateEnabled) {
+    } else if (this.isDateEnabled && !item.isDateEnabled) {
       return -1;
-    } else if (item.dateEnabled && !this.dateEnabled) {
+    } else if (item.isDateEnabled && !this.isDateEnabled) {
       return 1;
     } else {
       const dateDiff = this.date.getTime() - item.date.getTime();
       if (dateDiff === 0) {
-        if (!this.startTimeEnabled && !item.startTimeEnabled) {
+        if (!this.isStartTimeEnabled && !item.isStartTimeEnabled) {
           return 0;
-        } else if (this.startTimeEnabled && !item.startTimeEnabled) {
+        } else if (this.isStartTimeEnabled && !item.isStartTimeEnabled) {
           return -1;
-        } else if (item.startTimeEnabled && !this.startTimeEnabled) {
+        } else if (item.isStartTimeEnabled && !this.isStartTimeEnabled) {
           return 1;
         } else {
           return this.getStartTimeInMinutes() - item.getStartTimeInMinutes();
@@ -113,7 +113,7 @@ export class Item implements ItemJson {
   }
 
   hasDate(date: Date): boolean {
-    if (!this.dateEnabled) {
+    if (!this.isDateEnabled) {
       return false;
     }
     return (

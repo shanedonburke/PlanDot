@@ -34,6 +34,7 @@ export enum UserDataAction {
   REORDER_ITEMS = 'Reorder items',
   SORT_ITEMS = 'Sort items',
   DELETE_ITEM = 'Delete item',
+  FAVORITE_ITEM = 'Favorite item',
   NONE = '',
 }
 
@@ -152,6 +153,11 @@ export class UserDataService {
     this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
+  sortItemsByFavorited(): void {
+    this.itemService.sortItemsByFavorited();
+    this.saveUserData(UserDataAction.SORT_ITEMS);
+  }
+
   editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
       data: { item: item.getDeepCopy() },
@@ -163,8 +169,8 @@ export class UserDataService {
         result.date.setHours(0, 0, 0, 0);
 
         if (
-          result.startTimeEnabled &&
-          (!result.endTimeEnabled ||
+          result.isStartTimeEnabled &&
+          (!result.isEndTimeEnabled ||
             result.getStartTimeInMinutes() >= result.getEndTimeInMinutes())
         ) {
           result.setEndTimeToDefault();

@@ -18,11 +18,11 @@
       <span>{{ item.location }}</span>
     </div>
     <div style="display: flex; margin: 5px 0">
-      <div class="item-card-info" *ngIf="item.dateEnabled">
+      <div class="item-card-info" *ngIf="item.isDateEnabled">
         <mat-icon>event</mat-icon>
         <span>{{ item.date.toLocaleDateString() }}</span>
       </div>
-      <div class="item-card-info" *ngIf="item.startTimeEnabled">
+      <div class="item-card-info" *ngIf="item.isStartTimeEnabled">
         <mat-icon>schedule</mat-icon>
         <span>{{ item.getDisplayTime() }}</span>
       </div>

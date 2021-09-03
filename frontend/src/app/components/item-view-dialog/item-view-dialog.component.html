@@ -21,7 +21,7 @@
       <span>{{ data.item.location }}</span>
     </div>
   </div>
-  <ng-container *ngIf="data.item.dateEnabled">
+  <ng-container *ngIf="data.item.isDateEnabled">
     <div class="item-view-detail">
       <mat-icon>event</mat-icon>
       <div>
@@ -31,7 +31,7 @@
         }}</a>
       </div>
     </div>
-    <div *ngIf="data.item.startTimeEnabled" class="item-view-detail">
+    <div *ngIf="data.item.isStartTimeEnabled" class="item-view-detail">
       <mat-icon>schedule</mat-icon>
       <div>
         <div><b>Time</b></div>
