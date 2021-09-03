@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { FavoriteButtonModule } from '../favorite-button/favorite-button.module';
 import { GroupNameChipModule } from '../group-name-chip/group-name-chip.module';
@@ -17,6 +18,7 @@ import { ItemViewDialogComponent } from './item-view-dialog.component';
     MatDialogModule,
     MatIconModule,
     MatButtonModule,
+    MatTooltipModule,
     GroupNameChipModule,
     IconButtonModule,
     FavoriteButtonModule,
