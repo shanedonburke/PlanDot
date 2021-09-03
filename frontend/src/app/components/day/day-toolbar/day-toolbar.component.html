@@ -1,3 +1,11 @@
-<button (click)="dateService.resetDay()" mat-icon-button color="primary">
+<button
+  (click)="dateService.resetDay()"
+  mat-icon-button
+  color="primary"
+  matTooltip="View today"
+  matTooltipPosition="right"
+  matTooltipClass="tooltip"
+  [matTooltipShowDelay]="750"
+>
   <mat-icon>filter_center_focus</mat-icon>
 </button>

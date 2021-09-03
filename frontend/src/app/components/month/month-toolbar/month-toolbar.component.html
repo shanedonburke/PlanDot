@@ -1,3 +1,11 @@
-<button (click)="dateService.resetMonth()" mat-icon-button color="primary">
+<button
+  (click)="dateService.resetMonth()"
+  mat-icon-button
+  color="primary"
+  matTooltip="View current month"
+  matTooltipPosition="right"
+  matTooltipClass="tooltip"
+  [matTooltipShowDelay]="750"
+>
   <mat-icon color="primary">filter_center_focus</mat-icon>
 </button>
