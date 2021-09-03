@@ -8,6 +8,7 @@ import { UserDataService } from './user-data.service';
 interface ItemFilter {
   withDate: boolean;
   withoutDate: boolean;
+  notFavorited: boolean;
 }
 
 @Injectable({
@@ -18,6 +19,7 @@ export class SearchService {
   filter: ItemFilter = {
     withDate: true,
     withoutDate: true,
+    notFavorited: true,
   };
 
   filteredItems: ReadonlyArray<Item> = [];
@@ -37,6 +39,8 @@ export class SearchService {
       if (!this.filter.withDate && item.isDateEnabled) {
         return false;
       } else if (!this.filter.withoutDate && !item.isDateEnabled) {
+        return false;
+      } else if (!this.filter.notFavorited && !item.isFavorited) {
         return false;
       }
 

@@ -24,6 +24,11 @@
       [disableRipple]="true"
       >Without date</mat-checkbox
     >
+    <mat-checkbox
+      [(ngModel)]="searchService.filter.notFavorited"
+      (change)="searchService.update()"
+      [disableRipple]="true"
+    >Not favorited</mat-checkbox>
   </div>
   <mat-form-field class="search-field" appearance="standard" color="primary">
     <input
