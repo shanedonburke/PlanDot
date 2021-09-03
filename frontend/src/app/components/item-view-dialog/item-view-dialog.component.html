@@ -2,7 +2,12 @@
   <div class="item-view-title">
     <span class="item-view-title-text">{{ data.item.title }}</span>
     <div style="flex-grow: 1"></div>
-    <app-icon-button icon="edit" (click)="editItem()"></app-icon-button>
+    <app-favorite-button [item]="data.item"></app-favorite-button>
+    <app-icon-button
+      icon="edit"
+      (click)="editItem()"
+      class="edit-item-btn"
+    ></app-icon-button>
   </div>
   <div
     *ngIf="data.item.description.trim() !== ''"
@@ -63,8 +68,6 @@
     >
       Close
     </button>
-    <button (click)="deleteItem()" mat-flat-button color="warn">
-      Delete
-    </button>
+    <button (click)="deleteItem()" mat-flat-button color="warn">Delete</button>
   </div>
 </div>

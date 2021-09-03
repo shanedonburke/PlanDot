@@ -1,0 +1,9 @@
+.favorite-button {
+  $size: 24px;
+  align-items: center;
+  display: flex;
+  height: $size;
+  justify-content: center;
+  line-height: $size;
+  width: $size;
+}

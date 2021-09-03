@@ -17,6 +17,7 @@ export interface ItemJson {
   startTimeEnabled: boolean;
   endTimeEnabled: boolean;
   groupIds: Array<string>;
+  favorited: boolean;
 }
 
 export enum Repeat {
@@ -54,9 +55,14 @@ export class Item implements ItemJson {
   startTimeEnabled = false;
   endTimeEnabled = false;
   groupIds: Array<string> = [];
+  favorited = false;
 
   constructor(itemJson: Partial<ItemJson> = {}) {
     Object.assign(this, itemJson);
+  }
+
+  toggleFavorite(): void {
+    this.favorited = !this.favorited;
   }
 
   getStartTimeInMinutes(): number {

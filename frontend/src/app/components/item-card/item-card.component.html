@@ -1,36 +1,39 @@
 <div class="item-card">
-  <div class="item-card-header">
-    <span class="item-card-title">{{ item.title }}</span>
-    <div class="item-card-header-right">
-      <div class="item-card-groups">
-        <div
-          class="item-card-group"
-          *ngFor="let group of groupService.getItemGroups(item)"
-          [style.backgroundColor]="group.color"
-        ></div>
+  <div class="item-card-left">
+    <div class="item-card-header">
+      <span class="item-card-title">{{ item.title }}</span>
+      <div class="item-card-header-right">
+        <div class="item-card-groups">
+          <div
+            class="item-card-group"
+            *ngFor="let group of groupService.getItemGroups(item)"
+            [style.backgroundColor]="group.color"
+          ></div>
+        </div>
       </div>
-      <app-icon-button
-        class="expand-item-btn"
-        icon="open_in_full"
-        (click)="expandItem()"
-      ></app-icon-button>
-    </div>
-  </div>
-  <div style="flex-grow: 1"></div>
-  <div class="item-card-info" *ngIf="item.location.trim() !== ''">
-    <mat-icon>place</mat-icon>
-    <span>{{ item.location }}</span>
-  </div>
-  <div style="display: flex; margin: 5px 0">
-    <div class="item-card-info" *ngIf="item.dateEnabled">
-      <mat-icon>event</mat-icon>
-      <span>{{ item.date.toLocaleDateString() }}</span>
-    </div>
-    <div class="item-card-info" *ngIf="item.startTimeEnabled">
-      <mat-icon>schedule</mat-icon>
-      <span>{{ item.getDisplayTime() }}</span>
     </div>
     <div style="flex-grow: 1"></div>
+    <div class="item-card-info" *ngIf="item.location.trim() !== ''">
+      <mat-icon>place</mat-icon>
+      <span>{{ item.location }}</span>
+    </div>
+    <div style="display: flex; margin: 5px 0">
+      <div class="item-card-info" *ngIf="item.dateEnabled">
+        <mat-icon>event</mat-icon>
+        <span>{{ item.date.toLocaleDateString() }}</span>
+      </div>
+      <div class="item-card-info" *ngIf="item.startTimeEnabled">
+        <mat-icon>schedule</mat-icon>
+        <span>{{ item.getDisplayTime() }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="item-card-right">
+    <app-icon-button
+      icon="open_in_full"
+      (click)="expandItem()"
+    ></app-icon-button>
+    <app-favorite-button [item]="item"></app-favorite-button>
     <ng-content></ng-content>
   </div>
 </div>
