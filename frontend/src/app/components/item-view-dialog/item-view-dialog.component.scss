@@ -54,6 +54,10 @@
     margin-right: 10px;
     color: #555;
   }
+
+  & > div {
+    overflow: hidden;
+  }
 }
 
 .item-view-groups {
