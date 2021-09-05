@@ -65,6 +65,7 @@
   overflow: auto;
   padding: 5px;
   width: 100%;
+  white-space: pre;
 
   @media screen and (max-width: variables.$screen-width-s) {
     display: none;
