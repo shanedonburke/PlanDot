@@ -1,5 +1,6 @@
 <button
   (click)="dateService.resetDay()"
+  [disabled]="shouldDisableResetButton()"
   mat-icon-button
   color="primary"
   matTooltip="View today"
