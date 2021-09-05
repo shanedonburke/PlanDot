@@ -29,7 +29,10 @@ export class ItemListViewComponent implements OnInit {
   onDescriptionMouseWheel(event: Event, element: HTMLDivElement): void {
     event.preventDefault();
     event.stopPropagation();
-    element.scrollTop += (event as WheelEvent).deltaY;
+
+    const wheelEvent = event as WheelEvent;
+    element.scrollTop += wheelEvent.deltaY;
+    element.scrollLeft += wheelEvent.deltaX;
   }
 }
 
