@@ -33,9 +33,9 @@ function startProdServer(): Server {
     key: readLocalFileSync("plandot.app.key"),
     cert: readLocalFileSync("plandot.app.crt"),
     ca: [
-      readLocalFileSync("gd1.crt"),
-      readLocalFileSync("gd2.crt"),
-      readLocalFileSync("gd3.crt"),
+      readLocalFileSync("cert_1.crt"),
+      readLocalFileSync("cert_2.crt"),
+      readLocalFileSync("cert_3.crt"),
     ],
   };
   console.log('Successfully read SSL certificate files.');

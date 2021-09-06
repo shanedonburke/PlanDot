@@ -1,7 +1,7 @@
 import {
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver, OnInit,
+  ComponentFactoryResolver, HostListener, OnInit,
   ViewChild,
   ViewEncapsulation
 } from '@angular/core';
@@ -65,6 +65,11 @@ export class AppComponent implements OnInit {
 
   addNewItem() {
     this.userDataService.editItem(new Item());
+  }
+
+  @HostListener('window:keydown')
+  onEnter() {
+    console.log(this.groupService.getGroups().map((g) => g.color));
   }
 
   private loadViewAndToolbar(view: View) {

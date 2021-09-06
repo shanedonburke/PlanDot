@@ -63,4 +63,8 @@ export class GroupService {
       }
     });
   }
+
+  getGroupCount(): number {
+    return this.groupOrder.length;
+  }
 }

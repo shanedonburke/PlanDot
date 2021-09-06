@@ -22,7 +22,8 @@
 .groups-menu-row-container {
   height: 200px;
   margin: 10px;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .groups-menu-row-content {

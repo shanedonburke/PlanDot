@@ -1,4 +1,8 @@
 <div class="group-view-container">
+  <div *ngIf="groupService.getGroupCount() === 0" class="group-view-welcome">
+    <h1>Oops, no groups!</h1>
+    <p>You can use groups to organize items. Open the <b>Groups</b> menu to create one.</p>
+  </div>
   <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
     <div class="group">
       <div class="group-header">

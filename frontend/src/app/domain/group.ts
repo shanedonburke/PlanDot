@@ -20,9 +20,6 @@ export class Group implements GroupJson {
 
   constructor(groupJson: Partial<GroupJson> = {}) {
     Object.assign(this, groupJson);
-    while (this.color === '#ffffff') {
-      this.color = Group.generateColor();
-    }
   }
 
   getTextColor(): string {
@@ -39,6 +36,6 @@ export class Group implements GroupJson {
   }
 
   private static generateColor(): string {
-    return '#' + Math.floor(Math.random() * 0xffffff).toString(16);
+    return '#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0');
   }
 }
