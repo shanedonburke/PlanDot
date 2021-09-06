@@ -11,10 +11,16 @@ import { UserDataService } from 'src/app/services/user-data.service';
   styleUrls: ['./item-list-view.component.scss'],
 })
 export class ItemListViewComponent implements OnInit {
+  isUserDataLoaded = false;
+
   constructor(
     public readonly searchService: SearchService,
     public readonly userDataService: UserDataService,
-  ) {}
+  ) {
+    this.userDataService.onUserDataLoaded.subscribe(() => {
+      this.isUserDataLoaded = true;
+    });
+  }
 
   ngOnInit() {
     this.searchService.update();

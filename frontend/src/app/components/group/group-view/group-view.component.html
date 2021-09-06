@@ -1,41 +1,49 @@
 <div class="group-view-container">
-  <div *ngIf="groupService.getGroupCount() === 0" class="group-view-welcome">
-    <h1>Oops, no groups!</h1>
-    <p>You can use groups to organize items. Open the <b>Groups</b> menu to create one.</p>
+  <div class="spinner-container" *ngIf="!isUserDataLoaded">
+    <mat-spinner color="accent"></mat-spinner>
   </div>
-  <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
-    <div class="group">
-      <div class="group-header">
-        <app-group-name-chip [group]="group"></app-group-name-chip>
-        <app-item-sort-button
-          (sortByDate)="sortByDate(group)"
-          (sortByTitle)="sortByTitle(group)"
-          (sortByFavorited)="sortByFavorited(group)"
-        ></app-item-sort-button>
-      </div>
-      <div
-        class="item-card-list"
-        cdkDropList
-        (cdkDropListDropped)="dropGroupItem(group, $event)"
-      >
-        <app-item-card
-          *ngFor="let item of itemService.getItemsByGroup(group)"
-          [item]="item"
-          class="group-item-card"
-          cdkDrag
-          cdkDragLockAxis="y"
-        >
-          <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
-        </app-item-card>
-      </div>
-      <button
-        (click)="addNewItemToGroup(group)"
-        mat-button
-        color="primary"
-        class="new-item-card-btn"
-      >
-        New item
-      </button>
+  <ng-container *ngIf="isUserDataLoaded">
+    <div *ngIf="groupService.getGroupCount() === 0" class="group-view-welcome">
+      <h1>Oops, no groups!</h1>
+      <p>
+        You can use groups to organize items. Open the <b>Groups</b> menu to
+        create one.
+      </p>
     </div>
-  </div>
+    <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
+      <div class="group">
+        <div class="group-header">
+          <app-group-name-chip [group]="group"></app-group-name-chip>
+          <app-item-sort-button
+            (sortByDate)="sortByDate(group)"
+            (sortByTitle)="sortByTitle(group)"
+            (sortByFavorited)="sortByFavorited(group)"
+          ></app-item-sort-button>
+        </div>
+        <div
+          class="item-card-list"
+          cdkDropList
+          (cdkDropListDropped)="dropGroupItem(group, $event)"
+        >
+          <app-item-card
+            *ngFor="let item of itemService.getItemsByGroup(group)"
+            [item]="item"
+            class="group-item-card"
+            cdkDrag
+            cdkDragLockAxis="y"
+          >
+            <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
+          </app-item-card>
+        </div>
+        <button
+          (click)="addNewItemToGroup(group)"
+          mat-button
+          color="primary"
+          class="new-item-card-btn"
+        >
+          New item
+        </button>
+      </div>
+    </div>
+  </ng-container>
 </div>

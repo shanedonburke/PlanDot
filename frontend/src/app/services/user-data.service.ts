@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   HistorySnackBarComponent,
   HistorySnackBarData,
@@ -56,7 +56,12 @@ export class UserDataService {
     return this._onUserDataChanged.asObservable();
   }
 
+  get onUserDataLoaded(): Observable<void> {
+    return this._onUserDataLoaded.asObservable();
+  }
+
   private _onUserDataChanged = new Subject<void>();
+  private _onUserDataLoaded = new ReplaySubject<void>();
 
   private history: Array<HistoryEntry> = [];
   private historyIndex: number = 0;
@@ -108,6 +113,7 @@ export class UserDataService {
             )
           );
           this._onUserDataChanged.next();
+          this._onUserDataLoaded.next();
         } else {
           this.history.push(new HistoryEntry(UserDataAction.NONE));
         }

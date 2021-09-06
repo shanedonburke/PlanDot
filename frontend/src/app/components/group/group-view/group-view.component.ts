@@ -12,11 +12,17 @@ import { UserDataAction, UserDataService } from 'src/app/services/user-data.serv
   styleUrls: ['./group-view.component.scss'],
 })
 export class GroupViewComponent {
+  isUserDataLoaded = false;
+
   constructor(
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
     public readonly userDataService: UserDataService,
-  ) {}
+  ) {
+    this.userDataService.onUserDataLoaded.subscribe(() => {
+      this.isUserDataLoaded = true;
+    });
+  }
 
   addNewItemToGroup(group: Group) {
     this.userDataService.editItem(new Item({ groupIds: [group.id] }));

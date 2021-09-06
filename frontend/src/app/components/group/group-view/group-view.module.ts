@@ -2,6 +2,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { GroupNameChipModule } from "../../group-name-chip/group-name-chip.module";
@@ -18,6 +19,7 @@ import { GroupViewComponent } from "./group-view.component";
     DragDropModule,
     MatButtonModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     GroupNameChipModule,
     ItemCardModule,
     ItemSortButtonModule,

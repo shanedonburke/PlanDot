@@ -2,13 +2,19 @@
 @use '~src/styles/variables';
 @use '~src/styles/palettes';
 
+$background-color: #eff0f0;
+
 :host {
   height: 100%;
   width: 100%;
 }
 
+.spinner-container {
+  background-color: $background-color;
+}
+
 .item-list {
-  background-color: #eff0f0;
+  background-color: $background-color;
   box-sizing: border-box;
   height: 100%;
   overflow-x: hidden;

@@ -1,4 +1,8 @@
+<div *ngIf="!isUserDataLoaded" class="spinner-container">
+  <mat-spinner></mat-spinner>
+</div>
 <div
+  *ngIf="isUserDataLoaded"
   class="item-list"
   cdkDropList
   (cdkDropListDropped)="userDataService.handleItemListDragDrop($event)"
