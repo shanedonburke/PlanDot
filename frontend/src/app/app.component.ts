@@ -1,9 +1,11 @@
 import {
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver, HostListener, OnInit,
+  ComponentFactoryResolver,
+  HostListener,
+  OnInit,
   ViewChild,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { DayToolbarComponent } from './components/day/day-toolbar/day-toolbar.component';
 import { DayViewComponent } from './components/day/day-view/day-view.component';
@@ -17,6 +19,7 @@ import { ToolbarDirective } from './directives/toolbar.directive';
 import { ViewDirective } from './directives/view.directive';
 import { Item } from './domain/item';
 import { View } from './domain/view';
+import { DateService } from './services/date.service';
 import { GroupService } from './services/group.service';
 import { ItemService } from './services/item.service';
 import { UserAuthService } from './services/user-auth.service';
@@ -53,7 +56,8 @@ export class AppComponent implements OnInit {
     public readonly userAuthService: UserAuthService,
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,
-    private readonly componentFactoryResolver: ComponentFactoryResolver,
+    private readonly dateService: DateService,
+    private readonly componentFactoryResolver: ComponentFactoryResolver
   ) {}
 
   ngOnInit() {
@@ -64,7 +68,10 @@ export class AppComponent implements OnInit {
   }
 
   addNewItem() {
-    this.userDataService.editItem(new Item());
+    const item = this.viewService.isDayView()
+      ? new Item({ date: this.dateService.date })
+      : new Item();
+    this.userDataService.editItem(item);
   }
 
   @HostListener('window:keydown')
