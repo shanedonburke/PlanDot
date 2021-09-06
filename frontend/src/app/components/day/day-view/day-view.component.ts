@@ -49,6 +49,7 @@ export class DayViewComponent implements OnInit {
   expandItem(item: Item): void {
     this.dialog.open(ItemViewDialogComponent, {
       data: { item },
+      autoFocus: false,
     });
   }
 

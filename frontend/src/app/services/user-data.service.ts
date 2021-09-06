@@ -184,6 +184,7 @@ export class UserDataService {
       } else if (showItemOnCancel) {
         this.dialog.open(ItemViewDialogComponent, {
           data: { item },
+          autoFocus: false,
         });
       }
     });

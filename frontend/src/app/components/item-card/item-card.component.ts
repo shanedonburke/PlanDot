@@ -20,6 +20,7 @@ export class ItemCardComponent {
   expandItem() {
     this.dialog.open(ItemViewDialogComponent, {
       data: { item: this.item },
+      autoFocus: false,
     });
   }
 }
