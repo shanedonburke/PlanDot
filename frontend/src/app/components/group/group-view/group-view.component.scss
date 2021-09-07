@@ -1,6 +1,4 @@
-@use "sass:map";
 @use "~src/styles/variables";
-@use "~src/styles/palettes";
 
 :host {
   @apply overflow-auto w-full h-full;
