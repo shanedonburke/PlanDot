@@ -8,7 +8,7 @@
 
 div.cdk-overlay-pane {
   /* Allow dialogs with larger widths */
-  @media screen and (max-width: variables.$screen-width-xs) {
+  @media screen and (max-width: variables.$screen-width-sm) {
     max-width: unset !important;
   }
 }
@@ -19,7 +19,7 @@ mat-dialog-container {
   height: unset !important;
   
   /** On mobile, use the screen's width + 10px margins */
-  @media screen and (max-width: variables.$screen-width-xs) {
+  @media screen and (max-width: variables.$screen-width-sm) {
     width: calc(100vw - (10px * 2)) !important;
   }
 }

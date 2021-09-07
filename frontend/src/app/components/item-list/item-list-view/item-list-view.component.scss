@@ -73,7 +73,7 @@ $background-color: #eff0f0;
   width: 100%;
   white-space: pre;
 
-  @media screen and (max-width: variables.$screen-width-s) {
+  @media screen and (max-width: variables.$screen-width-md) {
     display: none;
   }
 }
