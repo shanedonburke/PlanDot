@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     colors: {
       black: 'black',
+      white: 'white',
       snow: '#fafafa',
       ghost: '#eff0f0',
       primary: {
@@ -40,7 +41,7 @@ module.exports = {
     extend: {
       spacing: {
         '0.625': '0.15625rem', // 2.5px
-        '1.25': '0.313rem', // 5px 
+        '1.25': '0.313rem',    // 5px 
       }
     },
   },
