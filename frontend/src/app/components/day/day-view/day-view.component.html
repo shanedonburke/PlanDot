@@ -1,4 +1,4 @@
-<div class="day-view-container">
+<div class="w-full h-full flex flex-col">
   <div class="view-header">
     <button class="view-nav-btn" (click)="dateService.goToPrevDate()">
       <mat-icon>arrow_back</mat-icon>
@@ -8,22 +8,24 @@
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
-  <div class="day-view-content">
-    <div class="timeless-items" *ngIf="timelessItems.length > 0">
-      <span class="timeless-items-header">Items without times</span>
+  <div class="w-full h-full overflow-auto relative">
+    <div *ngIf="timelessItems.length > 0" class="p-1.25 bg-snow">
+      <span class="font-medium text-[15px]">Items without times</span>
       <div
         *ngFor="let item of timelessItems"
-        class="day-view-item"
         [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
         [style.color]="itemService.getItemTextColor(item)"
         (click)="expandItem(item)"
+        class="day-view-item"
       >
         {{ item.title }}
       </div>
     </div>
-    <div class="day-view-grid-container">
+    <div class="relative">
       <div *ngFor="let hour of hours" class="day-view-hour">
-        <div class="day-view-hour-label">{{ getHourString(hour) }}</div>
+        <div class="box-border pt-1.25 pr-2.5 bg-ghost text-right">
+          {{ getHourString(hour) }}
+        </div>
       </div>
       <div
         class="day-view-grid"

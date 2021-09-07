@@ -9,6 +9,9 @@ module.exports = {
   darkMode: 'class',
   theme: {
     colors: {
+      black: 'black',
+      snow: '#fafafa',
+      ghost: '#eff0f0',
       primary: {
         50: 'var(--primary-50)',
         100: 'var(--primary-100)',
@@ -37,6 +40,7 @@ module.exports = {
     extend: {
       spacing: {
         '0.625': '0.15625rem', // 2.5px
+        '1.25': '0.313rem', // 5px 
       }
     },
   },
