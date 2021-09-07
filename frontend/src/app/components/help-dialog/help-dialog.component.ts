@@ -15,7 +15,7 @@ import { HelpPageComponent } from '../help-page/help-page.component';
 export class HelpDialogComponent {
   private static STEP_CONTENTS = [
     `
-      <h1>Welcome to plan.</h1>
+      <h1 class="">Welcome to plan.</h1>
       <p>
         <b>plan.</b> ("plan-dot") is a personal planning tool that makes keeping track of your life
         easier than ever before.

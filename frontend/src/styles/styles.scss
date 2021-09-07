@@ -1,5 +1,8 @@
 @use 'sass:map';
 @use '~src/styles/palettes';
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 html,
 body {

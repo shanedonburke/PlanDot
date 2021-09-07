@@ -53,7 +53,7 @@ mat-dialog-container {
 }
 
 .secondary-toolbar {
-  background-color: map.get(palettes.$primary-palette, 0);
+  background-color: map.get(palettes.$primary-palette, 50);
   color: map.get(palettes.$primary-palette, 500);
 }
 

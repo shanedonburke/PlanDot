@@ -1,16 +1,15 @@
-<div class="help-dialog">
-  <div class="help-dialog-page-container" #pageContainer>
+<div class="flex flex-col h-[500px] sm:w-full md:w-[500px]">
+  <div class="flex overflow-hidden w-full h-full" #pageContainer>
     <ng-template helpPageHost></ng-template>
-    <div class="help-dialog-page"></div>
   </div>
-  <div class="help-dialog-controls">
+  <div class="flex items-center justify-center w-full">
     <button mat-icon-button (click)="goToPreviousStep()">
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <div class="help-dialog-bubble-container">
-      <span *ngFor="let bubble of bubbles" class="help-dialog-bubble">
+    <div class="flex items-center justify-center mx-0.625">
+      <span *ngFor="let bubble of bubbles" class="mx-0.625">
         <svg *ngIf="bubble" height="10" width="10">
-          <circle cx="5" cy="5" r="5" class="current-bubble" />
+          <circle cx="5" cy="5" r="5" class="fill-current text-accent-500" />
         </svg>
         <svg *ngIf="!bubble" height="10" width="10">
           <circle cx="5" cy="5" r="4" fill="black" />
