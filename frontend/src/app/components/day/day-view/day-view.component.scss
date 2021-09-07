@@ -2,8 +2,7 @@ $hour-label-width: 55px;
 $hour-height: 80px;
 
 :host {
-  height: 100%;
-  width: 100%;
+  @apply w-full h-full;
 }
 
 .day-view-hour {
