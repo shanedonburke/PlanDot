@@ -1,0 +1,24 @@
+<div class="help-dialog">
+  <div class="help-dialog-page-container" #pageContainer>
+    <ng-template helpPageHost></ng-template>
+    <div class="help-dialog-page"></div>
+  </div>
+  <div class="help-dialog-controls">
+    <button mat-icon-button (click)="goToPreviousStep()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <div class="help-dialog-bubble-container">
+      <span *ngFor="let bubble of bubbles" class="help-dialog-bubble">
+        <svg *ngIf="bubble" height="10" width="10">
+          <circle cx="5" cy="5" r="5" class="current-bubble" />
+        </svg>
+        <svg *ngIf="!bubble" height="10" width="10">
+          <circle cx="5" cy="5" r="4" fill="black" />
+        </svg>
+      </span>
+    </div>
+    <button mat-icon-button (click)="goToNextStep()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

@@ -7,10 +7,12 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DayToolbarComponent } from './components/day/day-toolbar/day-toolbar.component';
 import { DayViewComponent } from './components/day/day-view/day-view.component';
 import { GroupToolbarComponent } from './components/group/group-toolbar/group-toolbar.component';
 import { GroupViewComponent } from './components/group/group-view/group-view.component';
+import { HelpDialogComponent } from './components/help-dialog/help-dialog.component';
 import { ItemListToolbarComponent } from './components/item-list/item-list-toolbar/item-list-toolbar.component';
 import { ItemListViewComponent } from './components/item-list/item-list-view/item-list-view.component';
 import { MonthToolbarComponent } from './components/month/month-toolbar/month-toolbar.component';
@@ -57,7 +59,8 @@ export class AppComponent implements OnInit {
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,
     private readonly dateService: DateService,
-    private readonly componentFactoryResolver: ComponentFactoryResolver
+    private readonly componentFactoryResolver: ComponentFactoryResolver,
+    private readonly dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -74,9 +77,8 @@ export class AppComponent implements OnInit {
     this.userDataService.editItem(item);
   }
 
-  @HostListener('window:keydown')
-  onEnter() {
-    console.log(this.groupService.getGroups().map((g) => g.color));
+  openHelpDialog(): void {
+    this.dialog.open(HelpDialogComponent, { autoFocus: false });
   }
 
   private loadViewAndToolbar(view: View) {

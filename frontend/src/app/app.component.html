@@ -4,6 +4,9 @@
       <div class="primary-toolbar-row">
         <span>plan.</span>
         <div [style.flexGrow]="1"></div>
+        <button mat-icon-button (click)="openHelpDialog()">
+          <mat-icon>help_outline</mat-icon>
+        </button>
         <button
           *ngIf="!userAuthService.hasAuth()"
           (click)="userAuthService.login()"

@@ -19,6 +19,7 @@ import { GroupEditDialogModule } from './components/group-edit-dialog/group-edit
 import { GroupNameChipModule } from './components/group-name-chip/group-name-chip.module';
 import { GroupToolbarModule } from './components/group/group-toolbar/group-toolbar.module';
 import { GroupViewModule } from './components/group/group-view/group-view.module';
+import { HelpDialogModule } from './components/help-dialog/help-dialog.module';
 import { ItemEditDialogModule } from './components/item-edit-dialog/item-edit-dialog.module';
 import { ItemListToolbarModule } from './components/item-list/item-list-toolbar/item-list-toolbar.module';
 import { ItemListViewModule } from './components/item-list/item-list-view/item-list-view.module';
@@ -61,6 +62,7 @@ if (!('scrollBehavior' in document.documentElement.style)) {
     DayToolbarModule,
     ItemListViewModule,
     ItemListToolbarModule,
+    HelpDialogModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

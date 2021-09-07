@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use '~src/styles/variables';
+@use '~src/styles/palettes';
+
+.help-dialog {
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  width: 500px;
+
+  @media screen and (max-width: variables.$screen-width-xs) {
+    width: 100%;
+  }
+}
+
+.help-dialog-page-container {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+.help-dialog-controls {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.help-dialog-bubble-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0 2.5px;
+}
+
+.help-dialog-bubble {
+  margin: 0 2.5px;
+}
+
+.current-bubble {
+  fill: map.get(palettes.$accent-palette, 500);
+}
