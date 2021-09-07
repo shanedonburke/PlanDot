@@ -3,70 +3,15 @@
 @use "~src/styles/palettes";
 
 :host {
-  overflow: auto;
-  height: 100%;
-  width: 100%;
-}
-
-.group-view-container {
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 10px 5px;
-  background-color: map.get(palettes.$primary-palette, 300);
-  display: flex;
-  height: 100%;
-  overflow: auto;
-
-  @media only screen and (max-width: variables.$screen-width-xs) {
-    scroll-snap-type: x mandatory;
-  }
-}
-
-.group-view-welcome {
-  align-items: center;
-  color: rgba(white, 80%);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  justify-content: center;
-  padding: 10px;
-  width: 100%;
-
-  p {
-    text-align: center;
-    font-size: 16px;
-  }
-}
-
-.group-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.group-wrapper {
-  width: min-content;
-  box-sizing: border-box;
-  padding: 0 5px;
-
-  @media only screen and (max-width: variables.$screen-width-xs) {
-    scroll-snap-align: center;
-  }
+  @apply overflow-auto w-full h-full;
 }
 
 .group {
-  background-color: #fafafa;
+  @apply bg-snow h-full p-2.5 flex-shrink-0 flex flex-col rounded-md box-border;
+  
   width: calc((100vw - 80px) / 3);
-  height: 100%;
-  box-sizing: border-box;
-  padding: 10px;
-  flex-shrink: 0;
   box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
     0 1px 5px 0 rgb(0 0 0 / 12%);
-  display: flex;
-  flex-direction: column;
-  border-radius: 5px;
 
   @media only screen and (max-width: variables.$screen-width-s) {
     width: calc((100vw - 70px) / 2);
@@ -77,21 +22,8 @@
   }
 }
 
-.item-card-list {
-  border-radius: 5px;
-  width: 100%;
-  height: 100%;
-  background-color: #eff0f0;
-  margin: 10px 0;
-  padding: 2.5px 5px;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  overflow: auto;
-}
-
 .group-item-card {
-  margin: 2.5px 0;
+  @apply my-0.625;
 
   ::ng-deep.item-card {
     border-radius: 5px;

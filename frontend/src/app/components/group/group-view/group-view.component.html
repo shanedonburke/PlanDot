@@ -1,18 +1,18 @@
-<div class="group-view-container">
+<div class="w-full h-full box-border py-2.5 px-1.25 bg-primary-300 flex overflow-auto scroll-snap-x sm:scroll-snap-none">
   <div class="spinner-container" *ngIf="!isUserDataLoaded">
     <mat-spinner color="accent"></mat-spinner>
   </div>
   <ng-container *ngIf="isUserDataLoaded">
-    <div *ngIf="groupService.getGroupCount() === 0" class="group-view-welcome">
+    <div *ngIf="groupService.getGroupCount() === 0" class="items-center opacity-80 text-white flex flex-col h-full w-full p-2.5 justify-center">
       <h1>Oops, no groups!</h1>
-      <p>
+      <p class="text-center text-base">
         You can use groups to organize items. Open the <b>Groups</b> menu to
         create one.
       </p>
     </div>
-    <div *ngFor="let group of groupService.getGroups()" class="group-wrapper">
+    <div *ngFor="let group of groupService.getGroups()" class="w-min box-border px-1.25 scroll-align-center">
       <div class="group">
-        <div class="group-header">
+        <div class="flex justify-between items-center">
           <app-group-name-chip [group]="group"></app-group-name-chip>
           <app-item-sort-button
             (sortByDate)="sortByDate(group)"
@@ -21,7 +21,7 @@
           ></app-item-sort-button>
         </div>
         <div
-          class="item-card-list"
+          class="rounded-md w-full h-full bg-ghost my-2.5 py-0.625 px-1.25 flex flex-col box-border overflow-auto"
           cdkDropList
           (cdkDropListDropped)="dropGroupItem(group, $event)"
         >
