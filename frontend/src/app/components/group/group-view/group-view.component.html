@@ -49,6 +49,8 @@
           ></app-item-sort-button>
         </div>
         <div
+          cdkDropList
+          (cdkDropListDropped)="dropGroupItem(group, $event)"
           class="
             rounded-md
             w-full
@@ -61,8 +63,6 @@
             box-border
             overflow-auto
           "
-          cdkDropList
-          (cdkDropListDropped)="dropGroupItem(group, $event)"
         >
           <app-item-card
             *ngFor="let item of itemService.getItemsByGroup(group)"
