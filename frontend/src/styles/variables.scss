@@ -1,9 +1,3 @@
 $screen-width-lg: 1024px;
 $screen-width-md: 768px;
 $screen-width-sm: 640px;
-
-:export {
-  --screen-width-lg: $screen-width-lg;
-  --screen-width-md: $screen-width-md;
-  --screen-width-sm: $screen-width-sm;
-}
