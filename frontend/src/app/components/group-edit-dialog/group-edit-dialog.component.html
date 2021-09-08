@@ -1,6 +1,6 @@
-<div class="group-edit-dialog">
-  <div class="group-edit-controls">
-    <mat-form-field>
+<div class="flex flex-col">
+  <div class="w-full flex items-center">
+    <mat-form-field class="flex-grow">
       <mat-label>Group name</mat-label>
       <input
         [(ngModel)]="data.group.name"
@@ -20,10 +20,10 @@
       [cpCancelButton]="true"
       cpCancelButtonText="Cancel"
       [style.background]="data.group.color"
-      class="group-color-picker"
+      class="ml-2.5 rounded-md border-none w-5 h-5 p-0"
     />
   </div>
-  <div class="group-edit-actions">
+  <div class="flex justify-between">
     <button mat-button (click)="dialogRef.close()" color="primary">
       Cancel
     </button>

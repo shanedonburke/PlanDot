@@ -1,53 +1,16 @@
-@use 'sass:map';
-@use '~src/styles/palettes';
-
-.group-edit-dialog {
-  display: flex;
-  flex-direction: column;
-}
-
-.group-edit-controls {
-  width: 100%;
-  display: flex;
-  align-items: center;
-
-  mat-form-field {
-    flex-grow: 1;
-  }
-}
-
-
-.group-color-picker {
-  margin-left: 10px;
-  border-radius: 5px;
-  border: 1px solid dimgrey;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-}
-
-.group-edit-actions {
-  display: flex;
-  justify-content: space-between;
-}
-
 @mixin color-picker-btn {
-  border: none;
+  @apply border-none w-[64px] h-[36px] rounded-[4px] text-base;
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
-  width: 64px;
-  height: 36px;
-  border-radius: 4px;
-  font-size: 14px !important;
   font-family: 'Roboto', sans-serif;
 }
 
 ::ng-deep .color-picker-btn-save {
+  @apply text-white bg-primary-500;
   @include color-picker-btn;
-  color: white;
-  background: map.get(palettes.$primary-palette, 500);
 }
 
 ::ng-deep .color-picker-btn-cancel {
+  @apply mr-1.25;
   @include color-picker-btn;
 }
