@@ -61,9 +61,9 @@ module.exports = {
     extend: {
       spacing: {
         0.625: "0.15625rem", // 2.5px
-        1.25: "0.313rem", // 5px
-        3.75: "0.938rem", // 15px
-        4.5: "1.125rem", // 18px
+        1.25: "0.313rem",    // 5px
+        3.75: "0.938rem",    // 15px
+        4.5: "1.125rem",     // 18px
       },
       borderWidth: {
         1: "1px",
@@ -95,7 +95,7 @@ module.exports = {
           "max-width": "unset",
         },
         ".h-unset": {
-          height: "unset",
+          "height": "unset",
         },
       };
       addUtilities(newUtilities, ["responsive", "hover"]);
