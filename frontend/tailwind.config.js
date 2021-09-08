@@ -15,6 +15,7 @@ module.exports = {
       dimsnow: "#f5f5f5",
       snow: "#fafafa",
       ghost: "#eff0f0",
+      gray: "#bbbbbb",
       primary: {
         50: "var(--primary-50)",
         100: "var(--primary-100)",
@@ -56,7 +57,11 @@ module.exports = {
       spacing: {
         0.625: "0.15625rem", // 2.5px
         1.25: "0.313rem", // 5px
-        7.5: "0.938rem", // 15px
+        3.75: "0.938rem", // 15px
+        4.5: "1.125rem", // 18px
+      },
+      borderWidth: {
+        1: "1px",
       },
     },
   },

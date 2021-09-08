@@ -1,4 +1,4 @@
-<div class="calendar-container">
+<div class="w-full h-full flex flex-col">
   <div class="view-header">
     <button class="view-nav-btn" (click)="dateService.goToPrevMonth()">
       <mat-icon>arrow_back</mat-icon>
@@ -8,34 +8,53 @@
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
-  <div class="calendar-days">
-    <span *ngFor="let day of days" class="calendar-day">
+  <div class="weekdays">
+    <span *ngFor="let day of days" class="text-center m-auto">
       {{ day }}
     </span>
   </div>
   <div class="calendar">
     <ng-container
-      *ngFor="
-        let week of getMonthDates(dateService.year, dateService.month)
-      "
+      *ngFor="let week of getMonthDates(dateService.year, dateService.month)"
       class="calendar-week"
     >
       <ng-container *ngFor="let date of week">
-        <div class="calendar-date" (click)="goToDate(date)">
-          <div class="calendar-date-header">
+        <div class="date" (click)="goToDate(date)">
+          <div class="flex justify-between items-center">
             <span>{{ date.getDate() }}</span>
             <span
-              class="date-item-number"
               *ngIf="getItemsByDate(date).length > 0"
+              class="
+                w-4.5
+                leading-[1.4em]
+                bg-accent-500,
+                text-white
+                flex
+                justify-center
+                items-center
+                rounded-[4px]
+                text-[12px]
+              "
               >{{ getItemsByDate(date).length }}</span
             >
           </div>
-          <div class="date-items">
+          <div>
             <div
               *ngFor="let item of getItemsByDate(date)"
-              class="date-item"
               [style.color]="itemService.getItemTextColor(item)"
               [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
+              class="
+                w-full
+                rounded-sm
+                px-1.25
+                box-border
+                overflow-hidden
+                whitespace-nowrap
+                overflow-ellipsis
+                mb-[1.5px]
+                h-4.5
+                text-[12px]
+              "
             >
               {{ item.title }}
             </div>
