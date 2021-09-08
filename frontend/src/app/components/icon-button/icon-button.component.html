@@ -1,5 +1,15 @@
 <button
-  class="icon-btn"
+  class="
+    flex
+    bg-transparent
+    border-none
+    p-0
+    rounded-[4px]
+    cursor-pointer
+    select-none
+    justify-center
+    items-center
+  "
   [style.width]="size"
   [style.height]="size"
 >
@@ -7,6 +17,7 @@
     [style.width]="size"
     [style.height]="size"
     [style.fontSize]="size"
+    class="text-[#aaaaaa] hover:text-[#888888] active:text-[#666666]"
     >{{ icon }}</mat-icon
   >
 </button>

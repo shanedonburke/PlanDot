@@ -9,6 +9,7 @@ module.exports = {
   darkMode: "class",
   theme: {
     colors: {
+      transparent: "transparent",
       black: "black",
       white: "white",
       snow: "#fafafa",

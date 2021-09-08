@@ -1,6 +1,0 @@
-@use 'sass:map';
-@use '~src/styles/palettes';
-
-.snack-bar-action {
-  color: map.get(palettes.$accent-palette, 500) !important;
-}
