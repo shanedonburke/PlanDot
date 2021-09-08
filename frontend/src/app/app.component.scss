@@ -17,8 +17,8 @@ mat-dialog-container {
    * So, use normal CSS with '!important' instead of 'apply' with
    * custom utilty for 'height: unset !important'.
    */
-  margin: 10px 0 !important;
   height: unset !important;
+  margin: 10px 0 !important;
   max-height: calc(100% - 20px) !important;
   
   /** On mobile, use the screen's width - 10px margins */
