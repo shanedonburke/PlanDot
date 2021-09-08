@@ -1,4 +1,4 @@
-<div class="item-list-toolbar">
+<div class="flex justify-end items-center">
   <app-item-sort-button
     (sortByDate)="userDataService.sortItemsByDate(); searchService.update()"
     (sortByTitle)="userDataService.sortItemsByTitle(); searchService.update()"
@@ -40,7 +40,7 @@
       >Not favorited</mat-checkbox
     >
   </div>
-  <mat-form-field class="search-field" appearance="standard" color="primary">
+  <mat-form-field class="text-sm ml-1.25 w-[140px]" appearance="standard" color="primary">
     <input
       type="search"
       matInput
