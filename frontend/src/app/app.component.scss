@@ -1,17 +1,19 @@
 @use "~src/styles/variables";
 
 /* ==========================================================================
-   Material dialog overrides
+   Material overrides
    ========================================================================== */
 
 div.cdk-overlay-pane {
   /* Allow dialogs with larger widths */
-  @apply sm:max-w-[80vw] max-w-unset;
+  @media screen and (max-width: variables.$screen-width-sm) {
+    max-width: unset !important;
+  }
 }
 
 mat-dialog-container {
-  @apply my-2.5 h-unset;
-
+  margin: 10px 0 !important;
+  height: unset !important;
   max-height: calc(100% - 20px) !important;
   
   /** On mobile, use the screen's width - 10px margins */

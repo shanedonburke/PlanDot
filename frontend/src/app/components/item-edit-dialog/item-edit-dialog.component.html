@@ -152,8 +152,11 @@
         (removed)="removeGroup(group)"
         [style.backgroundColor]="group.color"
         [style.color]="group.getTextColor()"
+        class="max-w-full"
       >
-        {{ group.name }}
+        <span class="overflow-hidden whitespace-nowrap overflow-ellipsis">{{
+          group.name
+        }}</span>
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>
       <input

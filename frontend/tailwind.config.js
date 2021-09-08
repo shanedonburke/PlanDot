@@ -89,16 +89,5 @@ module.exports = {
       };
       addUtilities(newUtilities, ["responsive", "hover"]);
     }),
-    plugin(function ({ addUtilities }) {
-      const newUtilities = {
-        ".max-w-unset": {
-          "max-width": "unset",
-        },
-        ".h-unset": {
-          "height": "unset",
-        },
-      };
-      addUtilities(newUtilities, ["responsive", "hover"]);
-    }),
   ],
 };
