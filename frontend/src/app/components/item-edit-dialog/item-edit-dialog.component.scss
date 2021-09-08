@@ -1,40 +1,18 @@
 @use "~src/styles/variables";
-
-.item-edit-dialog {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-
-  @media screen and (max-width: variables.$screen-width-sm) {
-    width: 100%;
-  }
-}
-
-.time-enabled-checkbox {
-  margin-bottom: 10px;
-}
-
 .time-form {
-  display: flex;
-  width: 100%;
-  margin-top: 5px;
+  @apply flex w-full mt-1.25;
 
   mat-form-field {
     $margin-right: 10px;
     margin-right: $margin-right;
     width: calc(33.33% - #{$margin-right} * 0.667);
+
     &:last-child {
-      margin-right: 0;
+      @apply mr-0;
     }
   }
 }
 
-.weekday-toggle-group {
-  width: min-content;
-  margin-bottom: 10px;
-}
-
-.item-edit-dialog-actions {
-  display: flex;
-  justify-content: space-between;
+.time-enabled-checkbox {
+  @apply mb-2.5;
 }
