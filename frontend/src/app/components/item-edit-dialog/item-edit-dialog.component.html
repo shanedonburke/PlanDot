@@ -132,7 +132,7 @@
       [(ngModel)]="data.item.weekdays"
       multiple
       aria-label="Toggle weekdays"
-      class="weekday-toggle-group"
+      class="w-min mb-2.5"
     >
       <mat-button-toggle
         *ngFor="let day of WEEKDAYS; index as i"
@@ -174,7 +174,7 @@
       </mat-option>
     </mat-autocomplete>
   </mat-form-field>
-  <div class="item-edit-dialog-actions">
+  <div class="flex justify-between">
     <button (click)="dialogRef.close()" mat-button>Cancel</button>
     <button
       mat-raised-button
