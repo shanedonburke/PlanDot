@@ -97,4 +97,14 @@ $warn-palette: (
   --accent-700: #{map.get($accent-palette, 700)};
   --accent-800: #{map.get($accent-palette, 800)};
   --accent-900: #{map.get($accent-palette, 900)};
+  --warn-50: #{map.get($warn-palette, 50)};
+  --warn-100: #{map.get($warn-palette, 100)};
+  --warn-200: #{map.get($warn-palette, 200)};
+  --warn-300: #{map.get($warn-palette, 300)};
+  --warn-400: #{map.get($warn-palette, 400)};
+  --warn-500: #{map.get($warn-palette, 500)};
+  --warn-600: #{map.get($warn-palette, 600)};
+  --warn-700: #{map.get($warn-palette, 700)};
+  --warn-800: #{map.get($warn-palette, 800)};
+  --warn-900: #{map.get($warn-palette, 900)};
 }

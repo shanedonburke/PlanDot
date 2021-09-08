@@ -1,79 +1,13 @@
-@use 'sass:map';
-@use '~src/styles/variables';
-@use '~src/styles/palettes';
-
-$background-color: #eff0f0;
-
 :host {
-  height: 100%;
-  width: 100%;
+  @apply h-full w-full;
 }
 
 .spinner-container {
-  background-color: $background-color;
+  @apply bg-ghost;
 }
 
-.item-list {
-  background-color: $background-color;
-  box-sizing: border-box;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 100%;
-}
+.item {
+  @apply grid w-full overflow-x-auto overflow-hidden border-b-[1px] border-solid border-primary-500 border-opacity-20;
 
-.item-list-item {
-  display: flex;
-  width: 100%;
-  overflow: hidden;
-  border-bottom: 1px solid rgba(map.get(palettes.$primary-palette, 500), 0.2);
-}
-
-.item-list-item {
-  width: 100%;
-  display: grid;
   grid-template: 95px / 100% 50px;
-  overflow-x: auto;
-}
-
-.item-list-item-content {
-  display: flex;
-}
-
-.item-list-item-card {
-  width: 100%;
-}
-
-.item-list-item-delete {
-  position: relative;
-  min-height: 100%;
-  background-color: transparent;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-}
-
-.item-list-item-delete-backdrop {
-  background-color: map.get(palettes.$warn-palette, 500);
-  left: 0;
-  height: 100%;
-  position: absolute;
-  width: 100vw;
-  z-index: -1;
-}
-
-.item-list-item-description {
-  background-color: #f5f5f5;
-  box-sizing: border-box;
-  height: 100%;
-  overflow: auto;
-  padding: 5px;
-  width: 100%;
-  white-space: pre;
-
-  @media screen and (max-width: variables.$screen-width-md) {
-    display: none;
-  }
 }

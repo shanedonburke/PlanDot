@@ -3,7 +3,7 @@
 </div>
 <div
   *ngIf="isUserDataLoaded"
-  class="item-list"
+  class="bg-ghost box-border h-full w-full overflow-x-hidden overflow-y-auto"
   cdkDropList
   (cdkDropListDropped)="userDataService.handleItemListDragDrop($event)"
 >
@@ -11,26 +11,45 @@
     *ngFor="let item of searchService.filteredItems"
     cdkDrag
     cdkDragLockAxis="y"
-    class="item-list-item"
+    class="item"
     swipeReveal
     [hiddenPanelWidth]="50"
   >
-    <div class="item-list-item-content">
-      <app-item-card [item]="item" class="item-list-item-card">
+    <div class="flex">
+      <app-item-card [item]="item" class="w-full">
         <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
       </app-item-card>
       <div
         #description
         [innerHTML]="getDescriptionHtml(item)"
         (mousewheel)="onDescriptionMouseWheel($event, description)"
-        class="item-list-item-description"
+        class="
+          bg-dimsnow
+          box-border
+          h-full
+          w-full
+          overflow-auto
+          p-1.25
+          whitespace-pre
+          hidden
+          md:block
+        "
       ></div>
     </div>
     <div
-      class="item-list-item-delete"
+      class="
+        relative
+        min-h-full
+        bg-transparent
+        text-white
+        flex
+        justify-center
+        items-center
+        z-[1]
+      "
       (click)="userDataService.deleteItem(item)"
     >
-      <div class="item-list-item-delete-backdrop"></div>
+      <div class="bg-warn-500 left-0 h-full absolute w-screen z-[-1]"></div>
       <mat-icon>delete</mat-icon>
     </div>
   </div>
