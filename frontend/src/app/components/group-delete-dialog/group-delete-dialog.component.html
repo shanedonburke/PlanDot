@@ -1,13 +1,13 @@
-<div class="group-delete-header">
-  <span class="group-delete-header-text">Deleting group: </span
+<div class="flex items-center">
+  <span class="mr-2.5 text-base font-medium">Deleting group: </span
   ><app-group-name-chip [group]="data.group"></app-group-name-chip>
 </div>
-<div class="group-delete-item-prompt">
+<div class="my-2.5">
   This group contains {{ data.group.itemIds.length }} item(s). What should
   happen to them?
 </div>
-<mat-radio-group [(ngModel)]="itemAction">
-  <mat-radio-button *ngFor="let action of ITEM_ACTIONS" [value]="action">{{
+<mat-radio-group [(ngModel)]="itemAction" class="flex flex-col mb-1.25">
+  <mat-radio-button *ngFor="let action of ITEM_ACTIONS" [value]="action" class="my-2.5 mx-1.25">{{
     action
   }}</mat-radio-button>
 </mat-radio-group>
@@ -16,7 +16,7 @@
     You may (optionally) select another existing group to replace the deleted
     one for all affected items.
   </div>
-  <mat-form-field appearance="fill" class="replacement-group-select">
+  <mat-form-field appearance="fill" class="w-full my-2.5">
     <mat-label>Select new group</mat-label>
     <mat-select [(value)]="replacementGroup">
       <mat-option>None</mat-option>
@@ -28,7 +28,7 @@
     </mat-select>
   </mat-form-field>
 </div>
-<div class="group-delete-controls">
+<div class="flex justify-between">
   <button mat-button (click)="dialogRef.close()">Cancel</button>
   <button mat-raised-button color="warn" (click)="deleteGroup()">Delete</button>
 </div>
