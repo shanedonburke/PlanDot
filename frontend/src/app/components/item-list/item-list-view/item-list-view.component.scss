@@ -7,7 +7,15 @@
 }
 
 .item {
-  @apply grid w-full overflow-x-auto overflow-hidden border-b-[1px] border-solid border-primary-500 border-opacity-20;
+  @apply
+    grid
+    w-full
+    overflow-x-auto
+    overflow-hidden
+    border-b-[1px]
+    border-solid
+    border-primary-500
+    border-opacity-20;
 
   grid-template: 95px / 100% 50px;
 }

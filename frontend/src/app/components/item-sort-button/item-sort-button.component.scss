@@ -1,6 +1,3 @@
-@use 'sass:map';
-@use '~src/styles/palettes';
-
 .menu-item-text {
-  color: map.get(palettes.$primary-palette, 500);
+  @apply text-primary-500;
 }

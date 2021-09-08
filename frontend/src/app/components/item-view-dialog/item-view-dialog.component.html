@@ -1,12 +1,34 @@
-<div class="item-view">
-  <div class="item-view-title">
-    <span class="item-view-title-text">{{ data.item.title }}</span>
+<div
+  class="
+    max-h-full
+    flex flex-col
+    overflow-hidden
+    leading-[1.6]
+    w-full
+    md:w-[500px]
+  "
+>
+  <div
+    class="
+      border-b-[1px] border-solid border-black border-opacity-10
+      text-base
+      font-medium
+      flex
+      items-center
+      w-full
+      pb-2.5
+      mb-2.5
+    "
+  >
+    <span class="overflow-hidden overflow-ellipsis whitespace-nowrap">{{
+      data.item.title
+    }}</span>
     <div style="flex-grow: 1"></div>
     <app-favorite-button [item]="data.item"></app-favorite-button>
     <app-icon-button
       icon="edit"
       (click)="editItem()"
-      class="edit-item-btn"
+      class="ml-1.25"
       matTooltip="Edit item"
       matTooltipPosition="below"
       matTooltipClass="tooltip"
@@ -15,10 +37,10 @@
   </div>
   <div
     *ngIf="data.item.description.trim() !== ''"
-    class="item-view-description"
+    class="description"
     [innerHTML]="descriptionHtml"
   ></div>
-  <div *ngIf="data.item.location.trim() !== ''" class="item-view-detail">
+  <div *ngIf="data.item.location.trim() !== ''" class="item-detail">
     <mat-icon>place</mat-icon>
     <div>
       <div><b>Location</b></div>
@@ -26,7 +48,7 @@
     </div>
   </div>
   <ng-container *ngIf="data.item.isDateEnabled">
-    <div class="item-view-detail">
+    <div class="item-detail">
       <mat-icon>event</mat-icon>
       <div>
         <div><b>Date</b></div>
@@ -35,14 +57,14 @@
         }}</a>
       </div>
     </div>
-    <div *ngIf="data.item.isStartTimeEnabled" class="item-view-detail">
+    <div *ngIf="data.item.isStartTimeEnabled" class="item-detail">
       <mat-icon>schedule</mat-icon>
       <div>
         <div><b>Time</b></div>
         <span>{{ data.item.getDisplayTime() }}</span>
       </div>
     </div>
-    <div class="item-view-detail">
+    <div class="item-detail">
       <mat-icon>repeat</mat-icon>
       <div>
         <div><b>Repeat</b></div>
@@ -50,25 +72,26 @@
       </div>
     </div>
   </ng-container>
-  <div *ngIf="data.item.groupIds.length > 0" class="item-view-detail">
+  <div *ngIf="data.item.groupIds.length > 0" class="item-detail">
     <mat-icon>category</mat-icon>
     <div>
       <div><b>Groups</b></div>
-      <div class="item-view-groups">
+      <div class="flex flex-wrap items-center mt-1.25">
         <app-group-name-chip
           *ngFor="let groupId of data.item.groupIds"
           [group]="groupService.getGroupById(groupId)!!"
+          class="mr-1.25 mb-1.25"
         >
         </app-group-name-chip>
       </div>
     </div>
   </div>
-  <div class="item-view-controls">
+  <div class="flex items-center justify-between mt-7.5">
     <button
       (click)="dialogRef.close()"
       mat-button
       color="primary"
-      class="item-view-close-btn"
+      class="mr-2.5"
     >
       Close
     </button>

@@ -1,11 +1,29 @@
 .groups-menu {
-  @apply absolute z-20 top-[67px] sm:top-[75px] left-2.5 bg-white rounded-md min-w-[300px];
+  @apply
+    absolute
+    z-20
+    top-[67px]
+    sm:top-[75px]
+    left-2.5
+    bg-white
+    rounded-md
+    min-w-[300px];
+  
   max-width: calc(100% - 20px);
   box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),
     0 1px 5px 0 rgb(0 0 0 / 12%);
 }
 
 .groups-menu-row {
-  @apply box-border py-1.25 px-2.5 text-sm grid justify-between items-center w-full;
+  @apply
+    box-border
+    py-1.25
+    px-2.5
+    text-sm
+    grid
+    justify-between
+    items-center
+    w-full;
+    
   grid-template: 1fr / 1fr 90px;
 }

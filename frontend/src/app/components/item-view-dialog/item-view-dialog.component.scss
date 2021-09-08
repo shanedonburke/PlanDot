@@ -1,87 +1,26 @@
-.item-view {
-  width: 500px;
-  max-height: 100%;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  line-height: 1.6;
-
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-}
-
-.item-view-title {
-  border-bottom: 1px solid #0000001f;
-  font-size: 16px;
-  font-weight: 450;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding-bottom: 10px;
-  margin-bottom: 10px;
-}
-
-.item-view-title-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.item-view-description {
-  display: flex;
-  flex-direction: column;
-  white-space: pre-line;
-  overflow: auto;
-  line-height: 1.2em;
-  margin: 5px 0 10px 0;
-  padding: 5px;
+.description {
+  @apply
+    flex
+    flex-col
+    whitespace-pre-line
+    overflow-auto
+    leading-[1.2em]
+    mt-1.25
+    mb-2.5;
 
   ::ng-deep ul, ::ng-deep ol {
-    margin: 0;
-    line-height: 0.8;
-    padding-left: 25px;
+    @apply m-0 leading-[0.8] pl-[25px];
   }
 }
 
-.item-view-detail {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 5px;
+.item-detail {
+  @apply flex justify-start items-center mb-1.25;
 
   mat-icon {
-    margin-right: 10px;
-    color: #555;
+    @apply mr-2.5 text-[#555];
   }
 
   & > div {
-    overflow: hidden;
+    @apply overflow-hidden;
   }
-}
-
-.item-view-groups {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin-top: 5px;
-
-  app-group-name-chip {
-    margin: 0 5px 5px 0;
-  }
-}
-
-.item-view-controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
-}
-
-.item-view-close-btn {
-  margin-right: 10px;
-}
-
-.edit-item-btn {
-  margin-left: 5px;
 }

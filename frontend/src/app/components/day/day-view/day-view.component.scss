@@ -6,7 +6,14 @@ $hour-height: 80px;
 }
 
 .day-view-hour {
-  @apply box-border grid border-b border-solid border-black border-opacity-20;
+  @apply
+    box-border
+    grid
+    border-b
+    border-solid
+    border-black
+    border-opacity-20;
+    
   height: $hour-height;
   grid-template-columns: $hour-label-width 1fr;
   grid-template-rows: 1fr;
