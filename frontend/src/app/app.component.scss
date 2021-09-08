@@ -12,6 +12,11 @@ div.cdk-overlay-pane {
 }
 
 mat-dialog-container {
+  /**
+   * For some reason, '!important' on custom utilities doesn't work here.
+   * So, use normal CSS with '!important' instead of 'apply' with
+   * custom utilty for 'height: unset !important'.
+   */
   margin: 10px 0 !important;
   height: unset !important;
   max-height: calc(100% - 20px) !important;
