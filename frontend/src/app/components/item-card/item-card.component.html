@@ -1,11 +1,11 @@
 <div class="item-card">
-  <div class="item-card-left">
-    <div class="item-card-header">
-      <span class="item-card-title">{{ item.title }}</span>
-      <div class="item-card-header-right">
-        <div class="item-card-groups">
+  <div class="flex-grow">
+    <div class="flex items-center justify-between">
+      <span class="font-medium text-base overflow-hidden overflow-ellipsis whitespace-nowrap">{{ item.title }}</span>
+      <div class="w-auto h-full flex justify-end">
+        <div class="flex justify-end h-full items-center">
           <div
-            class="item-card-group"
+            class="w-2.5 h-2.5 rounded-[10px] mr-[3px]"
             *ngFor="let group of groupService.getItemGroups(item)"
             [style.backgroundColor]="group.color"
           ></div>
@@ -28,7 +28,7 @@
       </div>
     </div>
   </div>
-  <div class="item-card-right">
+  <div class="flex flex-col justify-between items-center">
     <app-icon-button
       icon="open_in_full"
       (click)="expandItem()"
