@@ -1,7 +1,18 @@
 <div
   [style.color]="group.getTextColor()"
   [style.backgroundColor]="group.color"
-  class="group-name-chip"
+  class="
+    rounded-[16px]
+    px-2.5
+    h-[32px]
+    flex
+    items-center
+    font-medium
+    whitespace-nowrap
+    box-border
+    overflow-hidden
+    max-w-max
+  "
 >
-  <span>{{ group.name }}</span>
+  <span class="overflow-hidden overflow-ellipsis">{{ group.name }}</span>
 </div>
