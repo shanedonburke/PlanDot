@@ -1,4 +1,9 @@
-$screen-width-md: 1200px;
-$screen-width-sm: 768px;
+$screen-width-lg: 1024px;
+$screen-width-md: 768px;
+$screen-width-sm: 640px;
 
-$icon-btn-grey: #666;
+:export {
+  --screen-width-lg: $screen-width-lg;
+  --screen-width-md: $screen-width-md;
+  --screen-width-sm: $screen-width-sm;
+}

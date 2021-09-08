@@ -8,6 +8,11 @@ module.exports = {
   },
   darkMode: "class",
   theme: {
+    screens: {
+      sm: "var(--screen-width-sm)",
+      md: "var(--screen-width-md)",
+      lg: "var(--screen-width-lg)"
+    },
     colors: {
       transparent: "transparent",
       black: "black",
