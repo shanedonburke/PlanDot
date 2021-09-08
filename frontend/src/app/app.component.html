@@ -1,7 +1,7 @@
-<div class="page-container">
+<div class="w-full h-full flex flex-col">
   <mat-toolbar color="primary">
     <mat-toolbar-row>
-      <div class="primary-toolbar-row">
+      <div class="flex items-center w-full">
         <span>plan.</span>
         <div [style.flexGrow]="1"></div>
         <button mat-icon-button (click)="openHelpDialog()">
@@ -11,14 +11,14 @@
           *ngIf="!userAuthService.hasAuth()"
           (click)="userAuthService.login()"
           mat-raised-button
+          class="ml-2"
         >
           <img
-            width="20px"
-            style="margin-bottom: 3px; margin-right: 5px"
             alt="Google sign-in"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png"
+            class="w-5 h-5 mr-2 inline"
           />
-          Login
+          <span>Login</span>
         </button>
         <ng-container *ngIf="userAuthService.hasAuth()">
           <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
@@ -27,7 +27,7 @@
           <mat-menu #hamburgerMenu="matMenu" yPosition="below">
             <button (click)="userAuthService.logout()" mat-menu-item>
               <mat-icon color="primary">logout</mat-icon>
-              <span class="logout-text">Logout</span>
+              <span class="text-primary-500">Logout</span>
             </button>
           </mat-menu>
         </ng-container>
@@ -35,12 +35,12 @@
     </mat-toolbar-row>
   </mat-toolbar>
   <ng-container *ngIf="userAuthService.hasAuth()">
-    <mat-toolbar class="secondary-toolbar">
-      <mat-toolbar-row class="secondary-toolbar-row">
+    <mat-toolbar class="bg-primary-50 text-primary-500">
+      <mat-toolbar-row class="secondary-toolbar">
         <button
           (click)="addNewItem()"
           mat-raised-button
-          class="new-item-btn"
+          class="mr-2.5 min-w-[90px] w-[90px]"
           color="primary"
         >
           New item
@@ -48,7 +48,7 @@
         <ng-template toolbarHost></ng-template>
       </mat-toolbar-row>
     </mat-toolbar>
-    <div class="page-content">
+    <div class="flex w-full h-full overflow-hidden">
       <div class="sidenav">
         <button
           (click)="viewService.goToGroupView()"
@@ -81,7 +81,9 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
         >
-          <mat-icon fontSet="material-icons-outlined">calendar_view_day</mat-icon>
+          <mat-icon fontSet="material-icons-outlined"
+            >calendar_view_day</mat-icon
+          >
         </button>
         <button
           (click)="viewService.goToItemListView()"
@@ -121,8 +123,21 @@
       <ng-template viewHost></ng-template>
     </div>
   </ng-container>
-  <div *ngIf="!userAuthService.hasAuth()" class="welcome-message">
+  <div
+    *ngIf="!userAuthService.hasAuth()"
+    class="
+      bg-ghost
+      box-border
+      text-xl
+      h-full
+      w-full
+      p-5
+      flex flex-col
+      justify-center
+      items-center
+    "
+  >
     <h1>Welcome to plan.</h1>
-    <h2>To get started, login with your Google account.</h2>
+    <h2 class="text-center">To get started, login with your Google account.</h2>
   </div>
 </div>

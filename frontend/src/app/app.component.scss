@@ -8,71 +8,28 @@
 
 div.cdk-overlay-pane {
   /* Allow dialogs with larger widths */
-  @media screen and (max-width: variables.$screen-width-sm) {
-    max-width: unset !important;
-  }
+  @apply sm:max-w-[80vw] max-w-unset;
 }
 
 mat-dialog-container {
-  margin: 10px 0 !important;
+  @apply my-2.5 h-unset;
+
   max-height: calc(100% - 20px) !important;
-  height: unset !important;
   
-  /** On mobile, use the screen's width + 10px margins */
+  /** On mobile, use the screen's width - 10px margins */
   @media screen and (max-width: variables.$screen-width-sm) {
     width: calc(100vw - (10px * 2)) !important;
   }
 }
 
 /* ==========================================================================
-   Top-level containers
-   ========================================================================== */
-
-.page-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.page-content {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* ==========================================================================
    Toolbars
    ========================================================================== */
 
-.primary-toolbar-row {
-  display: flex;
-  align-items: center;
-  width: 100%;
-}
-
 .secondary-toolbar {
-  background-color: map.get(palettes.$primary-palette, 50);
-  color: map.get(palettes.$primary-palette, 500);
-}
+  @apply relative px-3.5 z-[2];
 
-.secondary-toolbar-row {
   box-shadow: 0 2px 5px 0 rgb(0 0 0 / 30%);
-  position: relative;
-  padding: 0 14px !important;
-  z-index: 2;
-}
-
-.new-item-btn {
-  $width: 90px;
-  margin-right: 10px !important;
-  min-width: $width !important;
-  width: $width !important;
-}
-
-.logout-text {
-  color: map.get(palettes.$primary-palette, 500);
 }
 
 /* ==========================================================================
@@ -80,61 +37,48 @@ mat-dialog-container {
    ========================================================================== */
 
 .sidenav {
-  background-color: #fafafa;
-  min-width: 40px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  @apply
+    bg-snow
+    min-w-[40px]
+    h-full
+    flex
+    flex-col
+    box-border
+    z-[1]
+    border-r-1
+    border-solid
+    border-black
+    border-opacity-10;
+
   box-shadow: 1px 0px 4px 0 rgb(0 0 0 / 10%);
-  z-index: 1;
-  border-right: 1px solid #0000001f;
 }
 
 .sidenav-btn {
-  color: black;
-  background-color: transparent;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 40px;
-  width: 100%;
-  cursor: pointer;
+  @apply
+    text-black
+    bg-transparent
+    border-none
+    flex
+    justify-center
+    items-center
+    h-[40px]
+    w-full
+    cursor-pointer;
 
   &:not(.sidenav-btn-selected):hover {
-    $accent-color: rgba(map.get(palettes.$accent-palette, 50), 0.2);
-    background-color: $accent-color;
-    border-right: 1px solid $accent-color;
+    @apply bg-accent-50 border-r-1 border-solid border-accent-50;
+
     width: calc(100% + 1px);
   }
 }
 
 .sidenav-btn-selected {
-  $accent-color: map.get(palettes.$accent-palette, 500);
-  background-color: $accent-color;
-  border-right: 1px solid $accent-color;
-  color: white;
+  @apply
+    text-white
+    bg-accent-500
+    border-r-1
+    border-solid
+    border-accent-500;
+
   width: calc(100% + 1px);
-}
-
-/* ==========================================================================
-   Miscellaneous
-   ========================================================================== */
-
-.welcome-message {
-  background-color: map.get(palettes.$accent-palette, 0);
-  box-sizing: border-box;
-  font-size: 20px;
-  height: 100%;
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  h2 {
-    text-align: center;
-  }
 }
