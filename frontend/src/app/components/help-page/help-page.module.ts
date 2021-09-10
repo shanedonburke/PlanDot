@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
-import { HelpPageComponent } from "./help-page.component";
+import { HelpPage0Component, HelpPage1Component, HelpPageBaseComponent } from "./help-page.component";
 
 @NgModule({
-  declarations: [HelpPageComponent],
-  exports: [HelpPageComponent],
+  declarations: [HelpPageBaseComponent, HelpPage0Component, HelpPage1Component],
+  exports: [HelpPageBaseComponent, HelpPage0Component, HelpPage1Component],
 })
 export class HelpPageModule {}

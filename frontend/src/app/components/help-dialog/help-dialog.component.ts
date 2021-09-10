@@ -5,7 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HelpPageDirective } from 'src/app/directives/help-page.directive';
-import { HelpPageComponent } from '../help-page/help-page.component';
+import { HelpPage0Component, HelpPage1Component } from '../help-page/help-page.component';
 
 @Component({
   selector: 'app-help-dialog',
@@ -13,43 +13,12 @@ import { HelpPageComponent } from '../help-page/help-page.component';
   styleUrls: ['./help-dialog.component.scss'],
 })
 export class HelpDialogComponent {
-  private static STEP_CONTENTS = [
-    `
-      <h1 class="">Welcome to plan.</h1>
-      <p>
-        <b>plan.</b> ("plan-dot") is a personal planning tool that makes keeping track of your life
-        easier than ever before.
-      </p>
-      <ul class="bullets">
-        <li>
-          Capture assignments, tasks, events, and notes in the form of <i>items</i>.
-          Then, organize your items by placing them in <i>groups</i>.
-        </li>
-        <li>
-          Assign dates, times, and locations to your items. Or don't!
-        </li>
-        <li>
-          Sort, filter, and search
-          to easily find and prioritize the things you need to do.
-        </li>
-        <li>
-          View your items as a monthy calendar, or as a daily agenda.
-        </li>
-      </ul>
-      <p>
-        Continue to the next step to learn more about the features of <b>plan.</b>
-      </p>
-    `,
-    `
-      <h1>The group view</h1>
-      <img src="assets/images/help_group_view.png">
-    `,
-  ];
+  static HELP_PAGES = [HelpPage0Component, HelpPage1Component];
 
   @ViewChild(HelpPageDirective) helpPageHost!: HelpPageDirective;
 
   get bubbles(): Array<boolean> {
-    return Array(HelpDialogComponent.STEP_CONTENTS.length)
+    return Array(HelpDialogComponent.HELP_PAGES.length)
       .fill(0)
       .map((_, i) => i === this.step);
   }
@@ -79,14 +48,15 @@ export class HelpDialogComponent {
 
   private loadHelpPage(step: number): void {
     const componentFactory =
-      this.componentFactoryResolver.resolveComponentFactory(HelpPageComponent);
+      this.componentFactoryResolver.resolveComponentFactory(
+        HelpDialogComponent.HELP_PAGES[step]
+      );
     const viewContainerRef = this.helpPageHost.viewContainerRef;
     viewContainerRef.clear();
 
     const instance =
       viewContainerRef.createComponent(componentFactory).instance;
     instance.direction = step > this.step ? 'left' : 'right';
-    instance.content = HelpDialogComponent.STEP_CONTENTS[step];
     this.cdr.detectChanges();
   }
 }
