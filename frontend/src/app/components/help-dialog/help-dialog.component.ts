@@ -5,7 +5,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { HelpPageDirective } from 'src/app/directives/help-page.directive';
-import { HelpPage0Component, HelpPage1Component } from '../help-page/help-page.component';
+import {
+  HelpPage0Component,
+  HelpPage1Component,
+  HelpPage2Component,
+} from '../help-page/help-page.component';
 
 @Component({
   selector: 'app-help-dialog',
@@ -13,7 +17,11 @@ import { HelpPage0Component, HelpPage1Component } from '../help-page/help-page.c
   styleUrls: ['./help-dialog.component.scss'],
 })
 export class HelpDialogComponent {
-  static HELP_PAGES = [HelpPage0Component, HelpPage1Component];
+  static HELP_PAGES = [
+    HelpPage0Component,
+    HelpPage1Component,
+    HelpPage2Component,
+  ];
 
   @ViewChild(HelpPageDirective) helpPageHost!: HelpPageDirective;
 

@@ -1,0 +1,34 @@
+<app-help-page-base [direction]="direction">
+  <h1>The group view</h1>
+  <img
+    src="assets/images/help_group_view.png"
+    class="w-full md:w-[45%] self-center"
+  />
+  <br />
+  <p>
+    <i>Groups</i> are a way to organize your items. A group can contain many
+    items, and one item may belong to multiple groups.
+  </p>
+  <p>
+    To create a group, go to the
+    <app-help-page-group-view class="inline"></app-help-page-group-view>
+    by clicking the first
+    button in the sidebar. Then, open the <b>Groups</b> menu and click
+    <b>New group</b>.
+  </p>
+  <p>You can interact with groups in several ways.</p>
+  <ul>
+    <li>Create new items with the <b>New item</b> button</li>
+    <li>
+      <mat-icon class="align-middle mr-1.25">sort</mat-icon
+      ><span class="align-middle">Sort items by one of several attributes</span>
+    </li>
+    <li>
+      <mat-icon class="align-middle mr-1.25">drag_handle</mat-icon
+      ><span class="align-middle"
+        >Drag items to reorder them within the group</span
+      >
+    </li>
+    <li>Use the <b>Groups</b> menu to edit a group's name and color</li>
+  </ul>
+</app-help-page-base>

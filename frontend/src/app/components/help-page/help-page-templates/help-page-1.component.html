@@ -1,21 +1,40 @@
 <app-help-page-base [direction]="direction">
-  <h1>The group view</h1>
-  <img src="assets/images/help_group_view.png" class="w-full md:w-3/6 self-center">
-  <br>
+  <h1>Creating items</h1>
   <p>
-    <i>Groups</i> are a way to organize your items. A group can contain
-    many items, and one item may belong to multiple groups.
+    To create an item, click on the <b>New item</b> button found in the toolbar
+    or in the <app-help-page-group-view></app-help-page-group-view>.
   </p>
+  <img
+    src="assets/images/help_creating_items_1.png"
+    class="w-full md:w-[45%] self-center my-2.5"
+  />
   <p>
-    To create a group, go to the <b>Group view</b> by clicking the first
-    button in the sidebar. Then, open the <b>Groups</b> menu and click
-    <b>New group</b>.
+    You may set the item's title (required), description, and location. The
+    <b>Description</b> field also accepts
+    <a
+      href="https://www.markdownguide.org/"
+      class="text-primary-300 hover:underline"
+      >Markdown</a
+    >
+    formatting!
   </p>
-  <p>You can interact with groups in several ways.</p>
-  <ul>
-    <li>Create new items for the group</li>
-    <li>Sort items by one of several attributes</li>
-    <li>Drag items to reorder them within the group</li>
-    <li>Use the <b>Groups</b> menu to edit a group's name and color</li>
-  </ul>
+  <img
+    src="assets/images/help_creating_items_2.png"
+    class="w-full md:w-[45%] self-center my-2.5"
+  />
+  <p>
+    Specifying a date will cause the item to appear in the
+    <app-help-page-month-view></app-help-page-month-view> and
+    <app-help-page-day-view></app-help-page-day-view>.
+  </p>
+  <img
+    src="assets/images/help_creating_items_3.png"
+    class="w-full md:w-[45%] self-center my-2.5"
+  />
+  <p>
+    You can create reoccuring items as well. When creating an item that occurs
+    on a daily or weekly basis, you can select the days of the week
+    on which it should occur. Selected days are highlighted in gray.
+  </p>
 </app-help-page-base>
+

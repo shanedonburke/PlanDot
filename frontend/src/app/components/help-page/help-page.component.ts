@@ -30,3 +30,66 @@ export class HelpPage0Component extends HelpPageComponent {}
   templateUrl: './help-page-templates/help-page-1.component.html',
 })
 export class HelpPage1Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-2',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-2.component.html',
+})
+export class HelpPage2Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-icon-with-text',
+  styleUrls: ['./help-page.component.scss'],
+  template: `
+    <span class="inline-flex align-middle items-center mr-[2px] -translate-y-px">
+      <mat-icon class="material-icons-outlined mr-1"
+        >{{ icon }}</mat-icon
+      ><b>{{ text }}</b>
+    </span>
+  `,
+})
+export class HelpPageIconWithText {
+  @Input('icon') icon!: string;
+  @Input('text') text!: string;
+}
+
+@Component({
+  selector: 'app-help-page-group-view',
+  styleUrls: ['./help-page.component.scss'],
+  template: `
+    <app-help-page-icon-with-text icon="view_agenda" text="Group view">
+    </app-help-page-icon-with-text>
+  `,
+})
+export class HelpPageGroupViewComponent {}
+
+@Component({
+  selector: 'app-help-page-month-view',
+  styleUrls: ['./help-page.component.scss'],
+  template: `
+    <app-help-page-icon-with-text icon="calendar_view_month" text="Month view">
+    </app-help-page-icon-with-text>
+  `,
+})
+export class HelpPageMonthViewComponent {}
+
+@Component({
+  selector: 'app-help-page-day-view',
+  styleUrls: ['./help-page.component.scss'],
+  template: `
+    <app-help-page-icon-with-text icon="calendar_view_day" text="Day view">
+    </app-help-page-icon-with-text>
+  `,
+})
+export class HelpPageDayViewComponent {}
+
+@Component({
+  selector: 'app-help-page-item-list-view',
+  styleUrls: ['./help-page.component.scss'],
+  template: `
+    <app-help-page-icon-with-text icon="view_list" text="Item list view">
+    </app-help-page-icon-with-text>
+  `,
+})
+export class HelpPageItemListViewComponent {}

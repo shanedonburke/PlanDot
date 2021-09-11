@@ -1,8 +1,40 @@
-import { NgModule } from "@angular/core";
-import { HelpPage0Component, HelpPage1Component, HelpPageBaseComponent } from "./help-page.component";
+import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import {
+  HelpPage0Component,
+  HelpPage1Component,
+  HelpPage2Component,
+  HelpPageBaseComponent,
+  HelpPageDayViewComponent,
+  HelpPageGroupViewComponent,
+  HelpPageIconWithText,
+  HelpPageItemListViewComponent,
+  HelpPageMonthViewComponent,
+} from './help-page.component';
 
 @NgModule({
-  declarations: [HelpPageBaseComponent, HelpPage0Component, HelpPage1Component],
-  exports: [HelpPageBaseComponent, HelpPage0Component, HelpPage1Component],
+  declarations: [
+    HelpPageIconWithText,
+    HelpPageGroupViewComponent,
+    HelpPageMonthViewComponent,
+    HelpPageDayViewComponent,
+    HelpPageItemListViewComponent,
+    HelpPageBaseComponent,
+    HelpPage0Component,
+    HelpPage1Component,
+    HelpPage2Component,
+  ],
+  exports: [
+    HelpPageIconWithText,
+    HelpPageGroupViewComponent,
+    HelpPageMonthViewComponent,
+    HelpPageDayViewComponent,
+    HelpPageItemListViewComponent,
+    HelpPageBaseComponent,
+    HelpPage0Component,
+    HelpPage1Component,
+    HelpPage2Component,
+  ],
+  imports: [MatIconModule]
 })
 export class HelpPageModule {}
