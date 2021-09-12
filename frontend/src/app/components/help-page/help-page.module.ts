@@ -6,10 +6,10 @@ import {
   HelpPage2Component,
   HelpPageBaseComponent,
   HelpPageDayViewComponent,
-  HelpPageGroupViewComponent,
-  HelpPageIconWithText,
-  HelpPageItemListViewComponent,
   HelpPageMonthViewComponent,
+  HelpPageGroupViewComponent,
+  HelpPageItemListViewComponent,
+  HelpPageIconWithText,
 } from './help-page.component';
 
 @NgModule({

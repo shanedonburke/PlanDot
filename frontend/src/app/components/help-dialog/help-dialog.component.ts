@@ -28,10 +28,10 @@ export class HelpDialogComponent {
   get bubbles(): Array<boolean> {
     return Array(HelpDialogComponent.HELP_PAGES.length)
       .fill(0)
-      .map((_, i) => i === this.step);
+      .map((_, i) => i === this.pageIndex);
   }
 
-  step = 0;
+  pageIndex = 0;
 
   constructor(
     private readonly componentFactoryResolver: ComponentFactoryResolver,
@@ -42,16 +42,24 @@ export class HelpDialogComponent {
     this.loadHelpPage(0);
   }
 
-  goToNextStep(): void {
-    const newStep = this.step + 1;
+  goToNextPage(): void {
+    const newStep = this.pageIndex + 1;
     this.loadHelpPage(newStep);
-    this.step = newStep;
+    this.pageIndex = newStep;
   }
 
-  goToPreviousStep(): void {
-    const newStep = this.step - 1;
+  goToPreviousPage(): void {
+    const newStep = this.pageIndex - 1;
     this.loadHelpPage(newStep);
-    this.step = newStep;
+    this.pageIndex = newStep;
+  }
+  
+  hasNextPage(): boolean {
+    return this.pageIndex < HelpDialogComponent.HELP_PAGES.length - 1;
+  }
+
+  hasPreviousPage(): boolean {
+    return this.pageIndex > 0;
   }
 
   private loadHelpPage(step: number): void {
@@ -64,7 +72,7 @@ export class HelpDialogComponent {
 
     const instance =
       viewContainerRef.createComponent(componentFactory).instance;
-    instance.direction = step > this.step ? 'left' : 'right';
+    instance.direction = step > this.pageIndex ? 'left' : 'right';
     this.cdr.detectChanges();
   }
 }

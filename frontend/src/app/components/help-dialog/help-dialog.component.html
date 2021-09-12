@@ -3,7 +3,11 @@
     <ng-template helpPageHost></ng-template>
   </div>
   <div class="flex items-center justify-center w-full">
-    <button mat-icon-button (click)="goToPreviousStep()">
+    <button
+      mat-icon-button
+      (click)="goToPreviousPage()"
+      [class.invisible]="!hasPreviousPage()"
+    >
       <mat-icon>chevron_left</mat-icon>
     </button>
     <div class="flex items-center justify-center mx-0.625">
@@ -16,7 +20,11 @@
         </svg>
       </span>
     </div>
-    <button mat-icon-button (click)="goToNextStep()">
+    <button
+      mat-icon-button
+      (click)="goToNextPage()"
+      [class.invisible]="!hasNextPage()"
+    >
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
