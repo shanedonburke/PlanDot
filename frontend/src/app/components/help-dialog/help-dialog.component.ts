@@ -1,7 +1,9 @@
+import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  Inject,
   ViewChild,
 } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -47,10 +49,16 @@ export class HelpDialogComponent {
   constructor(
     private readonly dialogRef: MatDialogRef<HelpDialogComponent>,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
   ngAfterViewInit(): void {
+    // Adding this style in SCSS will make it apply to all subsequent dialogs
+    this.document
+      .querySelector('mat-dialog-container')!!
+      .setAttribute('style', 'height: 90vh !important');
+      
     this.loadHelpPage(0);
   }
 
