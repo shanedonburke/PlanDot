@@ -85,5 +85,13 @@ module.exports = {
       };
       addUtilities(newUtilities, ["responsive", "hover"]);
     }),
+    plugin(function ({ addUtilities }) {
+      const newUtilities = {
+        ".w-full-plus-1": {
+          "width": "calc(100% + 1px)"
+        }
+      };
+      addUtilities(newUtilities, ["responsive", "hover"]);
+    }),
   ],
 };

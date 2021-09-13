@@ -71,9 +71,12 @@ mat-dialog-container {
     cursor-pointer;
 
   &:not(.sidenav-btn-selected):hover {
-    @apply bg-accent-50 border-r-1 border-solid border-accent-50;
-
-    width: calc(100% + 1px);
+    @apply
+      bg-accent-50
+      border-r-1
+      border-solid
+      border-accent-50
+      w-full-plus-1;
   }
 }
 
@@ -83,7 +86,6 @@ mat-dialog-container {
     bg-accent-500
     border-r-1
     border-solid
-    border-accent-500;
-
-  width: calc(100% + 1px);
+    border-accent-500
+    w-full-plus-1;
 }
