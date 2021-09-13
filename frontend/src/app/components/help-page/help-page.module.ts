@@ -4,13 +4,16 @@ import {
   HelpPage0Component,
   HelpPage1Component,
   HelpPage2Component,
+  HelpPage3Component,
   HelpPageBaseComponent,
   HelpPageDayViewComponent,
   HelpPageMonthViewComponent,
   HelpPageGroupViewComponent,
   HelpPageItemListViewComponent,
   HelpPageIconWithText,
-} from './help-page.component';
+  HelpPage4Component,
+  HelpPage5Component,
+} from './help-page';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import {
     HelpPage0Component,
     HelpPage1Component,
     HelpPage2Component,
+    HelpPage3Component,
+    HelpPage4Component,
+    HelpPage5Component,
   ],
   exports: [
     HelpPageIconWithText,
@@ -34,6 +40,9 @@ import {
     HelpPage0Component,
     HelpPage1Component,
     HelpPage2Component,
+    HelpPage3Component,
+    HelpPage4Component,
+    HelpPage5Component,
   ],
   imports: [MatIconModule]
 })

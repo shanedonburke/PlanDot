@@ -14,8 +14,7 @@ body {
 }
 
 .view-header {
-  @apply
-    text-white
+  @apply text-white
     flex
     justify-between
     items-center
@@ -26,8 +25,7 @@ body {
 }
 
 .view-nav-btn {
-  @apply
-    text-white
+  @apply text-white
     flex
     items-center
     h-full

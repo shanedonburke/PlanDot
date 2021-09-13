@@ -10,41 +10,17 @@ import { slideIn } from './help-page-animations';
 })
 export class HelpPageBaseComponent {
   @Input('direction') direction = '';
+  @Input('title') title = '';
 }
-
-@Component({ template: '' })
-export class HelpPageComponent {
-  @Input('direction') direction = '';
-}
-
-@Component({
-  selector: 'app-help-page-0',
-  styleUrls: ['./help-page.component.scss'],
-  templateUrl: './help-page-templates/help-page-0.component.html',
-})
-export class HelpPage0Component extends HelpPageComponent {}
-
-@Component({
-  selector: 'app-help-page-1',
-  styleUrls: ['./help-page.component.scss'],
-  templateUrl: './help-page-templates/help-page-1.component.html',
-})
-export class HelpPage1Component extends HelpPageComponent {}
-
-@Component({
-  selector: 'app-help-page-2',
-  styleUrls: ['./help-page.component.scss'],
-  templateUrl: './help-page-templates/help-page-2.component.html',
-})
-export class HelpPage2Component extends HelpPageComponent {}
 
 @Component({
   selector: 'app-help-page-icon-with-text',
   styleUrls: ['./help-page.component.scss'],
   template: `
-    <span class="inline-flex align-middle items-center mr-[2px] -translate-y-px">
-      <mat-icon class="material-icons-outlined mr-1"
-        >{{ icon }}</mat-icon
+    <span
+      class="inline-flex align-middle items-center mr-[2px] -translate-y-px"
+    >
+      <mat-icon class="material-icons-outlined mr-1">{{ icon }}</mat-icon
       ><b>{{ text }}</b>
     </span>
   `,
@@ -93,3 +69,50 @@ export class HelpPageDayViewComponent {}
   `,
 })
 export class HelpPageItemListViewComponent {}
+
+@Component({ template: '' })
+export class HelpPageComponent {
+  @Input('direction') direction = '';
+}
+
+@Component({
+  selector: 'app-help-page-0',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-0.component.html',
+})
+export class HelpPage0Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-1',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-1.component.html',
+})
+export class HelpPage1Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-2',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-2.component.html',
+})
+export class HelpPage2Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-3',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-3.component.html',
+})
+export class HelpPage3Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-4',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-4.component.html',
+})
+export class HelpPage4Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-5',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-5.component.html',
+})
+export class HelpPage5Component extends HelpPageComponent {}

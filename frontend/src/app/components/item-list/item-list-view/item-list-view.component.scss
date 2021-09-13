@@ -1,3 +1,5 @@
+@use '~src/styles/mixins';
+
 :host {
   @apply h-full w-full;
 }
@@ -18,4 +20,8 @@
     border-opacity-20;
 
   grid-template: 95px / 100% 50px;
+}
+
+.description {
+  @include mixins.markdown;
 }

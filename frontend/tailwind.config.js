@@ -12,6 +12,7 @@ module.exports = {
       transparent: "transparent",
       black: "black",
       white: "white",
+      blue: "blue",
       dimsnow: "#f5f5f5",
       snow: "#fafafa",
       ghost: "#eff0f0",

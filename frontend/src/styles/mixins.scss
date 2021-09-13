@@ -1,0 +1,22 @@
+@mixin markdown {
+  @apply flex
+    flex-col
+    whitespace-pre-line
+    overflow-auto
+    leading-[1.2em]
+    mt-1.25
+    mb-2.5;
+
+  ::ng-deep h1, ::ng-deep h2 {
+    @apply mb-1.25;
+  }
+
+  ::ng-deep ul,
+  ::ng-deep ol {
+    @apply m-0 leading-[0.8] pl-[25px] list-disc;
+  }
+
+  ::ng-deep a {
+    @apply text-blue hover:underline;
+  }
+}

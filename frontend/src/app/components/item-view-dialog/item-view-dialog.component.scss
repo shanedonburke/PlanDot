@@ -1,17 +1,4 @@
-.description {
-  @apply
-    flex
-    flex-col
-    whitespace-pre-line
-    overflow-auto
-    leading-[1.2em]
-    mt-1.25
-    mb-2.5;
-
-  ::ng-deep ul, ::ng-deep ol {
-    @apply m-0 leading-[0.8] pl-[25px];
-  }
-}
+@use '~src/styles/mixins';
 
 .item-detail {
   @apply flex justify-start items-center mb-1.25;
@@ -23,4 +10,8 @@
   & > div {
     @apply overflow-hidden;
   }
+}
+
+.description {
+  @include mixins.markdown;
 }

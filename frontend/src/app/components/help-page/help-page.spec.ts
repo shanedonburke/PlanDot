@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HelpPageBaseComponent } from './help-page.component';
+import { HelpPageBaseComponent } from './help-page';
 
 describe('HelpPageComponent', () => {
   let component: HelpPageBaseComponent;

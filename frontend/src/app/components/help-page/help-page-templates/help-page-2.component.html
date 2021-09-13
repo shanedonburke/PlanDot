@@ -1,34 +1,46 @@
-<app-help-page-base [direction]="direction">
-  <h1>The group view</h1>
+<app-help-page-base [direction]="direction" title="Creating items">
+  <p>
+    To create an item, click on the <b>New item</b> button found in the toolbar
+    or in the <app-help-page-group-view></app-help-page-group-view>.
+  </p>
   <img
-    src="assets/images/help_group_view.png"
-    class="w-full md:w-[45%] self-center"
+    src="assets/images/help_creating_items_1.png"
+    class="w-full md:w-[45%] self-center my-2.5"
   />
-  <br />
   <p>
-    <i>Groups</i> are a way to organize your items. A group can contain many
-    items, and one item may belong to multiple groups.
+    You may set the item's title (required), description, and location. The
+    <b>Description</b> field also accepts
+    <a
+      href="https://www.markdownguide.org/"
+      class="text-blue hover:underline"
+      >Markdown</a
+    >
+    formatting!
+  </p>
+  <img
+    src="assets/images/help_creating_items_2.png"
+    class="w-full md:w-[45%] self-center my-2.5"
+  />
+  <p>
+    Items with a specified date will appear in the 
+    <app-help-page-month-view></app-help-page-month-view> and the 
+    <app-help-page-day-view></app-help-page-day-view>.
+  </p>
+  <img
+    src="assets/images/help_creating_items_3.png"
+    class="w-full md:w-[45%] self-center my-2.5"
+  />
+  <p>
+    You can create reoccuring items as well. When creating an item that occurs
+    on a daily or weekly basis, you can choose the week days
+    on which it occurs.
   </p>
   <p>
-    To create a group, go to the
-    <app-help-page-group-view class="inline"></app-help-page-group-view>
-    by clicking the first
-    button in the sidebar. Then, open the <b>Groups</b> menu and click
-    <b>New group</b>.
+    <i>Note:</i> Selected days are highlighted in gray.
   </p>
-  <p>You can interact with groups in several ways.</p>
-  <ul>
-    <li>Create new items with the <b>New item</b> button</li>
-    <li>
-      <mat-icon class="align-middle mr-1.25">sort</mat-icon
-      ><span class="align-middle">Sort items by one of several attributes</span>
-    </li>
-    <li>
-      <mat-icon class="align-middle mr-1.25">drag_handle</mat-icon
-      ><span class="align-middle"
-        >Drag items to reorder them within the group</span
-      >
-    </li>
-    <li>Use the <b>Groups</b> menu to edit a group's name and color</li>
-  </ul>
+  <p>
+    Finally, you may specify the item's groups. To add a group, 
+    click the <b>Add group</b> text and begin typing the name of an 
+    existing group.
+  </p>
 </app-help-page-base>
