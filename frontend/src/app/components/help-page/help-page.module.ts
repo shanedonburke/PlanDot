@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
   HelpPage0Component,
@@ -14,6 +15,7 @@ import {
   HelpPage4Component,
   HelpPage5Component,
   HelpPage6Component,
+  HelpPageFinalComponent,
 } from './help-page';
 
 @NgModule({
@@ -31,6 +33,7 @@ import {
     HelpPage4Component,
     HelpPage5Component,
     HelpPage6Component,
+    HelpPageFinalComponent,
   ],
   exports: [
     HelpPageIconWithText,
@@ -46,7 +49,8 @@ import {
     HelpPage4Component,
     HelpPage5Component,
     HelpPage6Component,
+    HelpPageFinalComponent,
   ],
-  imports: [MatIconModule]
+  imports: [MatIconModule, MatButtonModule]
 })
 export class HelpPageModule {}

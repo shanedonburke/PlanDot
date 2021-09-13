@@ -1,0 +1,13 @@
+<app-help-page-base [direction]="direction" title="Ready to go!">
+  <p>Thank you for taking the time to read these help pages.</p>
+  <p>We hope you enjoy using Plandot!</p>
+  <div class="flex-grow"></div>
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="closeDialog.emit()"
+    class="self-center w-full my-2.5"
+  >
+    Close
+  </button>
+</app-help-page-base>

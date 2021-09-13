@@ -4,6 +4,7 @@ import {
   ComponentFactoryResolver,
   ViewChild,
 } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { HelpPageDirective } from 'src/app/directives/help-page.directive';
 import {
   HelpPage0Component,
@@ -13,6 +14,7 @@ import {
   HelpPage4Component,
   HelpPage5Component,
   HelpPage6Component,
+  HelpPageFinalComponent,
 } from '../help-page/help-page';
 
 @Component({
@@ -29,6 +31,7 @@ export class HelpDialogComponent {
     HelpPage4Component,
     HelpPage5Component,
     HelpPage6Component,
+    HelpPageFinalComponent,
   ];
 
   @ViewChild(HelpPageDirective) helpPageHost!: HelpPageDirective;
@@ -42,6 +45,7 @@ export class HelpDialogComponent {
   pageIndex = 0;
 
   constructor(
+    private readonly dialogRef: MatDialogRef<HelpDialogComponent>,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly cdr: ChangeDetectorRef
   ) {}
@@ -61,7 +65,7 @@ export class HelpDialogComponent {
     this.loadHelpPage(newStep);
     this.pageIndex = newStep;
   }
-  
+
   hasNextPage(): boolean {
     return this.pageIndex < HelpDialogComponent.HELP_PAGES.length - 1;
   }
@@ -81,6 +85,13 @@ export class HelpDialogComponent {
     const instance =
       viewContainerRef.createComponent(componentFactory).instance;
     instance.direction = step > this.pageIndex ? 'left' : 'right';
+
+    if (componentFactory.componentType === HelpPageFinalComponent) {
+      (instance as HelpPageFinalComponent).closeDialog.subscribe(() => {
+        this.dialogRef.close();
+      });
+    }
+
     this.cdr.detectChanges();
   }
 }

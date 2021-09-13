@@ -1,13 +1,13 @@
 :host {
   @apply h-full w-full;
-}
 
-ul {
-  margin-block-start: 0;
-  padding-inline-start: 25px;
-  list-style: unset;
-
-  li {
-    @apply my-1.25;
+  ul {
+    margin-block-start: 0;
+    padding-inline-start: 25px;
+    list-style: unset;
+  
+    li {
+      @apply my-1.25;
+    }
   }
 }

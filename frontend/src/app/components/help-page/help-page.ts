@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { slideIn } from './help-page-animations';
 
 @Component({
@@ -123,3 +123,12 @@ export class HelpPage5Component extends HelpPageComponent {}
   templateUrl: './help-page-templates/help-page-6.component.html',
 })
 export class HelpPage6Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-final',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-final.component.html',
+})
+export class HelpPageFinalComponent extends HelpPageComponent {
+  @Output() closeDialog = new EventEmitter();
+}
