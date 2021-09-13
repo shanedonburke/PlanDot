@@ -52,9 +52,12 @@
       <mat-icon>event</mat-icon>
       <div>
         <div><b>Date</b></div>
-        <a [routerLink]="" (click)="goToItemDate()" style="color: blue">{{
-          data.item.date.toDateString()
-        }}</a>
+        <a
+          [routerLink]=""
+          (click)="goToItemDate()"
+          class="text-blue hover:underline"
+          >{{ data.item.date.toDateString() }}</a
+        >
       </div>
     </div>
     <div *ngIf="data.item.isStartTimeEnabled" class="item-detail">

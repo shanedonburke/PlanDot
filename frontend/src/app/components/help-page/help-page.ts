@@ -116,3 +116,10 @@ export class HelpPage4Component extends HelpPageComponent {}
   templateUrl: './help-page-templates/help-page-5.component.html',
 })
 export class HelpPage5Component extends HelpPageComponent {}
+
+@Component({
+  selector: 'app-help-page-6',
+  styleUrls: ['./help-page.component.scss'],
+  templateUrl: './help-page-templates/help-page-6.component.html',
+})
+export class HelpPage6Component extends HelpPageComponent {}

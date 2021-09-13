@@ -12,6 +12,7 @@ import {
   HelpPage3Component,
   HelpPage4Component,
   HelpPage5Component,
+  HelpPage6Component,
 } from '../help-page/help-page';
 
 @Component({
@@ -27,6 +28,7 @@ export class HelpDialogComponent {
     HelpPage3Component,
     HelpPage4Component,
     HelpPage5Component,
+    HelpPage6Component,
   ];
 
   @ViewChild(HelpPageDirective) helpPageHost!: HelpPageDirective;

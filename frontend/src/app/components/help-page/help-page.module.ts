@@ -13,6 +13,7 @@ import {
   HelpPageIconWithText,
   HelpPage4Component,
   HelpPage5Component,
+  HelpPage6Component,
 } from './help-page';
 
 @NgModule({
@@ -29,6 +30,7 @@ import {
     HelpPage3Component,
     HelpPage4Component,
     HelpPage5Component,
+    HelpPage6Component,
   ],
   exports: [
     HelpPageIconWithText,
@@ -43,6 +45,7 @@ import {
     HelpPage3Component,
     HelpPage4Component,
     HelpPage5Component,
+    HelpPage6Component,
   ],
   imports: [MatIconModule]
 })
