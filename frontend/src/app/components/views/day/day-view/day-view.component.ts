@@ -5,7 +5,7 @@ import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { ItemViewDialogComponent } from '../../item-view-dialog/item-view-dialog.component';
+import { ItemViewDialogComponent } from '../../../dialogs/item-view-dialog/item-view-dialog.component';
 
 interface ItemData {
   item: Item;

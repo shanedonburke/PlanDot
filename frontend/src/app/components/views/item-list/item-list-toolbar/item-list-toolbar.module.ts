@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IconButtonModule } from '../../icon-button/icon-button.module';
-import { ItemSortButtonModule } from '../../item-sort-button/item-sort-button.module';
+import { IconButtonModule } from '../../../widgets/icon-button/icon-button.module';
+import { ItemSortButtonModule } from '../../../widgets/item-sort-button/item-sort-button.module';
 import { ItemListToolbarComponent } from './item-list-toolbar.component';
 
 @NgModule({

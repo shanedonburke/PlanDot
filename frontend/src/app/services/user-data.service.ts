@@ -7,9 +7,9 @@ import { Observable, ReplaySubject, Subject } from 'rxjs';
 import {
   HistorySnackBarComponent,
   HistorySnackBarData,
-} from '../components/history-snack-bar/history-snack-bar.component';
-import { ItemEditDialogComponent } from '../components/item-edit-dialog/item-edit-dialog.component';
-import { ItemViewDialogComponent } from '../components/item-view-dialog/item-view-dialog.component';
+} from '../components/widgets/history-snack-bar/history-snack-bar.component';
+import { ItemEditDialogComponent } from '../components/dialogs/item-edit-dialog/item-edit-dialog.component';
+import { ItemViewDialogComponent } from '../components/dialogs/item-view-dialog/item-view-dialog.component';
 import { Group, GroupJson } from '../domain/group';
 import { HistoryEntry } from '../domain/history-entry';
 import { Item, ItemJson } from '../domain/item';

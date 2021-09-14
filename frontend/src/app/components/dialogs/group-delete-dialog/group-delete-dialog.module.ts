@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { GroupNameChipModule } from '../group-name-chip/group-name-chip.module';
+import { GroupNameChipModule } from '../../widgets/group-name-chip/group-name-chip.module';
 import { GroupDeleteDialogComponent } from './group-delete-dialog.component';
 
 @NgModule({

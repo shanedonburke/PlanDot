@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataAction, UserDataService } from 'src/app/services/user-data.service';
-import { GroupDeleteDialogComponent } from '../../group-delete-dialog/group-delete-dialog.component';
-import { GroupEditDialogComponent } from '../../group-edit-dialog/group-edit-dialog.component';
+import { GroupDeleteDialogComponent } from '../../../dialogs/group-delete-dialog/group-delete-dialog.component';
+import { GroupEditDialogComponent } from '../../../dialogs/group-edit-dialog/group-edit-dialog.component';
 
 @Component({
   selector: 'app-group-toolbar',

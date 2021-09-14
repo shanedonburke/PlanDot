@@ -8,15 +8,15 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { DayToolbarComponent } from './components/day/day-toolbar/day-toolbar.component';
-import { DayViewComponent } from './components/day/day-view/day-view.component';
-import { GroupToolbarComponent } from './components/group/group-toolbar/group-toolbar.component';
-import { GroupViewComponent } from './components/group/group-view/group-view.component';
-import { HelpDialogComponent } from './components/help-dialog/help-dialog.component';
-import { ItemListToolbarComponent } from './components/item-list/item-list-toolbar/item-list-toolbar.component';
-import { ItemListViewComponent } from './components/item-list/item-list-view/item-list-view.component';
-import { MonthToolbarComponent } from './components/month/month-toolbar/month-toolbar.component';
-import { MonthViewComponent } from './components/month/month-view/month-view.component';
+import { DayToolbarComponent } from './components/views/day/day-toolbar/day-toolbar.component';
+import { DayViewComponent } from './components/views/day/day-view/day-view.component';
+import { GroupToolbarComponent } from './components/views/group/group-toolbar/group-toolbar.component';
+import { GroupViewComponent } from './components/views/group/group-view/group-view.component';
+import { HelpDialogComponent } from './components/dialogs/help-dialog/help-dialog.component';
+import { ItemListToolbarComponent } from './components/views/item-list/item-list-toolbar/item-list-toolbar.component';
+import { ItemListViewComponent } from './components/views/item-list/item-list-view/item-list-view.component';
+import { MonthToolbarComponent } from './components/views/month/month-toolbar/month-toolbar.component';
+import { MonthViewComponent } from './components/views/month/month-view/month-view.component';
 import { ToolbarDirective } from './directives/toolbar.directive';
 import { ViewDirective } from './directives/view.directive';
 import { Item } from './domain/item';

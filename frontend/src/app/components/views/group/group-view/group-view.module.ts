@@ -5,9 +5,9 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
-import { GroupNameChipModule } from "../../group-name-chip/group-name-chip.module";
-import { ItemCardModule } from "../../item-card/item-card.module";
-import { ItemSortButtonModule } from "../../item-sort-button/item-sort-button.module";
+import { GroupNameChipModule } from "../../../widgets/group-name-chip/group-name-chip.module";
+import { ItemCardModule } from "../../../widgets/item-card/item-card.module";
+import { ItemSortButtonModule } from "../../../widgets/item-sort-button/item-sort-button.module";
 import { GroupViewComponent } from "./group-view.component";
 
 @NgModule({

@@ -3,7 +3,7 @@ import { NgModule } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { HelpPageDirective } from "src/app/directives/help-page.directive";
-import { HelpPageModule } from "../help-page/help-page.module";
+import { HelpPageModule } from "./help-page/help-page.module";
 import { HelpDialogComponent } from "./help-dialog.component";
 
 @NgModule({
