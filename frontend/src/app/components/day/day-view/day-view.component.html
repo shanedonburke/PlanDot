@@ -1,13 +1,9 @@
 <div class="w-full h-full flex flex-col">
-  <div class="view-header">
-    <button class="view-nav-btn" (click)="dateService.goToPrevDate()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-    <span>{{ dateService.date.toDateString() }}</span>
-    <button class="view-nav-btn" (click)="dateService.goToNextDate()">
-      <mat-icon>arrow_forward</mat-icon>
-    </button>
-  </div>
+  <app-view-header
+    [text]="dateService.date.toDateString()"
+    (previous)="dateService.goToPrevDate()"
+    (next)="dateService.goToNextDate()"
+  ></app-view-header>
   <div class="w-full h-full overflow-auto relative">
     <div *ngIf="timelessItems.length > 0" class="p-1.25 bg-snow">
       <span class="font-medium text-[15px]">Items without times</span>

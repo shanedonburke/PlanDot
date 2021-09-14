@@ -13,32 +13,6 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.view-header {
-  @apply text-white
-    flex
-    justify-between
-    items-center
-    w-full
-    min-h-[40px]
-    bg-primary-300
-    text-base;
-}
-
-.view-nav-btn {
-  @apply text-white
-    flex
-    items-center
-    h-full
-    border-0
-    bg-transparent
-    cursor-pointer
-    select-none
-    hover:bg-black
-    hover:bg-opacity-10
-    active:bg-black
-    active:bg-opacity-20;
-}
-
 .cdk-drag-placeholder {
   @apply opacity-0;
 }
