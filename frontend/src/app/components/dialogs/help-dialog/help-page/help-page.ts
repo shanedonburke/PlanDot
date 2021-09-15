@@ -3,6 +3,7 @@ import { slideIn } from './help-page-animations';
 
 /**
  * Base component for a page in the help dialog.
+ * Used in the concrete components for each help page.
  */
 @Component({
   selector: 'app-help-page-base',
