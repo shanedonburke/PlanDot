@@ -53,7 +53,7 @@ export class GroupDeleteDialogComponent {
   }
 
   /**
-   * Deletes the group and close the dialog.
+   * Deletes the group and closes the dialog.
    */
   deleteGroup() {
     this.userDataService.deleteGroup(
