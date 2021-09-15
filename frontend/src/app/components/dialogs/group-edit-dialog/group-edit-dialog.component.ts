@@ -6,6 +6,10 @@ export interface GroupEditDialogData {
   group: Group;
 }
 
+/**
+ * Dialog for editing a group.
+ * The user may choose the group name and color.
+ */
 @Component({
   selector: 'app-group-edit-dialog',
   templateUrl: './group-edit-dialog.component.html',
