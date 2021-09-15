@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { slideIn } from './help-page-animations';
 
+/**
+ * Base component for a page in the help dialog.
+ */
 @Component({
   selector: 'app-help-page-base',
   styleUrls: ['./help-page.component.scss'],
@@ -9,10 +12,17 @@ import { slideIn } from './help-page-animations';
   encapsulation: ViewEncapsulation.None,
 })
 export class HelpPageBaseComponent {
+  /** Direction of the slide-in animation */
   @Input('direction') direction = '';
+
+  /** Page title */
   @Input('title') title = '';
 }
 
+/**
+ * Convenience component for showing some text next to an icon.
+ * Meant to be used within a block of text.
+ */
 @Component({
   selector: 'app-help-page-icon-with-text',
   styleUrls: ['./help-page.component.scss'],
@@ -26,10 +36,16 @@ export class HelpPageBaseComponent {
   `,
 })
 export class HelpPageIconWithTextComponent {
+  /** Material icon name */
   @Input('icon') icon!: string;
+
+  /** Text to be shown next to icon */
   @Input('text') text!: string;
 }
 
+/**
+ * The text 'Group View' next to the group view icon.
+ */
 @Component({
   selector: 'app-help-page-group-view',
   styleUrls: ['./help-page.component.scss'],
@@ -40,6 +56,9 @@ export class HelpPageIconWithTextComponent {
 })
 export class HelpPageGroupViewComponent {}
 
+/**
+ * The text 'Month view' next to the month view icon.
+ */
 @Component({
   selector: 'app-help-page-month-view',
   styleUrls: ['./help-page.component.scss'],
@@ -50,6 +69,9 @@ export class HelpPageGroupViewComponent {}
 })
 export class HelpPageMonthViewComponent {}
 
+/**
+ * The text 'Day view' next to the day view icon.
+ */
 @Component({
   selector: 'app-help-page-day-view',
   styleUrls: ['./help-page.component.scss'],
@@ -60,6 +82,9 @@ export class HelpPageMonthViewComponent {}
 })
 export class HelpPageDayViewComponent {}
 
+/**
+ * The text 'Item list view' next to the item list view icon.
+ */
 @Component({
   selector: 'app-help-page-item-list-view',
   styleUrls: ['./help-page.component.scss'],
@@ -70,11 +95,19 @@ export class HelpPageDayViewComponent {}
 })
 export class HelpPageItemListViewComponent {}
 
+/**
+ * A page in the help dialog with no content.
+ * Meant to be extended by other pages.
+ */
 @Component({ template: '' })
 export class HelpPageComponent {
+  /** Direction of the slide-in animation */
   @Input('direction') direction = '';
 }
 
+/**
+ * The introductory help page.
+ */
 @Component({
   selector: 'app-help-page-0',
   styleUrls: ['./help-page.component.scss'],
@@ -82,6 +115,9 @@ export class HelpPageComponent {
 })
 export class HelpPage0Component extends HelpPageComponent {}
 
+/**
+ * The help page for the group view.
+ */
 @Component({
   selector: 'app-help-page-1',
   styleUrls: ['./help-page.component.scss'],
@@ -89,6 +125,9 @@ export class HelpPage0Component extends HelpPageComponent {}
 })
 export class HelpPage1Component extends HelpPageComponent {}
 
+/**
+ * The help page for creating items.
+ */
 @Component({
   selector: 'app-help-page-2',
   styleUrls: ['./help-page.component.scss'],
@@ -96,6 +135,9 @@ export class HelpPage1Component extends HelpPageComponent {}
 })
 export class HelpPage2Component extends HelpPageComponent {}
 
+/**
+ * The help page for the month view.
+ */
 @Component({
   selector: 'app-help-page-3',
   styleUrls: ['./help-page.component.scss'],
@@ -103,6 +145,9 @@ export class HelpPage2Component extends HelpPageComponent {}
 })
 export class HelpPage3Component extends HelpPageComponent {}
 
+/**
+ * The help page for the day view.
+ */
 @Component({
   selector: 'app-help-page-4',
   styleUrls: ['./help-page.component.scss'],
@@ -110,6 +155,9 @@ export class HelpPage3Component extends HelpPageComponent {}
 })
 export class HelpPage4Component extends HelpPageComponent {}
 
+/**
+ * The help page for the item list view.
+ */
 @Component({
   selector: 'app-help-page-5',
   styleUrls: ['./help-page.component.scss'],
@@ -117,6 +165,9 @@ export class HelpPage4Component extends HelpPageComponent {}
 })
 export class HelpPage5Component extends HelpPageComponent {}
 
+/**
+ * The help page for undo/redo.
+ */
 @Component({
   selector: 'app-help-page-6',
   styleUrls: ['./help-page.component.scss'],
@@ -124,11 +175,15 @@ export class HelpPage5Component extends HelpPageComponent {}
 })
 export class HelpPage6Component extends HelpPageComponent {}
 
+/**
+ * The final help page. Has a button to close the dialog.
+ */
 @Component({
   selector: 'app-help-page-final',
   styleUrls: ['./help-page.component.scss'],
   templateUrl: './help-page-templates/help-page-final.component.html',
 })
 export class HelpPageFinalComponent extends HelpPageComponent {
+  /** Emits when the 'Close' button is clicked */
   @Output() closeDialog = new EventEmitter();
 }
