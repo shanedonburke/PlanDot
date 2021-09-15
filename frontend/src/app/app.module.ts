@@ -27,6 +27,7 @@ import { MonthToolbarModule } from './components/views/month/month-toolbar/month
 import { MonthViewModule } from './components/views/month/month-view/month-view.module';
 import { ToolbarDirective } from './directives/toolbar.directive';
 import { ViewDirective } from './directives/view.directive';
+import { DOCUMENT } from '@angular/common';
 
 const routes = [{ path: '**', component: AppComponent }];
 
@@ -64,7 +65,7 @@ if (!('scrollBehavior' in document.documentElement.style)) {
     ItemListToolbarModule,
     HelpDialogModule,
   ],
-  providers: [],
+  providers: [{ provide: Document, useExisting: DOCUMENT }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

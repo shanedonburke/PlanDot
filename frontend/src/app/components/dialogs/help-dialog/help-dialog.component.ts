@@ -50,7 +50,7 @@ export class HelpDialogComponent {
     private readonly dialogRef: MatDialogRef<HelpDialogComponent>,
     private readonly componentFactoryResolver: ComponentFactoryResolver,
     private readonly cdr: ChangeDetectorRef,
-    @Inject(DOCUMENT) private readonly document: Document
+    private readonly document: Document
   ) {}
 
   ngAfterViewInit(): void {
@@ -99,7 +99,6 @@ export class HelpDialogComponent {
         this.dialogRef.close();
       });
     }
-
     this.cdr.detectChanges();
   }
 }
