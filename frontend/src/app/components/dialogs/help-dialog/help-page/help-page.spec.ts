@@ -1,9 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
   HelpPageBaseComponent,
+  HelpPageFinalComponent,
   HelpPageIconWithTextComponent,
 } from './help-page';
 
@@ -38,7 +41,7 @@ describe('HelpPageBaseComponent', () => {
   });
 });
 
-fdescribe('HelpPageIconWithTextComponent', () => {
+describe('HelpPageIconWithTextComponent', () => {
   let component: HelpPageIconWithTextComponent;
   let fixture: ComponentFixture<HelpPageIconWithTextComponent>;
 
@@ -73,5 +76,33 @@ fdescribe('HelpPageIconWithTextComponent', () => {
 
   it('should have correct text', () => {
     expect(fixture.nativeElement.querySelector('b').innerText).toEqual(TEXT);
+  });
+});
+
+describe('HelpPageFinalComponent', () => {
+  let component: HelpPageFinalComponent;
+  let fixture: ComponentFixture<HelpPageFinalComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [HelpPageFinalComponent, HelpPageBaseComponent],
+      imports: [NoopAnimationsModule, MatButtonModule],
+    }).compileComponents();
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(HelpPageFinalComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should have correct title', () => {
+    const spy = spyOn(component.closeDialog, 'emit');
+    fixture.debugElement.query(By.css('button')).triggerEventHandler('click', null);
+    expect(spy).toHaveBeenCalled();
   });
 });
