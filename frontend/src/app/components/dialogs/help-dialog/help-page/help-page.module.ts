@@ -11,7 +11,7 @@ import {
   HelpPageMonthViewComponent,
   HelpPageGroupViewComponent,
   HelpPageItemListViewComponent,
-  HelpPageIconWithText,
+  HelpPageIconWithTextComponent,
   HelpPage4Component,
   HelpPage5Component,
   HelpPage6Component,
@@ -20,7 +20,7 @@ import {
 
 @NgModule({
   declarations: [
-    HelpPageIconWithText,
+    HelpPageIconWithTextComponent,
     HelpPageGroupViewComponent,
     HelpPageMonthViewComponent,
     HelpPageDayViewComponent,
@@ -36,7 +36,7 @@ import {
     HelpPageFinalComponent,
   ],
   exports: [
-    HelpPageIconWithText,
+    HelpPageIconWithTextComponent,
     HelpPageGroupViewComponent,
     HelpPageMonthViewComponent,
     HelpPageDayViewComponent,

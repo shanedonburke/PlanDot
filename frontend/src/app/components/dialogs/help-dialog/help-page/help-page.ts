@@ -25,7 +25,7 @@ export class HelpPageBaseComponent {
     </span>
   `,
 })
-export class HelpPageIconWithText {
+export class HelpPageIconWithTextComponent {
   @Input('icon') icon!: string;
   @Input('text') text!: string;
 }

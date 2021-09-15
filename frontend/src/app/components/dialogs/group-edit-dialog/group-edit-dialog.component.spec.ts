@@ -18,7 +18,7 @@ import {
   GroupEditDialogData,
 } from './group-edit-dialog.component';
 
-fdescribe('GroupEditDialogComponent', () => {
+describe('GroupEditDialogComponent', () => {
   let component: GroupEditDialogComponent;
   let fixture: ComponentFixture<GroupEditDialogComponent>;
 
