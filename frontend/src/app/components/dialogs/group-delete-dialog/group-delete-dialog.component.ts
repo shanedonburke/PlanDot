@@ -2,7 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
-import { GroupDeletionItemAction, UserDataService } from 'src/app/services/user-data.service';
+import {
+  GroupDeletionItemAction,
+  UserDataService,
+} from 'src/app/services/user-data.service';
 
 export interface GroupDeleteDialogData {
   group: Group;
@@ -37,7 +40,11 @@ export class GroupDeleteDialogComponent {
   }
 
   deleteGroup() {
-    this.userDataService.deleteGroup(this.data.group, this.itemAction!!, this.replacementGroup);
+    this.userDataService.deleteGroup(
+      this.data.group,
+      this.itemAction!!,
+      this.replacementGroup
+    );
     this.dialogRef.close();
   }
 }

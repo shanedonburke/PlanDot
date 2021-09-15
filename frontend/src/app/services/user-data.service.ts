@@ -41,7 +41,7 @@ export enum UserDataAction {
 export enum GroupDeletionItemAction {
   DELETE_SINGLE_GROUP_ITEMS = 'Delete items with no other groups',
   DELETE_ALL_ITEMS = 'Delete all items',
-  KEEP_ALL_ITEMS = 'Keep all items/Move to new group',
+  KEEP_ALL_ITEMS = 'Keep all items or move to new group',
 }
 
 function isUserDataJson(obj: any): obj is UserDataJson {

@@ -1,7 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioButton, MatRadioModule } from '@angular/material/radio';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
+import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -37,7 +42,14 @@ fdescribe('GroupDeleteDialogComponent', () => {
         { provide: UserDataService, useValue: userDataService },
         { provide: MAT_DIALOG_DATA, useValue: data },
       ],
-      imports: [FormsModule, MatRadioModule, GroupNameChipModule]
+      imports: [
+        FormsModule,
+        NoopAnimationsModule,
+        MatRadioModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        GroupNameChipModule,
+      ],
     }).compileComponents();
   });
 
@@ -55,7 +67,35 @@ fdescribe('GroupDeleteDialogComponent', () => {
     expect(component.getReplacementGroupOptions()).toEqual([group2, group3]);
   });
 
-  function setup() {
+  it('should set item action to selected option', () => {
+    clickRadioButton(0);
+    expect(component.itemAction).toEqual(component.ITEM_ACTIONS[0]);
+  });
+
+  describe('with replacement group selected', () => {
+    beforeEach(async () => {
+      clickRadioButton(2);
+      fixture.detectChanges();
+      await fixture.whenStable();
+      selectReplacementGroup(group2);
+    });
+
+    it('should set replacement group', async () => {
+      expect(component.replacementGroup).toEqual(group2);
+    });
+
+    it('should delete group', () => {
+      component.deleteGroup();
+      expect(userDataService.deleteGroup)
+        .withContext('should delete group')
+        .toHaveBeenCalledWith(group1, component.ITEM_ACTIONS[2], group2);
+      expect(dialogRef.close)
+        .withContext('should close dialog')
+        .toHaveBeenCalledTimes(1);
+    });
+  });
+
+  function setup(): void {
     group1 = new Group();
     group2 = new Group();
     group3 = new Group();
@@ -68,5 +108,22 @@ fdescribe('GroupDeleteDialogComponent', () => {
 
     userDataService = jasmine.createSpyObj('UserDataService', ['deleteGroup']);
     data = { group: group1 };
+  }
+
+  function clickRadioButton(index: number): void {
+    (
+      fixture.debugElement.queryAll(By.directive(MatRadioButton))[index]
+        .componentInstance as MatRadioButton
+    )._inputElement.nativeElement.click();
+  }
+
+  function selectReplacementGroup(group: Group): void {
+    (
+      fixture.debugElement.query(By.directive(MatSelect))
+        .componentInstance as MatSelect
+    ).options
+      .toArray()
+      .find((op) => op.value === group)!!
+      .select();
   }
 });
