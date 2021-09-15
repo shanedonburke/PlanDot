@@ -17,7 +17,7 @@ import {
   HelpPage5Component,
   HelpPage6Component,
   HelpPageFinalComponent,
-} from './help-page/help-pages';
+} from './help-pages/help-pages';
 
 @Component({
   selector: 'app-help-dialog',
