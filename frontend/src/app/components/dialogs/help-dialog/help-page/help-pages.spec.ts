@@ -8,7 +8,7 @@ import {
   HelpPageBaseComponent,
   HelpPageFinalComponent,
   HelpPageIconWithTextComponent,
-} from './help-page';
+} from './help-pages';
 
 describe('HelpPageBaseComponent', () => {
   let component: HelpPageBaseComponent;

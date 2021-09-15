@@ -16,7 +16,7 @@ import {
   HelpPage5Component,
   HelpPage6Component,
   HelpPageFinalComponent,
-} from './help-page';
+} from './help-pages';
 
 @NgModule({
   declarations: [
