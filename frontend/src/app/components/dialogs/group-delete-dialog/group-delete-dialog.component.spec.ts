@@ -17,7 +17,7 @@ import {
   GroupDeleteDialogData,
 } from './group-delete-dialog.component';
 
-fdescribe('GroupDeleteDialogComponent', () => {
+describe('GroupDeleteDialogComponent', () => {
   let component: GroupDeleteDialogComponent;
   let fixture: ComponentFixture<GroupDeleteDialogComponent>;
 
