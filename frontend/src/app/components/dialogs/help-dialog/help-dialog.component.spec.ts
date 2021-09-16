@@ -89,7 +89,7 @@ fdescribe('HelpDialogComponent', () => {
       fixture.detectChanges();
     }
     expect(findNextButton()?.classes.invisible).toBeTruthy();
-  })
+  });
 
   function setup() {
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
