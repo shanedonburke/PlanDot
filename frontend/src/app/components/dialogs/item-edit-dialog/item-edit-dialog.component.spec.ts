@@ -3,12 +3,20 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MatDialogModule,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
+import {
+  MatFormField,
+  MatFormFieldModule,
+  MatLabel,
+} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -90,7 +98,25 @@ fdescribe('ItemEditDialogComponent', () => {
     const location = 'New location';
     enterLocation(location);
     expect(component.data.item.location).toBe(location);
-  })
+  });
+
+  describe('with date enabled', () => {
+    beforeEach(async () => {
+      clickCheckbox('Add date');
+      fixture.detectChanges();
+      await fixture.whenStable();
+    });
+
+    it('should have date enabled', () => {
+      expect(component.data.item.isDateEnabled).toBeTrue();
+    });
+
+    it('should show date input', () => {
+      expect(findInputWithLabel('Date').value).toEqual(
+        new Date().toLocaleDateString()
+      );
+    });
+  });
 
   function setup(): void {
     item = new Item();
@@ -131,8 +157,29 @@ fdescribe('ItemEditDialogComponent', () => {
   }
 
   function findInputWithPlaceholder(placeholder: string): HTMLInputElement {
-    return fixture.debugElement.queryAll(By.directive(MatInput))
+    return fixture.debugElement
+      .queryAll(By.directive(MatInput))
       .find((inp) => inp.injector.get(MatInput).placeholder === placeholder)!!
       .nativeElement as HTMLInputElement;
+  }
+
+  function findInputWithLabel(label: string): HTMLInputElement {
+    return fixture.debugElement
+      .queryAll(By.directive(MatFormField))
+      .find((ff) => {
+        return (
+          (ff.query(By.directive(MatLabel)).nativeElement as HTMLElement)
+            ?.innerText === label
+        );
+      })!!
+      .query(By.directive(MatInput)).nativeElement as HTMLInputElement;
+  }
+
+  function clickCheckbox(label: string): void {
+    const checkbox = fixture.debugElement
+      .queryAll(By.directive(MatCheckbox))
+      .find((chk) => (chk.nativeElement as HTMLElement).innerText === label)!!
+      .componentInstance as MatCheckbox;
+    checkbox._inputElement.nativeElement.click();
   }
 });
