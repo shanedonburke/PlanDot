@@ -7,7 +7,10 @@ import { By } from '@angular/platform-browser';
 import { HelpPageDirective } from 'src/app/directives/help-page.directive';
 
 import { HelpDialogComponent } from './help-dialog.component';
-import { HelpPage0Component } from './help-pages/help-pages';
+import {
+  HelpPage0Component,
+  HelpPage1Component,
+} from './help-pages/help-pages';
 
 fdescribe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
@@ -62,11 +65,30 @@ fdescribe('HelpDialogComponent', () => {
   });
 
   it('should not show back button on first page', () => {
-    expect(findButtonWithIcon('chevron_left')?.classes.invisible).toBeTruthy();
+    expect(findBackButton()?.classes.invisible).toBeTruthy();
   });
 
   it('should show next button on first page', () => {
-    expect(findButtonWithIcon('chevron_right')?.classes.invisible).toBeFalsy();
+    expect(findNextButton()?.classes.invisible).toBeFalsy();
+  });
+
+  it('should go to next page', () => {
+    findNextButton()?.nativeElement.click();
+    fixture.detectChanges();
+    expect(findBackButton()?.classes.invisible)
+      .withContext('should show back button')
+      .toBeFalsy();
+    expect(fixture.debugElement.query(By.directive(HelpPage1Component)))
+      .withContext('should show 2nd help page')
+      .toBeTruthy();
+  });
+
+  it('should hide next button on last page', () => {
+    for (let i = 0; i < HelpDialogComponent.HELP_PAGES.length - 1; i++) {
+      findNextButton()?.nativeElement.click();
+      fixture.detectChanges();
+    }
+    expect(findNextButton()?.classes.invisible).toBeTruthy();
   })
 
   function setup() {
@@ -75,6 +97,14 @@ fdescribe('HelpDialogComponent', () => {
     element = jasmine.createSpyObj('Element', ['setAttribute']);
 
     doc.querySelector.and.returnValue(element);
+  }
+
+  function findBackButton(): DebugElement | null {
+    return findButtonWithIcon('chevron_left');
+  }
+
+  function findNextButton(): DebugElement | null {
+    return findButtonWithIcon('chevron_right');
   }
 
   function findButtonWithIcon(icon: string): DebugElement | null {
