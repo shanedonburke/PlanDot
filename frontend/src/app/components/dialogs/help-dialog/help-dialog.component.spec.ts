@@ -12,7 +12,7 @@ import {
   HelpPage1Component,
 } from './help-pages/help-pages';
 
-fdescribe('HelpDialogComponent', () => {
+describe('HelpDialogComponent', () => {
   let component: HelpDialogComponent;
   let fixture: ComponentFixture<HelpDialogComponent>;
 
