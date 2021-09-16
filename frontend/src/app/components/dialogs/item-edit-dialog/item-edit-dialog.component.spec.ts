@@ -7,11 +7,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
 import { Item } from 'src/app/domain/item';
@@ -47,6 +48,7 @@ fdescribe('ItemEditDialogComponent', () => {
         NoopAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
+        MatDialogModule,
         MatFormFieldModule,
         MatInputModule,
         MatDatepickerModule,
@@ -72,6 +74,24 @@ fdescribe('ItemEditDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should edit title', () => {
+    const title = 'New title';
+    enterTitle(title);
+    expect(component.data.item.title).toBe(title);
+  });
+
+  it('should edit description', () => {
+    const description = 'New description';
+    enterDescription(description);
+    expect(component.data.item.description).toBe(description);
+  });
+
+  it('should edit location', () => {
+    const location = 'New location';
+    enterLocation(location);
+    expect(component.data.item.location).toBe(location);
+  })
+
   function setup(): void {
     item = new Item();
     groups = [new Group({ itemIds: [item.id] }), new Group(), new Group()];
@@ -87,5 +107,32 @@ fdescribe('ItemEditDialogComponent', () => {
     groupService.getItemGroups.and.returnValue(
       groups.filter((g) => g.itemIds.includes(item.id))
     );
+  }
+
+  function enterTitle(title: string): void {
+    const input = findInputWithPlaceholder('Item title');
+    enterText(input, title);
+  }
+
+  function enterDescription(description: string): void {
+    const input = findInputWithPlaceholder('Item description');
+    enterText(input, description);
+  }
+
+  function enterLocation(location: string): void {
+    const input = findInputWithPlaceholder('Location');
+    enterText(input, location);
+  }
+
+  function enterText(input: HTMLInputElement, text: string): void {
+    input.value = text;
+    fixture.detectChanges();
+    input.dispatchEvent(new Event('input'));
+  }
+
+  function findInputWithPlaceholder(placeholder: string): HTMLInputElement {
+    return fixture.debugElement.queryAll(By.directive(MatInput))
+      .find((inp) => inp.injector.get(MatInput).placeholder === placeholder)!!
+      .nativeElement as HTMLInputElement;
   }
 });
