@@ -1,11 +1,16 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import {
+  MatButtonToggle,
+  MatButtonToggleGroup,
+  MatButtonToggleModule,
+} from '@angular/material/button-toggle';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
@@ -19,11 +24,11 @@ import {
 } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput, MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatSelect, MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
-import { Item } from 'src/app/domain/item';
+import { Item, Repeat } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 
 import {
@@ -37,6 +42,7 @@ fdescribe('ItemEditDialogComponent', () => {
 
   let item: Item;
   let groups: Array<Group>;
+  let date: Date;
 
   let dialogRef: jasmine.SpyObj<MatDialogRef<ItemEditDialogComponent>>;
   let data: ItemEditDialogData;
@@ -101,25 +107,79 @@ fdescribe('ItemEditDialogComponent', () => {
   });
 
   describe('with date enabled', () => {
-    beforeEach(async () => {
+    beforeEach(() => {
       clickCheckbox('Add date');
-      fixture.detectChanges();
-      await fixture.whenStable();
     });
 
     it('should have date enabled', () => {
       expect(component.data.item.isDateEnabled).toBeTrue();
     });
 
-    it('should show date input', () => {
-      expect(findInputWithLabel('Date').value).toEqual(
-        new Date().toLocaleDateString()
+    it("should show today's date", () => {
+      expect(findInputWithLabel('Date')?.value).toEqual(
+        date.toLocaleDateString()
       );
+    });
+
+    it('should repeat daily', async () => {
+      selectOption('Repeat every', Repeat.DAILY_WEEKLY);
+      await fixture.whenStable();
+
+      expect(component.data.item.repeat)
+        .withContext('should set repeat property')
+        .toEqual(Repeat.DAILY_WEEKLY);
+      expect(fixture.debugElement.query(By.directive(MatButtonToggleGroup)))
+        .withContext('should show toggle group')
+        .toBeTruthy();
+
+      clickButtonToggle(1);
+      expect(component.data.item.weekdays.includes(1))
+        .withContext('should remove Monday when clicked')
+        .toBeFalse();
+
+      clickButtonToggle(1);
+      expect(component.data.item.weekdays.includes(1))
+        .withContext('should re-add Monday when clicked')
+        .toBeTrue();
+
+      clickButtonToggle(0);
+      expect(component.data.item.weekdays.includes(0))
+        .withContext('should not be able to remove the item\'s initial day')
+        .toBeTrue();
+    });
+
+    describe('with start time enabled', () => {
+      beforeEach(() => {
+        clickCheckbox('Add start time');
+      });
+
+      it('should have start time enabled', () => {
+        expect(component.data.item.isStartTimeEnabled).toBeTrue();
+      });
+
+      it('should show start time input', () => {
+        expect(findFormFieldsWithLabel('Hours').length).toBe(1);
+      });
+
+      describe('with end time enabled', () => {
+        beforeEach(() => {
+          clickCheckbox('Add end time');
+        });
+
+        it('should have end time enabled', () => {
+          expect(component.data.item.isEndTimeEnabled).toBeTrue();
+        });
+
+        it('should show end time input', () => {
+          expect(findFormFieldsWithLabel('Hours').length).toBe(2);
+        });
+      });
     });
   });
 
   function setup(): void {
-    item = new Item();
+    date = new Date('9/19/2021');
+    item = new Item({ date });
     groups = [new Group({ itemIds: [item.id] }), new Group(), new Group()];
 
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
@@ -163,16 +223,47 @@ fdescribe('ItemEditDialogComponent', () => {
       .nativeElement as HTMLInputElement;
   }
 
-  function findInputWithLabel(label: string): HTMLInputElement {
+  function findInputWithLabel(label: string): HTMLInputElement | null {
+    return findFormFieldsWithLabel(label)[0]?.query(By.directive(MatInput))
+      .nativeElement as HTMLInputElement;
+  }
+
+  function selectOption(formFieldLabel: string, optionText: string): void {
+    const select = findFormFieldsWithLabel(formFieldLabel)[0]?.query(
+      By.css('.mat-select-trigger')
+    ).nativeElement as HTMLElement;
+    select.click();
+    fixture.detectChanges();
+
+    const option = fixture.debugElement
+      .queryAll(By.directive(MatOption))
+      .find((opt) => opt.nativeElement.innerText === optionText)!!
+      .nativeElement as HTMLElement;
+    option.click();
+    fixture.detectChanges();
+  }
+
+  function clickButtonToggle(value: any): void {
+    const button = fixture.debugElement
+      .queryAll(By.directive(MatButtonToggle))
+      .find((btn) => {
+        return (
+          (btn.componentInstance as MatButtonToggle).value === value
+        );
+      })!!.query(By.css('button')).nativeElement as HTMLElement;
+    button.click();
+    fixture.detectChanges();
+  }
+
+  function findFormFieldsWithLabel(label: string): Array<DebugElement> {
     return fixture.debugElement
       .queryAll(By.directive(MatFormField))
-      .find((ff) => {
+      .filter((ff) => {
         return (
           (ff.query(By.directive(MatLabel)).nativeElement as HTMLElement)
             ?.innerText === label
         );
-      })!!
-      .query(By.directive(MatInput)).nativeElement as HTMLInputElement;
+      });
   }
 
   function clickCheckbox(label: string): void {
@@ -181,5 +272,6 @@ fdescribe('ItemEditDialogComponent', () => {
       .find((chk) => (chk.nativeElement as HTMLElement).innerText === label)!!
       .componentInstance as MatCheckbox;
     checkbox._inputElement.nativeElement.click();
+    fixture.detectChanges();
   }
 });

@@ -1,7 +1,6 @@
 import { v4 } from 'uuid';
 import { getTodaysDate } from '../util/dates';
 import { deepCopy } from '../util/deep-copy';
-import { Group } from './group';
 
 export interface ItemJson {
   id: string;
