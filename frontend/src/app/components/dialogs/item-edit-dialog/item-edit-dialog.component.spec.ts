@@ -126,7 +126,7 @@ describe('ItemEditDialogComponent', () => {
   it('should add group', async () => {
     const input = findInputWithPlaceholder('Add group');
     await openAutocomplete(input);
-    
+
     selectOption(groups[1].name);
     expect(data.item.groupIds)
       .withContext('should add group to item')
@@ -207,6 +207,11 @@ describe('ItemEditDialogComponent', () => {
       expect(tuesdayToggle.checked)
         .withContext('should check Tuesday toggle')
         .toBeTrue();
+
+      clickButtonToggle(0);
+      expect(component.data.item.weekdays.includes(0))
+        .withContext('should now be able to remove Sunday')
+        .toBeFalse();
     });
 
     describe('with start time enabled', () => {
@@ -323,10 +328,12 @@ describe('ItemEditDialogComponent', () => {
   }
 
   function findOption(text: string): HTMLElement | null {
-    return fixture.debugElement
-      .queryAll(By.directive(MatOption))
-      .find((opt) => opt.nativeElement.innerText === text)
-      ?.nativeElement ?? null;
+    return (
+      fixture.debugElement
+        .queryAll(By.directive(MatOption))
+        .find((opt) => opt.nativeElement.innerText === text)?.nativeElement ??
+      null
+    );
   }
 
   function findButtonToggle(value: any): MatButtonToggle | null {
