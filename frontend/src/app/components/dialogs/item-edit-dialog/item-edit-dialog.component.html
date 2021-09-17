@@ -35,6 +35,7 @@
         matInput
         [matDatepicker]="datepicker"
         [value]="data.item.date"
+        (dateInput)="handleDateChange($event)"
         (dateChange)="handleDateChange($event)"
       />
       <mat-datepicker-toggle
@@ -135,6 +136,7 @@
       class="w-min mb-2.5"
     >
       <mat-button-toggle
+        #weekdayToggles
         *ngFor="let day of WEEKDAYS; index as i"
         [value]="i"
         [disabled]="data.item.date.getDay() === i"

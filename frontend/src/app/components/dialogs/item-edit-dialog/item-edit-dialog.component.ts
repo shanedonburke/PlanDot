@@ -1,7 +1,8 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatButtonToggle } from '@angular/material/button-toggle';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
@@ -30,13 +31,16 @@ export class ItemEditDialogComponent {
   @ViewChild('groupInput')
   private groupInput!: ElementRef<HTMLInputElement>;
 
+  @ViewChildren('weekdayToggles')
+  private weekdayToggles!: QueryList<MatButtonToggle>;
+
   groupFormControl = new FormControl();
   filteredGroups: Observable<ReadonlyArray<Group>>;
 
   constructor(
     public dialogRef: MatDialogRef<ItemEditDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ItemEditDialogData,
-    public groupService: GroupService
+    public groupService: GroupService,
   ) {
     this.filteredGroups = this.groupFormControl.valueChanges.pipe(
       startWith(null),
@@ -46,9 +50,17 @@ export class ItemEditDialogComponent {
 
   handleDateChange(event: MatDatepickerInputEvent<Date>): void {
     this.data.item.date = event.value ?? getTodaysDate();
-    if (!this.data.item.weekdays.includes(this.data.item.date.getDay())) {
-      this.data.item.weekdays.push(this.data.item.date.getDay());
+    const weekday = this.data.item.date.getDay();
+
+    // The weekday of the specified date must be enabled for 
+    // daily recurring items.
+    if (!this.data.item.weekdays.includes(weekday)) {
+      this.data.item.weekdays.push(weekday);
       this.data.item.weekdays.sort();
+
+      // If the user entered a date by typing, the toggle won't
+      // become checked automatically.
+      this.weekdayToggles.get(weekday)!!.checked = true;
     }
   }
 

@@ -9,7 +9,12 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChip, MatChipsModule } from '@angular/material/chips';
+import {
+  MatChip,
+  MatChipInput,
+  MatChipRemove,
+  MatChipsModule,
+} from '@angular/material/chips';
 import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
@@ -110,6 +115,36 @@ fdescribe('ItemEditDialogComponent', () => {
     expect(findChip(groups[0].name)).toBeTruthy();
   });
 
+  it('should remove chip', () => {
+    removeChip(groups[0].name);
+
+    expect(component.data.item.groupIds)
+      .withContext('should remove group from item')
+      .toEqual([]);
+  });
+
+  it('should add group', async () => {
+    const input = findInputWithPlaceholder('Add group');
+    await openAutocomplete(input);
+    
+    selectOption(groups[1].name);
+    expect(data.item.groupIds)
+      .withContext('should add group to item')
+      .toEqual([groups[0].id, groups[1].id]);
+
+    await openAutocomplete(input);
+
+    expect(findOption(groups[0].name))
+      .withContext('should not show 1st group in autocomplete')
+      .toBeFalsy();
+    expect(findOption(groups[1].name))
+      .withContext('should not show 2nd group in autocomplete')
+      .toBeFalsy();
+    expect(findOption(groups[2].name))
+      .withContext('should show 3rd group in autocomplete')
+      .toBeTruthy();
+  });
+
   describe('with date enabled', () => {
     beforeEach(() => {
       clickCheckbox('Add date');
@@ -125,8 +160,16 @@ fdescribe('ItemEditDialogComponent', () => {
       );
     });
 
+    it('should set date', () => {
+      const newDate = new Date(2020, 1, 1);
+      enterDate(newDate);
+
+      expect(component.data.item.date).toEqual(newDate);
+    });
+
     it('should repeat daily', async () => {
-      selectOption('Repeat every', Repeat.DAILY_WEEKLY);
+      openSelect('Repeat every');
+      selectOption(Repeat.DAILY_WEEKLY);
       await fixture.whenStable();
 
       expect(component.data.item.repeat)
@@ -149,6 +192,20 @@ fdescribe('ItemEditDialogComponent', () => {
       clickButtonToggle(0);
       expect(component.data.item.weekdays.includes(0))
         .withContext("should not be able to remove the item's initial day")
+        .toBeTrue();
+
+      clickButtonToggle(2);
+      expect(component.data.item.weekdays.includes(2))
+        .withContext('should remove Tuesday when clicked')
+        .toBeFalse();
+
+      enterDate(new Date('9/14/2021')); // Tuesday
+      const tuesdayToggle = findButtonToggle(2)!!;
+      expect(tuesdayToggle.disabled)
+        .withContext('should disable Tuesday toggle')
+        .toBeTrue();
+      expect(tuesdayToggle.checked)
+        .withContext('should check Tuesday toggle')
         .toBeTrue();
     });
 
@@ -182,7 +239,7 @@ fdescribe('ItemEditDialogComponent', () => {
   });
 
   function setup(): void {
-    date = new Date('9/19/2021');
+    date = new Date('9/19/2021'); // Sunday
     item = new Item({ date });
     groups = [
       new Group({ name: 'Group 1', itemIds: [item.id] }),
@@ -225,11 +282,26 @@ fdescribe('ItemEditDialogComponent', () => {
     input.dispatchEvent(new Event('input'));
   }
 
+  async function openAutocomplete(input: HTMLInputElement): Promise<void> {
+    input.dispatchEvent(new Event('focusin'));
+
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+  }
+
   function findInputWithPlaceholder(placeholder: string): HTMLInputElement {
-    return fixture.debugElement
-      .queryAll(By.directive(MatInput))
-      .find((inp) => inp.injector.get(MatInput).placeholder === placeholder)!!
-      .nativeElement as HTMLInputElement;
+    const inputs = [
+      ...fixture.debugElement.queryAll(By.directive(MatInput)),
+      ...fixture.debugElement.queryAll(By.directive(MatChipInput)),
+    ];
+    return inputs.find((inp) => {
+      try {
+        return inp.injector.get(MatInput).placeholder === placeholder;
+      } catch {
+        return inp.injector.get(MatChipInput).placeholder === placeholder;
+      }
+    })!!.nativeElement as HTMLInputElement;
   }
 
   function findInputWithLabel(label: string): HTMLInputElement | null {
@@ -237,29 +309,39 @@ fdescribe('ItemEditDialogComponent', () => {
       .nativeElement as HTMLInputElement;
   }
 
-  function selectOption(formFieldLabel: string, optionText: string): void {
+  function openSelect(formFieldLabel: string): void {
     const select = findFormFieldsWithLabel(formFieldLabel)[0]?.query(
       By.css('.mat-select-trigger')
     ).nativeElement as HTMLElement;
     select.click();
     fixture.detectChanges();
+  }
 
-    const option = fixture.debugElement
-      .queryAll(By.directive(MatOption))
-      .find((opt) => opt.nativeElement.innerText === optionText)!!
-      .nativeElement as HTMLElement;
-    option.click();
+  function selectOption(optionText: string): void {
+    findOption(optionText)!!.click();
     fixture.detectChanges();
   }
 
+  function findOption(text: string): HTMLElement | null {
+    return fixture.debugElement
+      .queryAll(By.directive(MatOption))
+      .find((opt) => opt.nativeElement.innerText === text)
+      ?.nativeElement ?? null;
+  }
+
+  function findButtonToggle(value: any): MatButtonToggle | null {
+    return (
+      fixture.debugElement
+        .queryAll(By.directive(MatButtonToggle))
+        .find((btn) => {
+          return (btn.componentInstance as MatButtonToggle).value === value;
+        })
+        ?.injector.get(MatButtonToggle) ?? null
+    );
+  }
+
   function clickButtonToggle(value: any): void {
-    const button = fixture.debugElement
-      .queryAll(By.directive(MatButtonToggle))
-      .find((btn) => {
-        return (btn.componentInstance as MatButtonToggle).value === value;
-      })!!
-      .query(By.css('button')).nativeElement as HTMLElement;
-    button.click();
+    findButtonToggle(value)!!._buttonElement.nativeElement.click();
     fixture.detectChanges();
   }
 
@@ -292,5 +374,19 @@ fdescribe('ItemEditDialogComponent', () => {
         );
       }) ?? null
     );
+  }
+
+  function removeChip(text: string): void {
+    const chip = findChip(text)!!;
+    chip.query(By.directive(MatChipRemove)).nativeElement.click();
+    fixture.detectChanges();
+  }
+
+  function enterDate(date: Date): void {
+    const input = findInputWithLabel('Date')!!;
+    input.value = date.toDateString();
+    fixture.detectChanges();
+    input.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
   }
 });
