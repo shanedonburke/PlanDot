@@ -9,7 +9,7 @@ import {
   MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
+import { MatChip, MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule, MatOption } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
@@ -106,6 +106,10 @@ fdescribe('ItemEditDialogComponent', () => {
     expect(component.data.item.location).toBe(location);
   });
 
+  it('should have group chip', () => {
+    expect(findChip(groups[0].name)).toBeTruthy();
+  });
+
   describe('with date enabled', () => {
     beforeEach(() => {
       clickCheckbox('Add date');
@@ -144,7 +148,7 @@ fdescribe('ItemEditDialogComponent', () => {
 
       clickButtonToggle(0);
       expect(component.data.item.weekdays.includes(0))
-        .withContext('should not be able to remove the item\'s initial day')
+        .withContext("should not be able to remove the item's initial day")
         .toBeTrue();
     });
 
@@ -180,7 +184,12 @@ fdescribe('ItemEditDialogComponent', () => {
   function setup(): void {
     date = new Date('9/19/2021');
     item = new Item({ date });
-    groups = [new Group({ itemIds: [item.id] }), new Group(), new Group()];
+    groups = [
+      new Group({ name: 'Group 1', itemIds: [item.id] }),
+      new Group({ name: 'Group 2' }),
+      new Group({ name: 'Group 3' }),
+    ];
+    item.groupIds = [groups[0].id];
 
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['close']);
     groupService = jasmine.createSpyObj('GroupService', [
@@ -247,10 +256,9 @@ fdescribe('ItemEditDialogComponent', () => {
     const button = fixture.debugElement
       .queryAll(By.directive(MatButtonToggle))
       .find((btn) => {
-        return (
-          (btn.componentInstance as MatButtonToggle).value === value
-        );
-      })!!.query(By.css('button')).nativeElement as HTMLElement;
+        return (btn.componentInstance as MatButtonToggle).value === value;
+      })!!
+      .query(By.css('button')).nativeElement as HTMLElement;
     button.click();
     fixture.detectChanges();
   }
@@ -273,5 +281,16 @@ fdescribe('ItemEditDialogComponent', () => {
       .componentInstance as MatCheckbox;
     checkbox._inputElement.nativeElement.click();
     fixture.detectChanges();
+  }
+
+  function findChip(text: string): DebugElement | null {
+    return (
+      fixture.debugElement.queryAll(By.directive(MatChip)).find((chip) => {
+        return (
+          (chip.query(By.css('span')).nativeElement as HTMLElement)
+            .innerText === text
+        );
+      }) ?? null
+    );
   }
 });
