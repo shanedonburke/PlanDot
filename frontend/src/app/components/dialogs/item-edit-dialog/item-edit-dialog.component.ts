@@ -8,8 +8,9 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Group, isGroupJson } from 'src/app/domain/group';
-import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import { Item, Repeat } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
+import { WEEKDAYS } from 'src/app/util/constants';
 import { getTodaysDate } from 'src/app/util/dates';
 
 /**

@@ -27,8 +27,6 @@ export enum Repeat {
   YEARLY = 'Yearly',
 }
 
-export const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-
 export enum TimePeriod {
   AM = 'AM',
   PM = 'PM',

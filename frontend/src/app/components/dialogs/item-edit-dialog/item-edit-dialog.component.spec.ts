@@ -41,7 +41,7 @@ import {
   ItemEditDialogData,
 } from './item-edit-dialog.component';
 
-fdescribe('ItemEditDialogComponent', () => {
+describe('ItemEditDialogComponent', () => {
   let component: ItemEditDialogComponent;
   let fixture: ComponentFixture<ItemEditDialogComponent>;
 

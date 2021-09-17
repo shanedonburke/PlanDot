@@ -13,3 +13,4 @@ export const MONTHS: ReadonlyArray<string> = [
   'November',
   'December',
 ];
+export const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];

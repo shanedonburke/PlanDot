@@ -2,11 +2,12 @@ import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as createDOMPurify from 'dompurify';
 import * as marked from 'marked';
-import { Item, Repeat, WEEKDAYS } from 'src/app/domain/item';
+import { Item, Repeat } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ViewService } from 'src/app/services/view.service';
+import { WEEKDAYS } from 'src/app/util/constants';
 
 export interface ItemViewDialogData {
   item: Item;
