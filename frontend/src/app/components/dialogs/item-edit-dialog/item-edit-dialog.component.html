@@ -88,7 +88,7 @@
         *ngIf="data.item.isDateEnabled"
         class="time-enabled-checkbox"
         [checked]="data.item.isEndTimeEnabled"
-        (change)="handleEndTimeEnabled()"
+        (change)="handleEndTimeToggled()"
         >Add end time</mat-checkbox
       >
       <div class="time-form" *ngIf="data.item.isEndTimeEnabled">
