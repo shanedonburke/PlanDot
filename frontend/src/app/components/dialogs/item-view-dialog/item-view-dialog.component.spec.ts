@@ -15,7 +15,11 @@ import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ViewService } from 'src/app/services/view.service';
-import { getElementByXPath } from 'src/test-utils';
+import {
+  findElementByXPath,
+  findButtonWithText,
+  findElementWithText,
+} from 'src/test-utils';
 import { FavoriteButtonModule } from '../../widgets/favorite-button/favorite-button.module';
 import { GroupNameChipModule } from '../../widgets/group-name-chip/group-name-chip.module';
 import { IconButtonComponent } from '../../widgets/icon-button/icon-button.component';
@@ -96,13 +100,26 @@ fdescribe('ItemViewDialogComponent', () => {
   });
 
   it('should delete item', () => {
-    getElementByXPath('//button[span[contains(text(), "Delete")]]')!!.click();
+    findButtonWithText('Delete')!!.click();
+
     expect(userDataService.deleteItem)
       .withContext('should delete item')
       .toHaveBeenCalledWith(item);
     expect(dialogRef.close)
       .withContext('should close dialog')
       .toHaveBeenCalledOnceWith();
+  });
+
+  it('should close dialog', () => {
+    findButtonWithText('Close')!!.click();
+
+    expect(dialogRef.close)
+      .withContext('should close dialog')
+      .toHaveBeenCalledOnceWith();
+  });
+
+  it('should have group chip', () => {
+    expect(findElementWithText('app-group-name-chip', group.name)).toBeTruthy();
   });
 
   function setup(): void {

@@ -13,12 +13,16 @@ export interface ItemViewDialogData {
   item: Item;
 }
 
+/**
+ * A dialog that shows the details of an item.
+ */
 @Component({
   selector: 'app-item-view-dialog',
   templateUrl: './item-view-dialog.component.html',
   styleUrls: ['./item-view-dialog.component.scss'],
 })
 export class ItemViewDialogComponent {
+  /** Markdown description converted to HTML */
   descriptionHtml: string;
 
   constructor(
@@ -29,11 +33,15 @@ export class ItemViewDialogComponent {
     private readonly dateService: DateService,
     private readonly viewService: ViewService,
   ) {
+    // Sanitize Markdown and convert to HTML
     this.descriptionHtml = createDOMPurify().sanitize(
       marked(this.data.item.description)
     );
   }
 
+  /**
+   * Edit the item.
+   */
   editItem(): void {
     this.dialogRef
       .afterClosed()
@@ -41,13 +49,20 @@ export class ItemViewDialogComponent {
     this.dialogRef.close();
   }
 
+  /**
+   * Delete the item.
+   */
   deleteItem() {
     this.userDataService.deleteItem(this.data.item);
     this.dialogRef.close();
   }
 
+  /**
+   * @returns a string representing when the item occurs.
+   */
   getDisplayRepeat(): string {
     if (this.data.item.repeat === Repeat.DAILY_WEEKLY) {
+      // e.g., 'Daily/Weekly (Mo, We, Fr)'
       return `${Repeat.DAILY_WEEKLY} (${this.data.item.weekdays
         .map((dayIdx) => WEEKDAYS[dayIdx])
         .join(', ')})`;
@@ -56,6 +71,9 @@ export class ItemViewDialogComponent {
     }
   }
 
+  /**
+   * View this item's date in the day view.
+   */
   goToItemDate(): void {
     this.dateService.setDate(this.data.item.date);
     this.dialogRef.close();
