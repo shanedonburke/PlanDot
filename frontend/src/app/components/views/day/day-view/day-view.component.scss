@@ -28,5 +28,5 @@ $hour-height: 80px;
 }
 
 .day-view-item {
-  @apply rounded-md p-1.25 box-border m-px;
+  @apply rounded-md box-border m-px overflow-hidden;
 }

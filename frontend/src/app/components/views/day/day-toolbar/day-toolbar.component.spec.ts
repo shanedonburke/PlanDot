@@ -9,7 +9,7 @@ import { getTodaysDate } from 'src/app/util/dates';
 
 import { DayToolbarComponent } from './day-toolbar.component';
 
-fdescribe('DayToolbarComponent', () => {
+describe('DayToolbarComponent', () => {
   let component: DayToolbarComponent;
   let fixture: ComponentFixture<DayToolbarComponent>;
 

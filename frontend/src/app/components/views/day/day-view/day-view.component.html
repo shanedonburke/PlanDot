@@ -5,7 +5,11 @@
     (next)="dateService.goToNextDate()"
   ></app-view-header>
   <div class="w-full h-full overflow-auto relative">
-    <div *ngIf="timelessItems.length > 0" class="p-1.25 bg-snow">
+    <div
+      *ngIf="timelessItems.length > 0"
+      class="p-1.25 bg-snow"
+      id="timeless-items"
+    >
       <span class="font-medium text-[15px]">Items without times</span>
       <div
         *ngFor="let item of timelessItems"
@@ -31,8 +35,8 @@
           <div
             *ngFor="let itemData of col"
             [style.gridColumn]="i + 1"
-            [style.gridRowStart]="itemData.rowStart + 2"
-            [style.gridRowEnd]="itemData.rowEnd + 2"
+            [style.gridRowStart]="itemData.rowStart"
+            [style.gridRowEnd]="itemData.rowEnd"
             [style.backgroundColor]="
               itemService.getItemBackgroundColor(itemData.item)
             "
@@ -40,10 +44,12 @@
             (click)="expandItem(itemData.item)"
             class="day-view-item"
           >
-            <div>{{ itemData.item.title }}</div>
-            <div>{{ itemData.item.getDisplayTime() }}</div>
-            <div *ngIf="itemData.item.location.trim() !== ''">
-              {{ itemData.item.location }}
+            <div class="p-1.25">
+              <div>{{ itemData.item.title }}</div>
+              <div>{{ itemData.item.getDisplayTime() }}</div>
+              <div *ngIf="itemData.item.location.trim() !== ''">
+                {{ itemData.item.location }}
+              </div>
             </div>
           </div>
         </ng-container>
