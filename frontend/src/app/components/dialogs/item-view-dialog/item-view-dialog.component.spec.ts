@@ -16,7 +16,6 @@ import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ViewService } from 'src/app/services/view.service';
 import {
-  findElementByXPath,
   findButtonWithText,
   findElementWithText,
 } from 'src/test-utils';
@@ -30,7 +29,7 @@ import {
   ItemViewDialogData,
 } from './item-view-dialog.component';
 
-fdescribe('ItemViewDialogComponent', () => {
+describe('ItemViewDialogComponent', () => {
   let component: ItemViewDialogComponent;
   let fixture: ComponentFixture<ItemViewDialogComponent>;
 
