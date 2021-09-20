@@ -1,47 +1,57 @@
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import {
-  MatButtonToggle,
   MatButtonToggleGroup,
-  MatButtonToggleModule,
+  MatButtonToggleModule
 } from '@angular/material/button-toggle';
-import { MatCheckbox, MatCheckboxModule } from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import {
-  MatChip,
-  MatChipInput,
-  MatChipRemove,
-  MatChipsModule,
+  MatChipsModule
 } from '@angular/material/chips';
-import { MatNativeDateModule, MatOption } from '@angular/material/core';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
   MatDialogRef,
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA
 } from '@angular/material/dialog';
 import {
-  MatFormField,
-  MatFormFieldModule,
-  MatLabel,
+  MatFormFieldModule
 } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
 import { Item, Repeat } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
-
+import { getTestUtils } from 'src/test-utils';
 import {
   ItemEditDialogComponent,
-  ItemEditDialogData,
+  ItemEditDialogData
 } from './item-edit-dialog.component';
 
+
 describe('ItemEditDialogComponent', () => {
+  const {
+    findChip,
+    removeChip,
+    findInputWithPlaceholder,
+    openAutocomplete,
+    findOption,
+    selectOption,
+    clickButtonToggle,
+    clickCheckbox,
+    findInputWithLabel,
+    findButtonToggle,
+    enterText,
+    findFormFieldsWithLabel,
+    openSelect,
+  } = getTestUtils(() => fixture);
+
   let component: ItemEditDialogComponent;
   let fixture: ComponentFixture<ItemEditDialogComponent>;
 
@@ -279,114 +289,6 @@ describe('ItemEditDialogComponent', () => {
   function enterLocation(location: string): void {
     const input = findInputWithPlaceholder('Location');
     enterText(input, location);
-  }
-
-  function enterText(input: HTMLInputElement, text: string): void {
-    input.value = text;
-    fixture.detectChanges();
-    input.dispatchEvent(new Event('input'));
-  }
-
-  async function openAutocomplete(input: HTMLInputElement): Promise<void> {
-    input.dispatchEvent(new Event('focusin'));
-
-    fixture.detectChanges();
-    await fixture.whenStable();
-    fixture.detectChanges();
-  }
-
-  function findInputWithPlaceholder(placeholder: string): HTMLInputElement {
-    const inputs = [
-      ...fixture.debugElement.queryAll(By.directive(MatInput)),
-      ...fixture.debugElement.queryAll(By.directive(MatChipInput)),
-    ];
-    return inputs.find((inp) => {
-      try {
-        return inp.injector.get(MatInput).placeholder === placeholder;
-      } catch {
-        return inp.injector.get(MatChipInput).placeholder === placeholder;
-      }
-    })!!.nativeElement as HTMLInputElement;
-  }
-
-  function findInputWithLabel(label: string): HTMLInputElement | null {
-    return findFormFieldsWithLabel(label)[0]?.query(By.directive(MatInput))
-      .nativeElement as HTMLInputElement;
-  }
-
-  function openSelect(formFieldLabel: string): void {
-    const select = findFormFieldsWithLabel(formFieldLabel)[0]?.query(
-      By.css('.mat-select-trigger')
-    ).nativeElement as HTMLElement;
-    select.click();
-    fixture.detectChanges();
-  }
-
-  function selectOption(optionText: string): void {
-    findOption(optionText)!!.click();
-    fixture.detectChanges();
-  }
-
-  function findOption(text: string): HTMLElement | null {
-    return (
-      fixture.debugElement
-        .queryAll(By.directive(MatOption))
-        .find((opt) => opt.nativeElement.innerText === text)?.nativeElement ??
-      null
-    );
-  }
-
-  function findButtonToggle(value: any): MatButtonToggle | null {
-    return (
-      fixture.debugElement
-        .queryAll(By.directive(MatButtonToggle))
-        .find((btn) => {
-          return (btn.componentInstance as MatButtonToggle).value === value;
-        })
-        ?.injector.get(MatButtonToggle) ?? null
-    );
-  }
-
-  function clickButtonToggle(value: any): void {
-    findButtonToggle(value)!!._buttonElement.nativeElement.click();
-    fixture.detectChanges();
-  }
-
-  function findFormFieldsWithLabel(label: string): Array<DebugElement> {
-    return fixture.debugElement
-      .queryAll(By.directive(MatFormField))
-      .filter((ff) => {
-        return (
-          (ff.query(By.directive(MatLabel)).nativeElement as HTMLElement)
-            ?.innerText === label
-        );
-      });
-  }
-
-  function clickCheckbox(label: string): void {
-    const checkbox = fixture.debugElement
-      .queryAll(By.directive(MatCheckbox))
-      .find((chk) => (chk.nativeElement as HTMLElement).innerText === label)!!
-      .componentInstance as MatCheckbox;
-    checkbox._inputElement.nativeElement.click();
-    fixture.detectChanges();
-  }
-
-  function findChip(text: string): DebugElement | null {
-    return (
-      fixture.debugElement.queryAll(By.directive(MatChip)).find((chip) => {
-        return (
-          (chip.query(By.css('span')).nativeElement as HTMLElement)
-            .innerText === text
-        );
-      }) ?? null
-    );
-  }
-
-  function removeChip(text: string): void {
-    const chip = findChip(text)!!;
-    chip.query(By.directive(MatChipRemove)).nativeElement.click();
-    fixture.detectChanges();
   }
 
   function enterDate(date: Date): void {

@@ -23,7 +23,7 @@ import { getTestUtils } from 'src/test-utils';
 import { GroupToolbarComponent } from './group-toolbar.component';
 
 describe('GroupToolbarComponent', () => {
-  let { findButtonWithText } = getTestUtils(() => fixture);
+  let { findButtonWithText, clickDocument } = getTestUtils(() => fixture);
 
   let component: GroupToolbarComponent;
   let fixture: ComponentFixture<GroupToolbarComponent>;
@@ -188,10 +188,5 @@ describe('GroupToolbarComponent', () => {
 
   function getGroupsMenuRows(): NodeListOf<HTMLElement> {
     return document.querySelectorAll('.groups-menu-row');
-  }
-
-  function clickDocument(): void {
-    document.dispatchEvent(new Event('click'));
-    fixture.detectChanges();
   }
 });

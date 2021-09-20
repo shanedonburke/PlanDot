@@ -17,7 +17,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { getTestUtils } from 'src/test-utils';
 import { GroupViewComponent } from './group-view.component';
 
-fdescribe('GroupViewComponent', () => {
+describe('GroupViewComponent', () => {
   let { findButtonWithText } = getTestUtils(() => fixture);
 
   let component: GroupViewComponent;

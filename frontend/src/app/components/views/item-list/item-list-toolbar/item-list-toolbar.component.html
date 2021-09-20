@@ -1,10 +1,8 @@
 <div class="flex justify-end items-center">
   <app-item-sort-button
-    (sortByDate)="userDataService.sortItemsByDate(); searchService.update()"
-    (sortByTitle)="userDataService.sortItemsByTitle(); searchService.update()"
-    (sortByFavorited)="
-      userDataService.sortItemsByFavorited(); searchService.update()
-    "
+    (sortByDate)="sortByDate()"
+    (sortByTitle)="sortByTitle()"
+    (sortByFavorited)="sortByFavorited()"
   ></app-item-sort-button>
   <button
     mat-icon-button
