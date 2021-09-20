@@ -15,10 +15,7 @@ import { DateService } from 'src/app/services/date.service';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ViewService } from 'src/app/services/view.service';
-import {
-  findButtonWithText,
-  findElementWithText,
-} from 'src/test-utils';
+import { getTestUtils } from 'src/test-utils';
 import { FavoriteButtonModule } from '../../widgets/favorite-button/favorite-button.module';
 import { GroupNameChipModule } from '../../widgets/group-name-chip/group-name-chip.module';
 import { IconButtonComponent } from '../../widgets/icon-button/icon-button.component';
@@ -30,6 +27,8 @@ import {
 } from './item-view-dialog.component';
 
 describe('ItemViewDialogComponent', () => {
+  let { findButtonWithText, findElementWithText } = getTestUtils(() => fixture);
+
   let component: ItemViewDialogComponent;
   let fixture: ComponentFixture<ItemViewDialogComponent>;
 

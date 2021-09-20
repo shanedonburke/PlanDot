@@ -8,13 +8,10 @@ import {
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { GroupDeleteDialogComponent } from 'src/app/components/dialogs/group-delete-dialog/group-delete-dialog.component';
 import { GroupDeleteDialogModule } from 'src/app/components/dialogs/group-delete-dialog/group-delete-dialog.module';
-import {
-  GroupEditDialogComponent,
-  GroupEditDialogData,
-} from 'src/app/components/dialogs/group-edit-dialog/group-edit-dialog.component';
+import { GroupEditDialogComponent } from 'src/app/components/dialogs/group-edit-dialog/group-edit-dialog.component';
 import { GroupNameChipModule } from 'src/app/components/widgets/group-name-chip/group-name-chip.module';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
@@ -22,11 +19,12 @@ import {
   UserDataAction,
   UserDataService,
 } from 'src/app/services/user-data.service';
-import { findButtonWithText } from 'src/test-utils';
-
+import { getTestUtils } from 'src/test-utils';
 import { GroupToolbarComponent } from './group-toolbar.component';
 
-fdescribe('GroupToolbarComponent', () => {
+describe('GroupToolbarComponent', () => {
+  let { findButtonWithText } = getTestUtils(() => fixture);
+
   let component: GroupToolbarComponent;
   let fixture: ComponentFixture<GroupToolbarComponent>;
 
@@ -143,7 +141,7 @@ fdescribe('GroupToolbarComponent', () => {
       component.isDialogOpen = true;
       clickDocument();
       expect(getGroupsMenu()).toBeTruthy();
-    })
+    });
   });
 
   function setup(): void {

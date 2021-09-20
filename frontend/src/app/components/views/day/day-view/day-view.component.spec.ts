@@ -10,11 +10,13 @@ import { Item, TimePeriod } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
-import { findElementByXPath } from 'src/test-utils';
+import { getTestUtils } from 'src/test-utils';
 
 import { DayViewComponent } from './day-view.component';
 
 describe('DayViewComponent', () => {
+  let { findElementByXPath } = getTestUtils(() => fixture);
+
   let component: DayViewComponent;
   let fixture: ComponentFixture<DayViewComponent>;
 
