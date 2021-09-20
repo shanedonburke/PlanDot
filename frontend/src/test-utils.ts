@@ -1,7 +1,10 @@
-export function findElementByXPath(path: string): HTMLElement | null {
+export function findElementByXPath(
+  path: string,
+  contextNode: Node = document
+): HTMLElement | null {
   const node = document.evaluate(
     path,
-    document,
+    contextNode,
     null,
     XPathResult.FIRST_ORDERED_NODE_TYPE,
     null
@@ -11,10 +14,20 @@ export function findElementByXPath(path: string): HTMLElement | null {
     : null;
 }
 
-export function findElementWithText(tag: string, text: string): HTMLElement | null {
-  return findElementByXPath(`//${tag}[.//*[contains(text(), "${text}")]]`)
+export function findElementWithText(
+  tag: string,
+  text: string,
+  contextNode: Node = document
+): HTMLElement | null {
+  return findElementByXPath(
+    `.//${tag}[.//*[contains(text(), "${text}")]]`,
+    contextNode
+  );
 }
 
-export function findButtonWithText(text: string): HTMLElement | null {
-  return findElementWithText('button', text);
+export function findButtonWithText(
+  text: string,
+  contextNode: Node = document
+): HTMLElement | null {
+  return findElementWithText('button', text, contextNode);
 }
