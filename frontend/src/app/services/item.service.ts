@@ -6,6 +6,9 @@ import { ONE_DAY_MS } from '../util/constants';
 import { getTodaysDate } from '../util/dates';
 import { GroupService } from './group.service';
 
+/**
+ * A service to store and manage user-created items.
+ */
 @Injectable({
   providedIn: 'root',
 })

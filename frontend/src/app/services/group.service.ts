@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Group } from '../domain/group';
 import { ItemJson } from '../domain/item';
 
+/**
+ * A service to store and manage user-created groups.
+ */
 @Injectable({
   providedIn: 'root',
 })
