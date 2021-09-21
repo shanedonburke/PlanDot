@@ -8,7 +8,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 
 import { FavoriteButtonComponent } from './favorite-button.component';
 
-fdescribe('FavoriteButtonComponent', () => {
+describe('FavoriteButtonComponent', () => {
   let component: FavoriteButtonComponent;
   let fixture: ComponentFixture<FavoriteButtonComponent>;
 

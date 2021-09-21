@@ -1,6 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { Group } from 'src/app/domain/group';
 
+/**
+ * Displays a group's name and color as a chip.
+ */
 @Component({
   selector: 'app-group-name-chip',
   templateUrl: './group-name-chip.component.html',
