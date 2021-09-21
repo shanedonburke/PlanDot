@@ -5,7 +5,7 @@ import {
   HistorySnackBarData,
 } from './history-snack-bar.component';
 
-fdescribe('HistorySnackBarComponent', () => {
+describe('HistorySnackBarComponent', () => {
   let component: HistorySnackBarComponent;
   let fixture: ComponentFixture<HistorySnackBarComponent>;
 
