@@ -53,4 +53,12 @@ export class MonthViewComponent {
     this.cachedDateItems.set(date, items);
     return items;
   }
+
+  trackByDate(index: number, date: Date): string {
+    return date.toDateString();
+  }
+
+  trackByWeek(index: number, week: Array<Date>): string {
+    return week.map(date => date.toDateString()).join(',');
+  }
 }

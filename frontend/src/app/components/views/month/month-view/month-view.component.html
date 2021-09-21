@@ -6,10 +6,13 @@
   ></app-view-header>
   <div class="calendar">
     <ng-container
-      *ngFor="let week of getMonthDates(dateService.year, dateService.month)"
+      *ngFor="
+        let week of getMonthDates(dateService.year, dateService.month);
+        trackBy: trackByWeek
+      "
       class="calendar-week"
     >
-      <ng-container *ngFor="let date of week">
+      <ng-container *ngFor="let date of week; trackBy: trackByDate">
         <div class="date" (click)="goToDate(date)">
           <div class="flex justify-between items-center">
             <span>{{ date.getDate() }}</span>
