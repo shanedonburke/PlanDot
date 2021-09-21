@@ -20,7 +20,6 @@ describe('SwipeRevealDirective', () => {
       declarations: [TestComponent, SwipeRevealDirective],
     });
     fixture = TestBed.createComponent(TestComponent);
-    component = fixture.componentInstance;
   });
 
   it('should handle mouse wheel', () => {
