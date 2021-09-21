@@ -6,9 +6,16 @@ import { ItemJson } from '../domain/item';
   providedIn: 'root',
 })
 export class GroupService {
+  /** Group IDs in the order they're displayed */
   private groupOrder: Array<string> = [];
+
+  /** Map of group IDs to `Group` objects */
   private groupMap = new Map<string, Group>();
 
+  /**
+   * Replaces the current group state with the given groups.
+   * @param groups Groups to be loaded
+   */
   loadGroups(groups: Array<Group>) {
     this.groupMap.clear();
     this.groupOrder = [];
@@ -19,6 +26,9 @@ export class GroupService {
     this.groupOrder = groups.map((group) => group.id);
   }
 
+  /**
+   * @returns An array of all groups
+   */
   getGroups(): ReadonlyArray<Group> {
     return <ReadonlyArray<Group>>(
       this.groupOrder
@@ -27,14 +37,29 @@ export class GroupService {
     );
   }
 
+  /**
+   * Gets a group by its ID.
+   * @param id A group ID
+   * @returns The group with the given ID, or undefined
+   */
   getGroupById(id: string): Group | undefined {
     return this.groupMap.get(id);
   }
 
+  /**
+   * Determines whether a group with the given ID exists.
+   * @param groupId A group ID
+   * @returns True if the group exists
+   */
   hasGroup(groupId: string): boolean {
     return this.groupMap.has(groupId);
   }
 
+  /**
+   * Gets the groups to which the given item belongs.
+   * @param item The item whose groups we want
+   * @returns An array of the item's groups
+   */
   getItemGroups(item: ItemJson): ReadonlyArray<Group> {
     return <ReadonlyArray<Group>>(
       item.groupIds
@@ -43,15 +68,26 @@ export class GroupService {
     );
   }
 
+  /**
+   * Deletes a group.
+   * 
+   * NOTE: This method should only be called by `UserDataService`.
+   * @param group The group to delete
+   */
   deleteGroup(group: Group): void {
     this.groupOrder.splice(this.groupOrder.indexOf(group.id), 1);
     this.groupMap.delete(group.id);
   }
 
-  updateOrCreateGroup(group: Group, newGroup: Group): void {
-    this.groupMap.set(group.id, newGroup);
-    if (!this.groupOrder.includes(newGroup.id)) {
-      this.groupOrder.push(newGroup.id);
+  /**
+   * If the ID of {@link group} matches a known group, then that group will be
+   * updated. Otherwise, it will be added to the service as a new group.
+   * @param group The new or updated group
+   */
+  updateOrCreateGroup(group: Group): void {
+    this.groupMap.set(group.id, group);
+    if (!this.groupOrder.includes(group.id)) {
+      this.groupOrder.push(group.id);
     }
   }
 

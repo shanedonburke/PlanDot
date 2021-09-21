@@ -52,7 +52,7 @@ export class GroupToolbarComponent {
       // `result` is truthy if the user clicked 'Save'
       if (result) {
         this.isGroupsMenuVisible = false;
-        this.groupService.updateOrCreateGroup(group, result);
+        this.groupService.updateOrCreateGroup(result);
         this.userDataService.saveUserData(UserDataAction.EDIT_GROUP);
       }
     });
