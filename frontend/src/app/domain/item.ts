@@ -154,7 +154,7 @@ export class Item implements ItemJson {
     }
   }
 
-  getDeepCopy(): Item {
+  getCopy(): Item {
     return new Item(deepCopy(this));
   }
 

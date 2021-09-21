@@ -11,7 +11,7 @@ export class HistoryEntry {
     groups: ReadonlyArray<Group> = [],
     items: ReadonlyArray<Item> = [],
   ) {
-    this.groups = groups.map((group) => group.getDeepCopy());
-    this.items = items.map((item) => item.getDeepCopy());
+    this.groups = groups.map((group) => group.getCopy());
+    this.items = items.map((item) => item.getCopy());
   }
 }

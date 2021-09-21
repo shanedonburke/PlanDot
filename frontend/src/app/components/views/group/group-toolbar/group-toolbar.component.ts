@@ -43,7 +43,7 @@ export class GroupToolbarComponent {
     const dialogRef = this.dialog.open(GroupEditDialogComponent, {
       // Deep copy so that changes to the group aren't saved if the user
       // cancels the dialog.
-      data: { group: group.getDeepCopy() },
+      data: { group: group.getCopy() },
     });
 
     dialogRef.afterClosed().subscribe((result: Group) => {

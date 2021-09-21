@@ -166,7 +166,7 @@ export class UserDataService {
 
   editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
-      data: { item: item.getDeepCopy() },
+      data: { item: item.getCopy() },
     });
 
     dialogRef.afterClosed().subscribe((result: Item) => {
