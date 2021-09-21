@@ -272,7 +272,7 @@ export class UserDataService {
   }
 
   private loadHistoryEntry(historyEntry: HistoryEntry): void {
-    this.groupService.loadGroups(historyEntry.groups as Group[]);
-    this.itemService.loadItems(historyEntry.items as Item[]);
+    this.groupService.loadGroups(historyEntry.groups);
+    this.itemService.loadItems(historyEntry.items);
   }
 }

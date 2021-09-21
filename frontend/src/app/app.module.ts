@@ -65,7 +65,10 @@ if (!('scrollBehavior' in document.documentElement.style)) {
     ItemListToolbarModule,
     HelpDialogModule,
   ],
-  providers: [{ provide: Document, useExisting: DOCUMENT }],
+  providers: [
+    { provide: Document, useExisting: DOCUMENT },
+    { provide: Window, useFactory: () => window },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

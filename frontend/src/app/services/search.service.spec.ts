@@ -8,7 +8,7 @@ import { ItemService } from './item.service';
 import { SearchService } from './search.service';
 import { UserDataService } from './user-data.service';
 
-fdescribe('SearchService', () => {
+describe('SearchService', () => {
   let service: SearchService;
 
   let group: Group;
