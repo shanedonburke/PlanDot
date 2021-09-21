@@ -8,7 +8,7 @@ import { getTestUtils } from 'src/test-utils';
 
 import { ItemSortButtonComponent } from './item-sort-button.component';
 
-fdescribe('ItemSortButtonComponent', () => {
+describe('ItemSortButtonComponent', () => {
   const { findButtonWithText } = getTestUtils(() => fixture);
 
   let component: ItemSortButtonComponent;
