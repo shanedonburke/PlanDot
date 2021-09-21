@@ -16,7 +16,7 @@ import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { IconButtonModule } from '../icon-button/icon-button.module';
 import { ItemCardComponent } from './item-card.component';
 
-fdescribe('ItemCardComponent', () => {
+describe('ItemCardComponent', () => {
   const { findElementByXPath } = getTestUtils(() => fixture);
 
   let component: ItemCardComponent;
