@@ -6,7 +6,7 @@ export function isGroupJson(obj: any): obj is Group {
 }
 
 /**
- * Object representing a group.
+ * Object representing a {@link Group}.
  */
 export interface GroupJson {
   id: string;
@@ -38,7 +38,7 @@ export class Group implements GroupJson {
 
   /**
    * @returns The appropriate text color (white or black) to use against
-   *          the group's background color.
+   *    the group's background color.
    */
   getTextColor(): string {
     // Color luminance formula
