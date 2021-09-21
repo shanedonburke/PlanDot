@@ -23,6 +23,7 @@ export class DateService {
   }
 
   set date(val: Date) {
+    val.setHours(0, 0, 0, 0);
     this._date = val;
     this._onDateChanged.next(this.date);
   }
@@ -39,14 +40,14 @@ export class DateService {
   private _onDateChanged = new Subject<Date>();
 
   constructor() {
-    this.resetDay();
+    this.resetDate();
     this.resetMonth();
   }
 
   /**
    * Reset the day view's date to today, then notify subscribers.
    */
-  resetDay(): void {
+  resetDate(): void {
     this.date = getTodaysDate();
   }
 
