@@ -79,6 +79,8 @@ export class ItemService {
   /**
    * Updates an existing item, or adds a new one to the service if there is no
    * item with the given item's ID.
+   * 
+   * NOTE: This should only be called by `UserDataService`.
    * @param item The item to create or update
    */
   updateOrCreateItem(item: Item): void {
@@ -167,6 +169,8 @@ export class ItemService {
 
   /**
    * Sort the items by date (earlier dates are first).
+   * 
+   * NOTE: This should only be called by `UserDataService`.
    */
   sortItemsByDate(): void {
     this.itemOrder.sort((a, b) =>
@@ -176,6 +180,8 @@ export class ItemService {
 
   /**
    * Sort the items by title (alphabetically).
+   * 
+   * NOTE: This should only be called by `UserDataService`.
    */
   sortItemsByTitle(): void {
     this.itemOrder.sort((a, b) => {
@@ -194,6 +200,8 @@ export class ItemService {
   /**
    * Sorts the items such that favorited items are first.
    * Relative ordering is preserved.
+   * 
+   * NOTE: This should only be called by `UserDataService`.
    */
   sortItemsByFavorited(): void {
     const favorited: Array<string> = [];
@@ -261,6 +269,8 @@ export class ItemService {
 
   /**
    * Reorders items when the user drags item cards to do so.
+   * 
+   * NOTE: This should only be called by `UserDataService`.
    * @param event The drag and drop event
    */
   handleItemListDragDrop(event: CdkDragDrop<Array<Item>>): void {

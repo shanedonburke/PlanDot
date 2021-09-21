@@ -16,15 +16,27 @@ import { Item, ItemJson } from '../domain/item';
 import { GroupService } from './group.service';
 import { ItemService } from './item.service';
 
+/**
+ * Represents the items received as objects from the backend.
+ * The only difference is that the date is stringified.
+ */
 export interface ItemDto extends Omit<ItemJson, 'date'> {
   date: string;
 }
 
+/**
+ * Represents the user data received from the backend.
+ */
 export interface UserDataJson {
   groups: Array<GroupJson>;
   items: Array<ItemDto>;
 }
 
+/**
+ * All possible actions on user data that can be undone/redone.
+ * The value of each entry in this enum is the text to be shown in the
+ * undo/redo snack bar.
+ */
 export enum UserDataAction {
   EDIT_GROUP = 'Edit group',
   REORDER_GROUP_ITEMS = 'Reorder group items',
@@ -38,32 +50,53 @@ export enum UserDataAction {
   NONE = '',
 }
 
+/**
+ * Represents the options the user can choose from when deciding what
+ * happens to items in a deleted group.
+ */
 export enum GroupDeletionItemAction {
   DELETE_SINGLE_GROUP_ITEMS = 'Delete items with no other groups',
   DELETE_ALL_ITEMS = 'Delete all items',
   KEEP_ALL_ITEMS = 'Keep all items or move to new group',
 }
 
-function isUserDataJson(obj: any): obj is UserDataJson {
-  return obj && typeof obj === 'object' && 'groups' in obj;
+/**
+ * Type guard that determines whether a value is a {@link UserDataJson} object.
+ * @param val Tje value to check
+ * @returns True if the value is a {@link UserDataJson} object, false otherwise
+ */
+function isUserDataJson(val: any): val is UserDataJson {
+  return val && typeof val === 'object' && 'groups' in val;
 }
 
+/**
+ * A service that handles loading and saving user data as well as
+ * various operations upon it.
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class UserDataService {
+  /** Emits when user data changes in any way , including when it is loaded. */
   get onUserDataChanged(): Observable<void> {
     return this._onUserDataChanged.asObservable();
   }
 
+  /** Emits when data has been loaded from the backend, even if there is none */
   get onUserDataLoaded(): Observable<void> {
     return this._onUserDataLoaded.asObservable();
   }
 
+  /** Emits when user data changes in any way , including when it is loaded. */
   private _onUserDataChanged = new Subject<void>();
+
+  /** Emits when data has been loaded from the backend, even if there is none */
   private _onUserDataLoaded = new ReplaySubject<void>();
 
+  /** All recorded history states for this session */
   private history: Array<HistoryEntry> = [];
+
+  /** The index in {@link history} of the current state */
   private historyIndex: number = 0;
 
   constructor(
@@ -74,6 +107,13 @@ export class UserDataService {
     private readonly snackBar: MatSnackBar
   ) {}
 
+  /**
+   * Saves user data (items and groups) to the backend. Also records the
+   * action that caused the save and the current state of the user data if
+   * {@link pushToHistory} is true.
+   * @param action The action to be recorded in the history, if any
+   * @param pushToHistory If true, the action will be recorded in the history
+   */
   saveUserData(action: UserDataAction, pushToHistory: boolean = true): void {
     const groups = this.groupService.getGroups();
     const items = this.itemService.getItems();
@@ -81,6 +121,7 @@ export class UserDataService {
     this.validateItems(items);
 
     if (pushToHistory) {
+      // Remove all history states after the new one, preventing redo
       this.historyIndex++;
       this.history.splice(this.historyIndex);
       this.history.push(new HistoryEntry(action, groups, items));
@@ -92,10 +133,14 @@ export class UserDataService {
       .subscribe();
   }
 
+  /**
+   * Attempt to load user data from the backend. A JWT token is required.
+   */
   loadUserData(): void {
     this.httpClient
       .get<UserDataJson>('/api/user_data', { withCredentials: true })
       .subscribe((userData) => {
+        // If there is no user data, `userData` may be `{}`
         if (isUserDataJson(userData)) {
           this.groupService.loadGroups(
             userData.groups.map((group) => new Group(group))
@@ -105,6 +150,7 @@ export class UserDataService {
               return new Item({ ...dto, date: new Date(dto.date) });
             })
           );
+          // Create initial entry to allow undo after first action
           this.history.push(
             new HistoryEntry(
               UserDataAction.NONE,
@@ -115,11 +161,20 @@ export class UserDataService {
           this._onUserDataChanged.next();
           this._onUserDataLoaded.next();
         } else {
+          // Still create initial entry to allow undo after first action
           this.history.push(new HistoryEntry(UserDataAction.NONE));
         }
       });
   }
 
+  /**
+   * Deletes a group. The fate of items in the group are determined by
+   * {@link itemAction}.
+   * @param group The group to delete
+   * @param itemAction What happens to items in the group
+   * @param replacementGroup If the items are kept, the group to move them to.
+   *   Passing `null` removes the group form all items without a replacement.
+   */
   deleteGroup(
     group: Group,
     itemAction: GroupDeletionItemAction = GroupDeletionItemAction.KEEP_ALL_ITEMS,
@@ -143,34 +198,57 @@ export class UserDataService {
     this.saveUserData(UserDataAction.DELETE_GROUP);
   }
 
+  /**
+   * Deletes an item, removing it from all groups it is in.
+   * @param item The item to delete
+   */
   deleteItem(item: Item): void {
     this.itemService.deleteItem(item);
     this.groupService.removeItemFromGroups(item);
     this.saveUserData(UserDataAction.DELETE_ITEM);
   }
 
+  /**
+   * Sorts all items by date (earliest first).
+   */
   sortItemsByDate(): void {
     this.itemService.sortItemsByDate();
     this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
+  /**
+   * Sorts all items by title (alphabetically).
+   */
   sortItemsByTitle(): void {
     this.itemService.sortItemsByTitle();
     this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
+  /**
+   * Sorts all items such that favorited items are first.
+   * Relative ordering is preserved.
+   */
   sortItemsByFavorited(): void {
     this.itemService.sortItemsByFavorited();
     this.saveUserData(UserDataAction.SORT_ITEMS);
   }
 
+  /**
+   * Opens the item edit dialog for the given item, then displays the item
+   * view dialog when it is saved.
+   * @param item The item to edit
+   * @param showItemOnCancel If true, the item view dialog will still appear
+   *     when _Cancel_ is clicked.
+   */
   editItem(item: Item, showItemOnCancel: boolean = false): void {
     const dialogRef = this.dialog.open(ItemEditDialogComponent, {
+      // Use copy so cancelled changes to the item don't affect the item
       data: { item: item.getCopy() },
     });
 
     dialogRef.afterClosed().subscribe((result: Item) => {
       if (result) {
+        // Clean-up to make other things work
         result.weekdays.sort();
         result.date.setHours(0, 0, 0, 0);
 
@@ -179,6 +257,7 @@ export class UserDataService {
           (!result.isEndTimeEnabled ||
             result.getStartTimeInMinutes() >= result.getEndTimeInMinutes())
         ) {
+          // Prevent end time from being before start time
           result.setEndTimeToDefault();
         }
         this.itemService.updateOrCreateItem(result);
@@ -196,14 +275,23 @@ export class UserDataService {
     });
   }
 
+  /**
+   * @returns True if the user can undo an action.
+   */
   canUndo(): boolean {
     return this.history[this.historyIndex - 1] !== undefined;
   }
 
+  /**
+   * @returns True if the user can redo an action.
+   */
   canRedo(): boolean {
     return this.history[this.historyIndex + 1] !== undefined;
   }
 
+  /**
+   * Undo the last action
+   */
   undo(): void {
     if (this.history[this.historyIndex - 1] !== undefined) {
       const snackBarData: HistorySnackBarData = {
@@ -221,6 +309,9 @@ export class UserDataService {
     }
   }
 
+  /**
+   * Redo the next action if we aren't at the end of the history.
+   */
   redo(): void {
     if (this.history[this.historyIndex + 1] !== undefined) {
       this.historyIndex++;
@@ -238,19 +329,33 @@ export class UserDataService {
     }
   }
 
+  /**
+   * Reorders items when the user drags item cards while in the item list view.
+   * @param event The drag/drop event
+   */
   handleItemListDragDrop(event: CdkDragDrop<Array<Item>>): void {
     this.itemService.handleItemListDragDrop(event);
     this.saveUserData(UserDataAction.REORDER_ITEMS);
   }
 
+  /**
+   * @returns The last action in the history relative to the current position
+   */
   getLastAction(): UserDataAction {
     return this.history[this.historyIndex]?.action ?? UserDataAction.NONE;
   }
 
+  /**
+   * @returns The next action in the history relative to the current position
+   */
   getNextAction(): UserDataAction {
     return this.history[this.historyIndex + 1]?.action ?? UserDataAction.NONE;
   }
 
+  /**
+   * Ensures that no groups reference item IDs that don't exist.
+   * @param groups The groups to validate
+   */
   private validateGroups(groups: ReadonlyArray<Group>): void {
     groups.forEach((group) => {
       group.itemIds.forEach((itemId, i) => {
@@ -261,6 +366,10 @@ export class UserDataService {
     });
   }
 
+  /**
+   * Ensures that no items reference group IDs that don't exist.
+   * @param items The items to validate
+   */
   private validateItems(items: ReadonlyArray<ItemJson>): void {
     items.forEach((item) => {
       item.groupIds.forEach((groupId, i) => {
@@ -271,6 +380,10 @@ export class UserDataService {
     });
   }
 
+  /**
+   * Loads the given history entry into the application state.
+   * @param historyEntry The history entry to load
+   */
   private loadHistoryEntry(historyEntry: HistoryEntry): void {
     this.groupService.loadGroups(historyEntry.groups);
     this.itemService.loadItems(historyEntry.items);
