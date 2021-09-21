@@ -91,6 +91,10 @@ export class GroupService {
     }
   }
 
+  /**
+   * Removes {@link item} from any groups it belongs to.
+   * @param item The item to remove from groups
+   */
   removeItemFromGroups(item: ItemJson): void {
     this.getGroups().forEach((group) => {
       const itemIdIndex = group.itemIds.indexOf(item.id);
@@ -100,6 +104,9 @@ export class GroupService {
     });
   }
 
+  /**
+   * @returns The total number of groups.
+   */
   getGroupCount(): number {
     return this.groupOrder.length;
   }

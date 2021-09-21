@@ -89,7 +89,7 @@ describe('GroupToolbarComponent', () => {
 
       const group = groups[0];
       const newGroup =
-        groupService.updateOrCreateGroup.calls.mostRecent().args[1];
+        groupService.updateOrCreateGroup.calls.mostRecent().args[0];
 
       expect(getGroupsMenu())
         .withContext('should close groups menu')
@@ -97,7 +97,7 @@ describe('GroupToolbarComponent', () => {
       expect(dialog.open).withContext('should open dialog').toHaveBeenCalled();
       expect(groupService.updateOrCreateGroup)
         .withContext('should update group')
-        .toHaveBeenCalledOnceWith(group, newGroup);
+        .toHaveBeenCalledOnceWith(newGroup);
       expect(group)
         .withContext('should pass in clone of group, not original')
         .not.toBe(newGroup);
