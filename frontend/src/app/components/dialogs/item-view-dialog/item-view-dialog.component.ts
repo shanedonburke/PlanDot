@@ -75,7 +75,7 @@ export class ItemViewDialogComponent {
    * View this item's date in the day view.
    */
   goToItemDate(): void {
-    this.dateService.setDate(this.data.item.date);
+    this.dateService.date = this.data.item.date;
     this.dialogRef.close();
     this.viewService.goToDayView();
   }

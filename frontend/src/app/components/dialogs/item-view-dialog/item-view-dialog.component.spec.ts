@@ -37,7 +37,7 @@ describe('ItemViewDialogComponent', () => {
 
   let userDataService: jasmine.SpyObj<UserDataService>;
   let groupService: jasmine.SpyObj<GroupService>;
-  let dateService: jasmine.SpyObj<DateService>;
+  let dateService: { date: Date };
   let viewService: jasmine.SpyObj<ViewService>;
   let dialogRef: jasmine.SpyObj<MatDialogRef<ItemViewDialogComponent>>;
   let data: ItemViewDialogData;
@@ -87,11 +87,13 @@ describe('ItemViewDialogComponent', () => {
   });
 
   it('should go to date', () => {
+    const setDateSpy = spyOnProperty(dateService, 'date', 'set');
+
     fixture.debugElement.query(By.css('a')).triggerEventHandler('click', null);
     expect(dialogRef.close)
       .withContext('should close dialog')
       .toHaveBeenCalledOnceWith();
-    expect(dateService.setDate)
+    expect(setDateSpy)
       .withContext('should set date')
       .toHaveBeenCalledOnceWith(item.date);
     expect(viewService.goToDayView).toHaveBeenCalledOnceWith();
@@ -148,7 +150,7 @@ describe('ItemViewDialogComponent', () => {
       'deleteItem',
     ]);
     groupService = jasmine.createSpyObj('GroupService', ['getGroupById']);
-    dateService = jasmine.createSpyObj('DateService', ['setDate']);
+    dateService = { date: new Date() };
     viewService = jasmine.createSpyObj('ViewService', ['goToDayView']);
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
     data = { item };
