@@ -26,7 +26,7 @@ describe('ItemListToolbarComponent', () => {
   let component: ItemListToolbarComponent;
   let fixture: ComponentFixture<ItemListToolbarComponent>;
 
-  let searchService: jasmine.SpyObj<SearchService>;
+  let searchService: SearchService;
   let userDataService: jasmine.SpyObj<UserDataService>;
 
   beforeEach(async () => {
@@ -97,13 +97,17 @@ describe('ItemListToolbarComponent', () => {
   });
 
   it('should update search value', () => {
+    const val = 'test';
     const input = findInputWithPlaceholder('Search');
-    enterText(input, 'test');
+    enterText(input, val);
     input.dispatchEvent(new Event('keyup'));
 
     expect(searchService.update)
       .withContext('should update search')
       .toHaveBeenCalled();
+    expect(searchService.searchValue)
+      .withContext('should update search value')
+      .toEqual(val)
   });
 
   it('should clear search', () => {
@@ -158,18 +162,16 @@ describe('ItemListToolbarComponent', () => {
   });
 
   function setup(): void {
-    searchService = jasmine.createSpyObj(
-      'SearchService',
-      ['update', 'clearSearch'],
-      {
-        filter: {
-          withDate: true,
-          withoutDate: true,
-          notFavorited: true,
-        },
-        searchValue: '',
-      }
-    );
+    searchService = {
+      update: jasmine.createSpy('update'),
+      clearSearch: jasmine.createSpy('clearSearch'),
+      filter: {
+        withDate: true,
+        withoutDate: true,
+        notFavorited: true,
+      },
+      searchValue: '',
+    } as unknown as SearchService;
     userDataService = jasmine.createSpyObj('UserDataService', [
       'sortItemsByDate',
       'sortItemsByTitle',

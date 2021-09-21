@@ -25,6 +25,27 @@ export function getTestUtils(fixtureRef: () => ComponentFixture<any>) {
       : null;
   };
 
+  const findAllElementsByXPath = (
+    path: string,
+    contextNode: Node = fixtureRef().nativeElement,
+  ): Array<HTMLElement> => {
+    const elements = [];
+    const snapshot = document.evaluate(
+      path,
+      contextNode,
+      null,
+      XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,
+      null
+    );
+    for (let i = 0; i < snapshot.snapshotLength; i++) {
+      const node = snapshot.snapshotItem(i)!!;
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        elements.push(node as HTMLElement);
+      }
+    }
+    return elements;
+  }
+
   const findElementWithText = (
     tag: string,
     text: string,
@@ -161,6 +182,7 @@ export function getTestUtils(fixtureRef: () => ComponentFixture<any>) {
 
   return {
     findElementByXPath,
+    findAllElementsByXPath,
     findElementWithText,
     findButtonWithText,
     findFormFieldsWithLabel,
