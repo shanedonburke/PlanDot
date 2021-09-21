@@ -207,7 +207,7 @@ export class UserDataService {
   undo(): void {
     if (this.history[this.historyIndex - 1] !== undefined) {
       const snackBarData: HistorySnackBarData = {
-        event: HistorySnackBarComponent.UNDO_EVENT,
+        event: 'Undid',
         actionDescription: this.getLastAction(),
       };
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
@@ -228,7 +228,7 @@ export class UserDataService {
       this.saveUserData(UserDataAction.NONE, false);
 
       const snackBarData: HistorySnackBarData = {
-        event: HistorySnackBarComponent.REDO_EVENT,
+        event: 'Redid',
         actionDescription: this.getLastAction(),
       };
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
