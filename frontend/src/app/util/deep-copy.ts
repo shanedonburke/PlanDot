@@ -1,3 +1,8 @@
+/**
+ * Creates a deep copy of a value, object, or array.
+ * @param obj The value to copy
+ * @returns The deep copy
+ */
 export function deepCopy(obj: any): any {
   let copy: any;
 
