@@ -1,5 +1,5 @@
 [Unit]
-Description=Plandot
+Description=PlanDot
 After=network.target
 
 [Service]

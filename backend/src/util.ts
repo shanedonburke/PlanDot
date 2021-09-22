@@ -34,7 +34,7 @@ export function readLocalFileSync(...path: string[]): string {
   return readFileSync(getLocalFilePath(...path), 'utf8');
 }
 
-const getPlanDotDir = (() => {
+const getPlandotDir = (() => {
   let planDotDir: string;
   return (): string => {
     return planDotDir || (planDotDir = join(homedir(), '.plandot'));
@@ -42,5 +42,5 @@ const getPlanDotDir = (() => {
 })();
 
 function getLocalFilePath(...path: string[]): string {
-  return join(getPlanDotDir(), ...path);
+  return join(getPlandotDir(), ...path);
 }
