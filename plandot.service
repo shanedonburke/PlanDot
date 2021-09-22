@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 User=root
-ExecStart=npm start
+ExecStart=npm run start
 WorkingDirectory=/root/plandot/backend
 Restart=on-failure
 
