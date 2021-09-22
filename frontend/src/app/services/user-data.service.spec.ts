@@ -15,7 +15,7 @@ import {
   UserDataService,
 } from './user-data.service';
 
-fdescribe('UserDataService', () => {
+describe('UserDataService', () => {
   let service: UserDataService;
 
   let items: Array<Item>;

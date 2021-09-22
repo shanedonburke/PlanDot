@@ -39,17 +39,17 @@ export class AppComponent implements OnInit {
   @ViewChild(ToolbarDirective) toolbarHost!: ToolbarDirective;
 
   private static VIEW_COMPONENTS: { [key in View]: any } = {
-    [View.Group]: GroupViewComponent,
-    [View.Month]: MonthViewComponent,
-    [View.Day]: DayViewComponent,
-    [View.ItemList]: ItemListViewComponent,
+    [View.GROUP]: GroupViewComponent,
+    [View.MONTH]: MonthViewComponent,
+    [View.DAY]: DayViewComponent,
+    [View.ITEM_LIST]: ItemListViewComponent,
   };
 
   private static TOOLBAR_COMPONENTS: { [key in View]: any } = {
-    [View.Group]: GroupToolbarComponent,
-    [View.Month]: MonthToolbarComponent,
-    [View.Day]: DayToolbarComponent,
-    [View.ItemList]: ItemListToolbarComponent,
+    [View.GROUP]: GroupToolbarComponent,
+    [View.MONTH]: MonthToolbarComponent,
+    [View.DAY]: DayToolbarComponent,
+    [View.ITEM_LIST]: ItemListToolbarComponent,
   };
 
   constructor(

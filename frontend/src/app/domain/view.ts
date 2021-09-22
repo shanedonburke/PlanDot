@@ -3,10 +3,10 @@
  * this enum is the value used in the `view` query parameter.
  */
 export enum View {
-  Group = 'group',
-  Month = 'month',
-  Day = 'day',
-  ItemList = 'item_list',
+  GROUP = 'group',
+  MONTH = 'month',
+  DAY = 'day',
+  ITEM_LIST = 'item_list',
 }
 
 /** The valid values for the `view` query parameter */
