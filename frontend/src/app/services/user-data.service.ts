@@ -62,7 +62,7 @@ export enum GroupDeletionItemAction {
 
 /**
  * Type guard that determines whether a value is a {@link UserDataJson} object.
- * @param val Tje value to check
+ * @param val The value to check
  * @returns True if the value is a {@link UserDataJson} object, false otherwise
  */
 function isUserDataJson(val: any): val is UserDataJson {
@@ -173,7 +173,7 @@ export class UserDataService {
    * @param group The group to delete
    * @param itemAction What happens to items in the group
    * @param replacementGroup If the items are kept, the group to move them to.
-   *   Passing `null` removes the group form all items without a replacement.
+   *     Passing `null` removes the group form all items without a replacement.
    */
   deleteGroup(
     group: Group,
