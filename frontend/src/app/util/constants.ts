@@ -19,3 +19,14 @@ export const MONTHS: ReadonlyArray<string> = [
 
 /** Abbreviated names of weekdays */
 export const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
+/** Full names of weekdays */
+export const WEEKDAYS_FULL = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];

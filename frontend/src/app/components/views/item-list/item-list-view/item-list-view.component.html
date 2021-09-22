@@ -6,6 +6,7 @@
   class="bg-ghost box-border h-full w-full overflow-x-hidden overflow-y-auto"
   cdkDropList
   (cdkDropListDropped)="userDataService.handleItemListDragDrop($event)"
+  role="list"
 >
   <div
     *ngFor="let item of searchService.filteredItems"
@@ -14,6 +15,7 @@
     class="item"
     swipeReveal
     [hiddenPanelWidth]="50"
+    role="listitem"
   >
     <div class="flex">
       <app-item-card [item]="item" class="w-full">

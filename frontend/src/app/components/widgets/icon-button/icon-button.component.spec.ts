@@ -42,5 +42,18 @@ describe('IconButtonComponent', () => {
     expect(iconEl.style.fontSize).withContext('wrong font size').toBe(SIZE);
     expect(iconEl.style.width).withContext('wrong width').toBe(SIZE);
     expect(iconEl.style.height).withContext('wrong height').toBe(SIZE);
+  });
+
+  it('should do action on click', () => {
+    const spy = spyOn(component.action, 'emit');
+    fixture.nativeElement.click();
+    expect(spy).toHaveBeenCalled();
+  });
+
+  it('should do action on enter keystroke', () => {
+    const spy = spyOn(component.action, 'emit');
+    const event = new KeyboardEvent('keydown', { key: 'enter' });
+    fixture.nativeElement.dispatchEvent(event);
+    expect(spy).toHaveBeenCalled();
   })
 });

@@ -1,4 +1,9 @@
-<button (click)="toggleGroupsMenu($event)" mat-button color="primary">
+<button
+  (click)="toggleGroupsMenu($event)"
+  mat-button
+  color="primary"
+  [attr.aria-label]="isGroupsMenuVisible"
+>
   Groups
 </button>
 <div
@@ -6,18 +11,22 @@
   (click)="$event.stopPropagation()"
   class="groups-menu"
 >
-  <div class="h-[200px] m-2.5 overflow-x-hidden overflow-y-auto">
+  <div class="h-[200px] m-2.5 overflow-x-hidden overflow-y-auto" role="list">
     <div
       *ngFor="let group of groupService.getGroups(); index as i"
+      role="listitem"
     >
       <div class="groups-menu-row">
-        <app-group-name-chip [group]="group" class="col-start-1 col-end-1"></app-group-name-chip>
+        <app-group-name-chip
+          [group]="group"
+          class="col-start-1 col-end-1"
+        ></app-group-name-chip>
         <div class="col-start-2 col-end-2 flex items-center">
           <button
             (click)="editGroup(group)"
             mat-icon-button
             color="accent"
-            matTooltip="Edit group"
+            matTooltip="Edit group: {{ group.name }}"
             matTooltipPosition="below"
             matTooltipClass="tooltip"
             [matTooltipShowDelay]="750"
@@ -29,7 +38,7 @@
             (click)="deleteGroup(group)"
             mat-icon-button
             color="warn"
-            matTooltip="Delete group"
+            matTooltip="Delete group: {{ group.name }}"
             matTooltipPosition="below"
             matTooltipClass="tooltip"
             [matTooltipShowDelay]="750"

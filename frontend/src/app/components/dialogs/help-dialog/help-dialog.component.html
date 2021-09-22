@@ -2,11 +2,12 @@
   <div class="flex overflow-hidden w-full h-full" #pageContainer>
     <ng-template helpPageHost></ng-template>
   </div>
-  <div class="flex items-center justify-center w-full">
+  <div class="flex items-center justify-center w-full" role="navigation">
     <button
       mat-icon-button
       (click)="goToPreviousPage()"
       [class.invisible]="!hasPreviousPage()"
+      aria-label="Previous help page"
     >
       <mat-icon>chevron_left</mat-icon>
     </button>
@@ -24,6 +25,7 @@
       mat-icon-button
       (click)="goToNextPage()"
       [class.invisible]="!hasNextPage()"
+      aria-label="Next help page"
     >
       <mat-icon>chevron_right</mat-icon>
     </button>

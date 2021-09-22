@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 /**
  * A button that displays a Material icon.
@@ -8,6 +8,12 @@ import { Component, Input } from '@angular/core';
   selector: 'app-icon-button',
   templateUrl: './icon-button.component.html',
   styleUrls: ['./icon-button.component.scss'],
+  host: {
+    role: 'button',
+    tabindex: '0',
+    '(click)': 'action.emit()',
+    '(keydown.enter)': 'action.emit()'
+  },
 })
 export class IconButtonComponent {
   /** Material icon to display */
@@ -15,4 +21,7 @@ export class IconButtonComponent {
 
   /** CSS size of the button/icon, e.g., '24px' */
   @Input() size: string = '24px';
+
+  /** Action to take on click or enter keystroke */
+  @Output() action = new EventEmitter();
 }

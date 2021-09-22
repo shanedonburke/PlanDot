@@ -4,7 +4,7 @@
       <div class="flex items-center w-full">
         <img src="assets/logo/plandot_alternate.png" class="h-[40px]" />
         <div [style.flexGrow]="1"></div>
-        <button mat-icon-button (click)="openHelpDialog()">
+        <button mat-icon-button (click)="openHelpDialog()" aria-label="Help">
           <mat-icon>help_outline</mat-icon>
         </button>
         <button
@@ -12,6 +12,7 @@
           (click)="userAuthService.login()"
           mat-raised-button
           class="ml-2"
+          aria-label="Login"
         >
           <img
             alt="Google sign-in"
@@ -21,11 +22,19 @@
           <span>Login</span>
         </button>
         <ng-container *ngIf="userAuthService.hasAuth()">
-          <button mat-icon-button [matMenuTriggerFor]="hamburgerMenu">
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="hamburgerMenu"
+            aria-label="Features menu"
+          >
             <mat-icon>menu</mat-icon>
           </button>
           <mat-menu #hamburgerMenu="matMenu" yPosition="below">
-            <button (click)="userAuthService.logout()" mat-menu-item>
+            <button
+              (click)="userAuthService.logout()"
+              mat-menu-item
+              aria-label="Logout"
+            >
               <mat-icon color="primary">logout</mat-icon>
               <span class="text-primary-500">Logout</span>
             </button>
@@ -58,6 +67,7 @@
           matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isGroupView() }"
+          [attr.aria-pressed]="viewService.isGroupView()"
         >
           <mat-icon fontSet="material-icons-outlined">view_agenda</mat-icon>
         </button>
@@ -69,6 +79,7 @@
           matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isMonthView() }"
+          [attr.aria-pressed]="viewService.isMonthView()"
         >
           <mat-icon>calendar_view_month</mat-icon>
         </button>
@@ -80,6 +91,7 @@
           matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
+          [attr.aria-pressed]="viewService.isDayView()"
         >
           <mat-icon fontSet="material-icons-outlined"
             >calendar_view_day</mat-icon
@@ -93,6 +105,7 @@
           matTooltipPosition="right"
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
+          [attr.aria-pressed]="viewService.isItemListView()"
         >
           <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
         </button>

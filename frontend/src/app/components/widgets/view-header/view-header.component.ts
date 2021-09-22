@@ -12,6 +12,9 @@ export class ViewHeaderComponent {
   /** Text to display */
   @Input() text!: string;
 
+  /** Accessibility label, e.g., "month" to create label "month navigation" */
+  @Input() label!: string;
+
   /** Emits when the back arrow is clicked */
   @Output() previous = new EventEmitter();
 

@@ -7,7 +7,10 @@ import { Group } from 'src/app/domain/group';
 @Component({
   selector: 'app-group-name-chip',
   templateUrl: './group-name-chip.component.html',
-  styleUrls: ['./group-name-chip.component.scss']
+  styleUrls: ['./group-name-chip.component.scss'],
+  host: {
+    '[attr.aria-label]': 'group.name'
+  }
 })
 export class GroupNameChipComponent {
   @Input('group') group!: Group;

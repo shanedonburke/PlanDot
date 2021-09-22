@@ -1,9 +1,23 @@
-<div class="view-header">
-  <button class="view-nav-btn" (click)="previous.emit()">
+<div
+  class="view-header"
+  role="navigation"
+  attr.aria-label="{{ label }} navigation"
+>
+  <button
+    class="view-nav-btn"
+    (click)="previous.emit()"
+    role="button"
+    attr.aria-label="Previous {{ label }}"
+  >
     <mat-icon>arrow_back</mat-icon>
   </button>
   <span>{{ text }}</span>
-  <button class="view-nav-btn" (click)="next.emit()">
+  <button
+    class="view-nav-btn"
+    (click)="next.emit()"
+    role="button"
+    attr.aria-label="Next {{ label }}"
+  >
     <mat-icon>arrow_forward</mat-icon>
   </button>
 </div>

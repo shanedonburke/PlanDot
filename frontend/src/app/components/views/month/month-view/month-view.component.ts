@@ -5,7 +5,7 @@ import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { ViewService } from 'src/app/services/view.service';
-import { MONTHS } from 'src/app/util/constants';
+import { MONTHS, WEEKDAYS_FULL } from 'src/app/util/constants';
 
 /**
  * Component for the month view. Shows a calendar for a month with a
@@ -30,7 +30,7 @@ export class MonthViewComponent {
     public readonly itemService: ItemService,
     public readonly dateService: DateService,
     private readonly viewService: ViewService,
-    userDataService: UserDataService,
+    userDataService: UserDataService
   ) {
     // If an item in the month changes, the view will still show the old cached
     // items. Clear the cache to show fresh data on next change detection
@@ -94,6 +94,17 @@ export class MonthViewComponent {
   }
 
   /**
+   * Creates an appropriate value for the `aria-label` attribute for a day.
+   * @param date A date in this month's calendar
+   * @returns A string describing the date, e.g., "Wednesday September 22 2021"
+   */
+  getDateAriaLabel(date: Date): string {
+    return `${WEEKDAYS_FULL[date.getDay()]} ${
+      MONTHS[this.dateService.month]
+    } ${date.getDate()} ${this.dateService.year}`;
+  }
+
+  /**
    * Identify a date in the template by its date string.
    */
   trackByDate(index: number, date: Date): string {
@@ -104,6 +115,6 @@ export class MonthViewComponent {
    * Identify a week in the template by its dates.
    */
   trackByWeek(index: number, week: Array<Date>): string {
-    return week.map(date => date.toDateString()).join(',');
+    return week.map((date) => date.toDateString()).join(',');
   }
 }

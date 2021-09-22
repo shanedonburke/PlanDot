@@ -5,6 +5,7 @@ import { ViewHeaderComponent } from './view-header.component';
 
 describe('ViewHeaderComponent', () => {
   const TEXT = 'My text';
+  const LABEL = 'date';
 
   let component: ViewHeaderComponent;
   let fixture: ComponentFixture<ViewHeaderComponent>;
@@ -21,6 +22,7 @@ describe('ViewHeaderComponent', () => {
     component = fixture.componentInstance;
 
     component.text = TEXT;
+    component.label = LABEL;
 
     fixture.detectChanges();
   });
@@ -43,6 +45,14 @@ describe('ViewHeaderComponent', () => {
     const nextSpy = spyOn(component.next, 'emit');
     getButton(1).click();
     expect(nextSpy).toHaveBeenCalled();
+  });
+
+  it('should have aria-label', () => {
+    expect(
+      fixture.nativeElement
+        .querySelector('.view-header')
+        .getAttribute('aria-label')
+    ).toEqual(`${LABEL} navigation`);
   });
 
   function getButton(index: number): HTMLButtonElement {

@@ -11,6 +11,7 @@
     scroll-snap-x
     sm:scroll-snap-none
   "
+  role="list"
 >
   <div class="spinner-container" *ngIf="!isUserDataLoaded">
     <mat-spinner color="accent"></mat-spinner>
@@ -38,6 +39,8 @@
     <div
       *ngFor="let group of groupService.getGroups()"
       class="w-min box-border px-1.25 scroll-align-center"
+      role="listitem"
+      [attr.aria-label]="group.name"
     >
       <div class="group">
         <div class="flex justify-between items-center">
@@ -63,6 +66,7 @@
             box-border
             overflow-auto
           "
+          role="list"
         >
           <app-item-card
             *ngFor="let item of itemService.getItemsByGroup(group)"
@@ -70,6 +74,7 @@
             class="group-item-card"
             cdkDrag
             cdkDragLockAxis="y"
+            role="listitem"
           >
             <mat-icon class="drag-handle" cdkDragHandle>drag_handle</mat-icon>
           </app-item-card>

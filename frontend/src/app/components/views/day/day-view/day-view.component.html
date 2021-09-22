@@ -3,6 +3,7 @@
     [text]="dateService.date.toDateString()"
     (previous)="dateService.goToPrevDate()"
     (next)="dateService.goToNextDate()"
+    label="day"
   ></app-view-header>
   <div class="w-full h-full overflow-auto relative">
     <div
@@ -17,6 +18,8 @@
         [style.color]="itemService.getItemTextColor(item)"
         (click)="expandItem(item)"
         class="day-view-item box-border p-1.25"
+        role="button"
+        [attr.aria-label]="item.title"
       >
         {{ item.title }}
       </div>
@@ -43,6 +46,8 @@
             [style.color]="itemService.getItemTextColor(itemData.item)"
             (click)="expandItem(itemData.item)"
             class="day-view-item"
+            role="button"
+            [attr.aria-label]="itemData.item.title"
           >
             <div class="p-1.25">
               <div>{{ itemData.item.title }}</div>

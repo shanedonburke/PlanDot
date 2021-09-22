@@ -3,8 +3,9 @@
     [text]="getMonthString()"
     (previous)="dateService.goToPrevMonth()"
     (next)="dateService.goToNextMonth()"
+    label="month"
   ></app-view-header>
-  <div class="calendar">
+  <div class="calendar" role="grid">
     <ng-container
       *ngFor="
         let week of getMonthDates(dateService.year, dateService.month);
@@ -13,7 +14,14 @@
       class="calendar-week"
     >
       <ng-container *ngFor="let date of week; trackBy: trackByDate">
-        <div class="date" (click)="goToDate(date)">
+        <div
+          class="date"
+          (click)="goToDate(date)"
+          (keydown.enter)="goToDate(date)"
+          role="gridcell"
+          [attr.aria-label]="getDateAriaLabel(date)"
+          tabindex="0"
+        >
           <div class="flex justify-between items-center">
             <span>{{ date.getDate() }}</span>
             <span

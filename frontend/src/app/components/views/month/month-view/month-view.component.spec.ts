@@ -93,6 +93,12 @@ describe('MonthViewComponent', () => {
     );
   });
 
+  it('should get date aria-label', () => {
+    expect(component.getDateAriaLabel(new Date(2021, 7, 1))).toEqual(
+      'Sunday August 1 2021'
+    );
+  });
+
   function setup(): void {
     onUserDataChanged = new Subject<void>();
 
@@ -106,7 +112,7 @@ describe('MonthViewComponent', () => {
       goToNextMonth: jasmine.createSpy('goToNextMonth'),
       // 08/01/2021 is the first day in its calendar,
       // so we can grab the first child date of the calendar
-      date: new Date('08/01/2021'),
+      date: new Date(2021, 7, 1),
       month: 7,
       year: 2021,
     } as unknown as DateService;

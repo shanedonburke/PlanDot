@@ -10,15 +10,15 @@
   <mat-icon>sort</mat-icon>
 </button>
 <mat-menu #sortMenu="matMenu">
-  <button mat-menu-item (click)="sortByDate.next()">
+  <button mat-menu-item (click)="sortByDate.next()" aria-label="Date">
     <mat-icon color="primary">event</mat-icon>
     <span class="menu-item-text">Date</span>
   </button>
-  <button mat-menu-item (click)="sortByTitle.next()">
+  <button mat-menu-item (click)="sortByTitle.next()" aria-label="Title">
     <mat-icon color="primary">sort_by_alpha</mat-icon>
     <span class="menu-item-text">Title</span>
   </button>
-  <button mat-menu-item (click)="sortByFavorited.next()">
+  <button mat-menu-item (click)="sortByFavorited.next()" aria-label="Favorited">
     <mat-icon color="primary">star</mat-icon>
     <span class="menu-item-text">Favorited</span>
   </button>
