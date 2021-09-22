@@ -17,8 +17,10 @@
         [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
         [style.color]="itemService.getItemTextColor(item)"
         (click)="expandItem(item)"
+        (keydown.enter)="expandItem(item)"
         class="day-view-item box-border p-1.25"
         role="button"
+        tabindex="0"
         [attr.aria-label]="item.title"
       >
         {{ item.title }}
@@ -45,8 +47,10 @@
             "
             [style.color]="itemService.getItemTextColor(itemData.item)"
             (click)="expandItem(itemData.item)"
+            (keydown.enter)="expandItem(itemData.item)"
             class="day-view-item"
             role="button"
+            tabindex="0"
             [attr.aria-label]="itemData.item.title"
           >
             <div class="p-1.25">
