@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { Credentials, OAuth2Client } from 'google-auth-library';
+import { google } from 'googleapis';
+import * as jwt from 'jsonwebtoken';
 import { UserDataService } from './user-data/user-data.service';
 import { getConfig, isDevProfile } from './util';
-import { google } from 'googleapis';
-import { Credentials, OAuth2Client } from 'google-auth-library';
-const jwt = require('jsonwebtoken');
 
 @Controller('api')
 export class AppController {
