@@ -1,4 +1,7 @@
+/** Number of milliseconds in one day */
 export const ONE_DAY_MS = 86400000;
+
+/** Names of months of the year */
 export const MONTHS: ReadonlyArray<string> = [
   'January',
   'February',
@@ -13,4 +16,6 @@ export const MONTHS: ReadonlyArray<string> = [
   'November',
   'December',
 ];
+
+/** Abbreviated names of weekdays */
 export const WEEKDAYS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
