@@ -53,7 +53,7 @@ describe('DayToolbarComponent', () => {
   });
 
   function setup() {
-    dateService = jasmine.createSpyObj('DateService', ['resetDay'], {
+    dateService = jasmine.createSpyObj('DateService', ['resetDate'], {
       date: getTodaysDate(),
     });
   }

@@ -1,18 +1,16 @@
 import {
-  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
-  HostListener,
   OnInit,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { HelpDialogComponent } from './components/dialogs/help-dialog/help-dialog.component';
 import { DayToolbarComponent } from './components/views/day/day-toolbar/day-toolbar.component';
 import { DayViewComponent } from './components/views/day/day-view/day-view.component';
 import { GroupToolbarComponent } from './components/views/group/group-toolbar/group-toolbar.component';
 import { GroupViewComponent } from './components/views/group/group-view/group-view.component';
-import { HelpDialogComponent } from './components/dialogs/help-dialog/help-dialog.component';
 import { ItemListToolbarComponent } from './components/views/item-list/item-list-toolbar/item-list-toolbar.component';
 import { ItemListViewComponent } from './components/views/item-list/item-list-view/item-list-view.component';
 import { MonthToolbarComponent } from './components/views/month/month-toolbar/month-toolbar.component';
@@ -22,12 +20,13 @@ import { ViewDirective } from './directives/view.directive';
 import { Item } from './domain/item';
 import { View } from './domain/view';
 import { DateService } from './services/date.service';
-import { GroupService } from './services/group.service';
-import { ItemService } from './services/item.service';
 import { UserAuthService } from './services/user-auth.service';
 import { UserDataService } from './services/user-data.service';
 import { ViewService } from './services/view.service';
 
+/**
+ * The main application component.
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -35,9 +34,13 @@ import { ViewService } from './services/view.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class AppComponent implements OnInit {
+  /** Where a view (e.g., the group view) will be loaded */
   @ViewChild(ViewDirective) viewHost!: ViewDirective;
+
+  /** Where a toolbar (eg., the day view's toolbar) will be loaded */
   @ViewChild(ToolbarDirective) toolbarHost!: ToolbarDirective;
 
+  /** The components to load for each view */
   private static VIEW_COMPONENTS: { [key in View]: any } = {
     [View.GROUP]: GroupViewComponent,
     [View.MONTH]: MonthViewComponent,
@@ -45,6 +48,7 @@ export class AppComponent implements OnInit {
     [View.ITEM_LIST]: ItemListViewComponent,
   };
 
+  /** The components to load for each view's toolbar */
   private static TOOLBAR_COMPONENTS: { [key in View]: any } = {
     [View.GROUP]: GroupToolbarComponent,
     [View.MONTH]: MonthToolbarComponent,
@@ -53,8 +57,6 @@ export class AppComponent implements OnInit {
   };
 
   constructor(
-    public readonly groupService: GroupService,
-    public readonly itemService: ItemService,
     public readonly userAuthService: UserAuthService,
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,
@@ -64,28 +66,45 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Logged in?
     if (this.userAuthService.hasAuth()) {
       this.userDataService.loadUserData();
+      // Load the view through this component it's set by ViewService
       this.viewService.setViewLoader(this.loadViewAndToolbar.bind(this));
     }
   }
 
+  /**
+   * Add a new item. If the day view is active, the item will be created
+   * with the date enabled and set to the date being viewed.
+   */
   addNewItem() {
     const item = this.viewService.isDayView()
-      ? new Item({ date: this.dateService.date })
+      ? new Item({ isDateEnabled: true, date: this.dateService.date })
       : new Item();
     this.userDataService.editItem(item);
   }
 
+  /**
+   * Open the help dialog, as triggered by the primary toolbar button.
+   */
   openHelpDialog(): void {
     this.dialog.open(HelpDialogComponent, { autoFocus: false });
   }
 
+  /**
+   * Load a new view (the main component and its toolbar addition).
+   * @param view The view to load
+   */
   private loadViewAndToolbar(view: View) {
     this.loadView(view);
     this.loadToolbar(view);
   }
 
+  /**
+   * Load the main view component for the given view.
+   * @param view The view to load
+   */
   private loadView(view: View) {
     const componentFactory =
       this.componentFactoryResolver.resolveComponentFactory(
@@ -96,6 +115,11 @@ export class AppComponent implements OnInit {
     viewContainerRef.createComponent(componentFactory);
   }
 
+  /**
+   * Loads the toolbar addition for the given view. This encompasses everything
+   * to the right of 'New item' in the secondary toolbar.
+   * @param view The view to load a toolbar for
+   */
   private loadToolbar(view: View) {
     const componentFactory =
       this.componentFactoryResolver.resolveComponentFactory(

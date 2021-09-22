@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { HelpPageDirective } from 'src/app/directives/help-page.directive';
 
 import { HelpDialogComponent } from './help-dialog.component';
@@ -29,7 +30,7 @@ describe('HelpDialogComponent', () => {
         { provide: MatDialogRef, useValue: dialogRef },
         { provide: Document, useValue: doc },
       ],
-      imports: [MatIconModule, MatButtonModule],
+      imports: [NoopAnimationsModule, MatIconModule, MatButtonModule],
     }).compileComponents();
   });
 

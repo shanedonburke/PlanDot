@@ -87,13 +87,11 @@ describe('ItemViewDialogComponent', () => {
   });
 
   it('should go to date', () => {
-    const setDateSpy = spyOnProperty(dateService, 'date', 'set');
-
     fixture.debugElement.query(By.css('a')).triggerEventHandler('click', null);
     expect(dialogRef.close)
       .withContext('should close dialog')
       .toHaveBeenCalledOnceWith();
-    expect(setDateSpy)
+    expect(Object.getOwnPropertyDescriptor(dateService, 'date')!!.set)
       .withContext('should set date')
       .toHaveBeenCalledOnceWith(item.date);
     expect(viewService.goToDayView).toHaveBeenCalledOnceWith();
@@ -154,6 +152,10 @@ describe('ItemViewDialogComponent', () => {
     viewService = jasmine.createSpyObj('ViewService', ['goToDayView']);
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['close', 'afterClosed']);
     data = { item };
+
+    Object.defineProperty(dateService, 'date', {
+      set: jasmine.createSpy()
+    });
 
     groupService.getGroupById.and.returnValue(group);
 
