@@ -13,9 +13,8 @@ import * as YAML from 'yaml';
 import { AppModule } from './../src/app.module';
 import {
   UserData,
-  UserDataDocument
+  UserDataDocument,
 } from './../src/user-data/schemas/user-data.schema';
-import { UserDataService } from './../src/user-data/user-data.service';
 
 describe('AppController (e2e)', () => {
   const AUTH_URL = 'https://auth.com';
