@@ -163,6 +163,7 @@ export class UserDataService {
         } else {
           // Still create initial entry to allow undo after first action
           this.history.push(new HistoryEntry(UserDataAction.NONE));
+          this._onUserDataLoaded.next();
         }
       });
   }

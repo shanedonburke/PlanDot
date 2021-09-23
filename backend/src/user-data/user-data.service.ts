@@ -17,7 +17,7 @@ export class UserDataService {
     });
   }
 
-  async findOne(userId: string): Promise<UserData> {
-    return this.userDataModel.findOne({ _id: userId });
+  async findOne(userId: string): Promise<Omit<UserData, '_id'>> {
+    return this.userDataModel.findOne({ _id: userId }, { _id: false }).exec();
   }
 }

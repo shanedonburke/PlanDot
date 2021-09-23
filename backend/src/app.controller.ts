@@ -6,10 +6,18 @@ import * as jwt from 'jsonwebtoken';
 import { UserDataService } from './user-data/user-data.service';
 import { getConfig, isDevProfile } from './util';
 
+/**
+ * Controller for all API endpoints.
+ */
 @Controller('api')
 export class AppController {
   constructor(private readonly userDataService: UserDataService) {}
 
+  /**
+   * Get the authentication URL for Google OAuth2, to which the user will be
+   * redirected by the frontend when they attempt to login.
+   * @returns The authentication URL.
+   */
   @Get('auth_url')
   getAuthUrl(): string {
     const config = getConfig();
@@ -20,6 +28,13 @@ export class AppController {
     });
   }
 
+  /**
+   * The endpoint given to Google OAuth2 as the redirect URL for when the user
+   * has authenticated. Redirects the user to the home page with their new
+   * JWT cookie.
+   * @param req The request object.
+   * @param res The response object.
+   */
   @Get('auth_callback')
   getAuthCallback(@Req() req: Request, @Res() res: Response): void {
     const config = getConfig();
@@ -39,14 +54,27 @@ export class AppController {
     }
   }
 
+  /**
+   * Retrieves user data (groups and items) for the user based on their
+   * JWT cookie.
+   * @param req Request object with a JWT cookie.
+   * @returns Object containing user data. If the user is not logged in or
+   *   there is no data for the user, returns an empty object.
+   */
   @Get('user_data')
   async getUserData(@Req() req: Request): Promise<any> {
     if (req.cookies.jwt) {
-      return this.userDataService.findOne(AppController.getUserId(req));
+      return (
+        (await this.userDataService.findOne(AppController.getUserId(req))) ?? {}
+      );
     }
-    return Promise.resolve({});
+    return {};
   }
 
+  /**
+   * Saves user data (groups and items) for the user based on their JWT cookie.
+   * @param req Request with user data and a JWT cookie.
+   */
   @Post('user_data')
   postUserData(@Req() req: Request): void {
     if (req.cookies.jwt) {
@@ -54,6 +82,11 @@ export class AppController {
     }
   }
 
+  /**
+   * Get the user ID from the JWT cookie.
+   * @param req Request object with a JWT cookie.
+   * @returns The user ID.
+   */
   private static getUserId(req: Request): string {
     const config = getConfig();
 
@@ -64,6 +97,10 @@ export class AppController {
     return <string>jwt.decode(oauth2Client.credentials.id_token).sub;
   }
 
+  /**
+   * Create a new OAuth2 client based on the configured credentials.
+   * @returns The OAuth2 client.
+   */
   private static oauth2Client(): OAuth2Client {
     const config = getConfig();
 

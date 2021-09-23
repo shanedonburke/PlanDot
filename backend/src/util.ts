@@ -27,14 +27,14 @@ export const getConfig = (() => {
 })();
 
 export function isDevProfile(): boolean {
-  return process.env.NODE_ENV === 'development';
+  return process.env.NODE_ENV === 'dev';
 }
 
 export function readLocalFileSync(...path: string[]): string {
   return readFileSync(getLocalFilePath(...path), 'utf8');
 }
 
-const getPlandotDir = (() => {
+const getPlanDotDir = (() => {
   let planDotDir: string;
   return (): string => {
     return planDotDir || (planDotDir = join(homedir(), '.plandot'));
@@ -42,5 +42,5 @@ const getPlandotDir = (() => {
 })();
 
 function getLocalFilePath(...path: string[]): string {
-  return join(getPlandotDir(), ...path);
+  return join(getPlanDotDir(), ...path);
 }
