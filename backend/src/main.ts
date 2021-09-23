@@ -4,6 +4,9 @@ import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { getConfig, isDevProfile, readLocalFileSync } from './util';
 
+/**
+ * Creates the application and listens on the configured port.
+ */
 async function bootstrap() {
   const config = getConfig();
   const app: INestApplication = await (isDevProfile()
@@ -14,6 +17,9 @@ async function bootstrap() {
 }
 bootstrap();
 
+/**
+ * @returns A production Nest application.
+ */
 async function createProdApp(): Promise<INestApplication> {
   return await NestFactory.create(AppModule, {
     httpsOptions: {
@@ -28,6 +34,9 @@ async function createProdApp(): Promise<INestApplication> {
   });
 }
 
+/**
+ * @returns A development Nest application.
+ */
 async function createDevApp(): Promise<INestApplication> {
   return await NestFactory.create(AppModule);
 }
