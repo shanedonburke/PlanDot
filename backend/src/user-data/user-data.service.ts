@@ -17,12 +17,13 @@ export class UserDataService {
    * @param userId The user's ID, derived from their JWT.
    * @param userDataDto The user data to save.
    */
-  save(userId: string, userDataDto: UserDataDto): void {
+  async save(userId: string, userDataDto: UserDataDto): Promise<UserData> {
     const userData = new this.userDataModel(userDataDto);
     userData._id = userId;
-    this.userDataModel.findOneAndUpdate({ _id: userId }, userData, {
+    return this.userDataModel.findOneAndUpdate({ _id: userId }, userData, {
       upsert: true,
-    });
+      projection: { _id: false },
+    }).exec();
   }
 
   /**
