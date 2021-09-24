@@ -51,8 +51,8 @@ describe('UserDataService', () => {
   });
 
   it('should fail to save', async () => {
-    (userDataModel.findOneAndUpdate as jest.Mock).mockResolvedValue(
-      createQuery(),
+    (userDataModel.findOneAndUpdate as jest.Mock).mockReturnValue(
+      createNullQuery(),
     );
     const resp = await service.save(USER_ID, createUserDataDto());
     expect(resp).toBeNull();
@@ -68,13 +68,15 @@ describe('UserDataService', () => {
   });
 
   it('should fail to find one', async () => {
-    (userDataModel.findOne as jest.Mock).mockResolvedValue(createQuery());
+    (userDataModel.findOne as jest.Mock).mockReturnValue(createNullQuery());
     const resp = await service.findOne(USER_ID);
     expect(resp).toBeNull();
   });
 
   function setup(): void {
-    jest.spyOn(userDataModel, 'findOneAndUpdate').mockReturnValue(createUserDataQuery());
+    jest
+      .spyOn(userDataModel, 'findOneAndUpdate')
+      .mockReturnValue(createUserDataQuery());
     jest.spyOn(userDataModel, 'findOne').mockReturnValue(createUserDataQuery());
   }
 
