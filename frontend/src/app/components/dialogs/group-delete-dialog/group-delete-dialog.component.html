@@ -1,15 +1,21 @@
 <div class="flex items-center">
   <span class="mr-2.5 text-base font-medium">Deleting group: </span
-  ><app-group-name-chip [group]="data.group" class="w-auto"></app-group-name-chip>
+  ><app-group-name-chip
+    [group]="data.group"
+    class="w-auto"
+  ></app-group-name-chip>
 </div>
 <div class="my-2.5">
   This group contains {{ data.group.itemIds.length }} item(s). What should
   happen to them?
 </div>
 <mat-radio-group [(ngModel)]="itemAction" class="flex flex-col mb-1.25">
-  <mat-radio-button *ngFor="let action of ITEM_ACTIONS" [value]="action" class="my-2.5 mx-1.25">{{
-    action
-  }}</mat-radio-button>
+  <mat-radio-button
+    *ngFor="let action of ITEM_ACTIONS"
+    [value]="action"
+    class="my-2.5 mx-1.25"
+    >{{ action }}</mat-radio-button
+  >
 </mat-radio-group>
 <div *ngIf="shouldShowReplacementGroupForm">
   <div>
@@ -30,5 +36,12 @@
 </div>
 <div class="flex justify-between">
   <button mat-button (click)="dialogRef.close()">Cancel</button>
-  <button mat-raised-button color="warn" (click)="deleteGroup()">Delete</button>
+  <button
+    mat-raised-button
+    color="warn"
+    (click)="deleteGroup()"
+    [disabled]="itemAction === null"
+  >
+    Delete
+  </button>
 </div>

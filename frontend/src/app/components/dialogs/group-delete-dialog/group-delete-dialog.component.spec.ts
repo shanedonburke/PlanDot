@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,6 +11,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
 import { GroupService } from 'src/app/services/group.service';
 import { UserDataService } from 'src/app/services/user-data.service';
+import { getTestUtils } from 'src/test-utils';
 import { GroupNameChipModule } from '../../widgets/group-name-chip/group-name-chip.module';
 
 import {
@@ -20,6 +22,8 @@ import {
 describe('GroupDeleteDialogComponent', () => {
   let component: GroupDeleteDialogComponent;
   let fixture: ComponentFixture<GroupDeleteDialogComponent>;
+
+  const { findButtonWithText } = getTestUtils(() => fixture);
 
   let group1: Group;
   let group2: Group;
@@ -49,6 +53,7 @@ describe('GroupDeleteDialogComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         GroupNameChipModule,
+        MatButtonModule,
       ],
     }).compileComponents();
   });
@@ -63,6 +68,10 @@ describe('GroupDeleteDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should disable delete button before selection', () => {
+    expect(findDeleteButton().disabled).toBeTrue();
+  })
+
   it('should get replacement group options', () => {
     expect(component.getReplacementGroupOptions()).toEqual([group2, group3]);
   });
@@ -71,6 +80,11 @@ describe('GroupDeleteDialogComponent', () => {
     clickRadioButton(0);
     expect(component.itemAction).toEqual(component.ITEM_ACTIONS[0]);
   });
+
+  it('should cancel', () => {
+    findButtonWithText('Cancel')!!.click();
+    expect(dialogRef.close).toHaveBeenCalled();
+  })
 
   describe('with replacement group selected', () => {
     beforeEach(async () => {
@@ -85,7 +99,7 @@ describe('GroupDeleteDialogComponent', () => {
     });
 
     it('should delete group', () => {
-      component.deleteGroup();
+      findDeleteButton().click();
       expect(userDataService.deleteGroup)
         .withContext('should delete group')
         .toHaveBeenCalledWith(group1, component.ITEM_ACTIONS[2], group2);
@@ -125,5 +139,9 @@ describe('GroupDeleteDialogComponent', () => {
       .toArray()
       .find((op) => op.value === group)!!
       .select();
+  }
+
+  function findDeleteButton(): HTMLButtonElement {
+    return findButtonWithText('Delete') as HTMLButtonElement;
   }
 });
