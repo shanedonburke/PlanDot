@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EMPTY, of } from 'rxjs';
+import { EMPTY, of, throwError } from 'rxjs';
 import { Group } from '../domain/group';
 import { Item, Repeat, TimePeriod } from '../domain/item';
 import { GroupService } from './group.service';
@@ -26,6 +26,7 @@ describe('UserDataService', () => {
   let itemService: jasmine.SpyObj<ItemService>;
   let dialog: jasmine.SpyObj<MatDialog>;
   let snackBar: jasmine.SpyObj<MatSnackBar>;
+  let storage: jasmine.SpyObj<Storage>;
 
   let dialogRef: jasmine.SpyObj<MatDialogRef<any>>;
 
@@ -39,6 +40,7 @@ describe('UserDataService', () => {
         { provide: ItemService, useValue: itemService },
         { provide: MatDialog, useValue: dialog },
         { provide: MatSnackBar, useValue: snackBar },
+        { provide: Storage, useValue: storage },
       ],
     });
     service = TestBed.inject(UserDataService);
@@ -47,6 +49,21 @@ describe('UserDataService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('should load local user data', fakeAsync(() => {
+    httpClient.get.and.returnValue(throwError(new Error('offline')));
+    service.loadUserData();
+    tick();
+    expect(storage.getItem)
+      .withContext('should get local user data')
+      .toHaveBeenCalledTimes(1);
+    expect(groupService.updateOrCreateGroup)
+      .withContext('should not load extra groups')
+      .not.toHaveBeenCalled();
+    expect(itemService.updateOrCreateItem)
+      .withContext('should not load extra items')
+      .not.toHaveBeenCalled();
+  }));
 
   describe('when no user data exists', () => {
     beforeEach(() => {
@@ -75,11 +92,17 @@ describe('UserDataService', () => {
       expect(itemService.loadItems)
         .withContext('should load items')
         .toHaveBeenCalledOnceWith(items);
+      expect(storage.getItem)
+        .withContext('should combine backend data with local storage')
+        .toHaveBeenCalled();
     });
 
     it('should save user data', () => {
       service.saveUserData(UserDataAction.EDIT_ITEM);
       expectPostUserData();
+      expect(storage.setItem)
+        .withContext('should save user data to local storage')
+        .toHaveBeenCalled();
     });
 
     it('should delete group and items with single group', () => {
@@ -304,6 +327,7 @@ describe('UserDataService', () => {
       'loadGroups',
       'deleteGroup',
       'removeItemFromGroups',
+      'updateOrCreateGroup'
     ]);
     itemService = jasmine.createSpyObj('ItemService', [
       'loadItems',
@@ -321,6 +345,7 @@ describe('UserDataService', () => {
     ]);
     dialog = jasmine.createSpyObj('MatDialog', ['open']);
     snackBar = jasmine.createSpyObj('MatSnackBar', ['openFromComponent']);
+    storage = jasmine.createSpyObj('Storage', ['getItem', 'setItem']);
 
     dialogRef = jasmine.createSpyObj('MatDialogRef', ['afterClosed']);
 
@@ -331,6 +356,7 @@ describe('UserDataService', () => {
     httpClient.post.and.returnValue(EMPTY);
     httpClient.get.and.returnValue(of({ items, groups }));
     dialog.open.and.returnValue(dialogRef);
+    storage.getItem.and.returnValue(JSON.stringify({ items, groups }));
   }
 
   function expectPostUserData(): void {

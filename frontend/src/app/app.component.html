@@ -4,6 +4,7 @@
       <div class="flex items-center w-full">
         <img src="assets/logo/plandot_alternate.png" class="h-[40px]" />
         <div [style.flexGrow]="1"></div>
+        <div *ngIf="!navigator.onLine" class="px-1.25 bg-warn-500 rounded-md text-base">Offline</div>
         <button mat-icon-button (click)="openHelpDialog()" aria-label="Help">
           <mat-icon>help_outline</mat-icon>
         </button>

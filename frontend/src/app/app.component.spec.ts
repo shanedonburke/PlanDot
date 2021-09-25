@@ -28,7 +28,7 @@ import { UserDataService } from './services/user-data.service';
 import { ViewService } from './services/view.service';
 
 describe('AppComponent', () => {
-  const { findButtonWithText } = getTestUtils(() => fixture);
+  const { findButtonWithText, findElementWithText } = getTestUtils(() => fixture);
 
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -38,6 +38,7 @@ describe('AppComponent', () => {
   let viewService: jasmine.SpyObj<ViewService>;
   let dateService: { date: Date };
   let dialog: jasmine.SpyObj<MatDialog>;
+  let nav: { onLine: boolean };
 
   beforeEach(async () => {
     setup();
@@ -50,6 +51,7 @@ describe('AppComponent', () => {
         { provide: ViewService, useValue: viewService },
         { provide: DateService, useValue: dateService },
         { provide: MatDialog, useValue: dialog },
+        { provide: Navigator, useValue: nav },
       ],
       imports: [
         NoopAnimationsModule,
@@ -205,6 +207,16 @@ describe('AppComponent', () => {
     expect(userDataService.redo).toHaveBeenCalled();
   });
 
+  it('should not show offline notification', () => {
+    expect(findElementWithText('div', 'Offline')).toBeFalsy();
+  });
+
+  it('should show offline notification', () => {
+    nav.onLine = false;
+    fixture.detectChanges();
+    expect(findElementWithText('div', 'Offline')).toBeTruthy();
+  })
+
   function setup(): void {
     userAuthService = jasmine.createSpyObj('UserAuthService', [
       'hasAuth',
@@ -234,6 +246,7 @@ describe('AppComponent', () => {
     ]);
     dateService = { date: new Date(2020, 0, 1) };
     dialog = jasmine.createSpyObj('MatDialog', ['open']);
+    nav = { onLine: true };
 
     userAuthService.hasAuth.and.returnValue(true);
     viewService.isGroupView.and.returnValue(true);

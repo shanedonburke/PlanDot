@@ -76,6 +76,8 @@ if (!('scrollBehavior' in document.documentElement.style)) {
   providers: [
     { provide: Document, useExisting: DOCUMENT },
     { provide: Window, useFactory: () => window },
+    { provide: Storage, useFactory: () => window.localStorage },
+    { provide: Navigator, useFactory: () => window.navigator },
   ],
   bootstrap: [AppComponent],
 })

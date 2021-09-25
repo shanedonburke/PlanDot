@@ -57,6 +57,7 @@ export class AppComponent implements OnInit {
   };
 
   constructor(
+    public readonly navigator: Navigator,
     public readonly userAuthService: UserAuthService,
     public readonly userDataService: UserDataService,
     public readonly viewService: ViewService,

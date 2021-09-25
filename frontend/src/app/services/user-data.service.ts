@@ -61,6 +61,14 @@ export enum GroupDeletionItemAction {
 }
 
 /**
+ * Represents hydrated user data.
+ */
+interface UserData {
+  groups: Array<Group>;
+  items: Array<Item>;
+}
+
+/**
  * Type guard that determines whether a value is a {@link UserDataJson} object.
  * @param val The value to check
  * @returns True if the value is a {@link UserDataJson} object, false otherwise
@@ -106,8 +114,23 @@ export class UserDataService {
     private readonly groupService: GroupService,
     private readonly itemService: ItemService,
     private readonly dialog: MatDialog,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    private readonly localStorage: Storage
   ) {}
+
+  /**
+   * Converts user data from the backend or local storage to class instances.
+   * @param json User data from the backend or local storage
+   * @returns The user data as hydrated objects
+   */
+  private static hydrateUserDataJson(json: UserDataJson): UserData {
+    return {
+      items: json.items.map((dto) => {
+        return new Item({ ...dto, date: new Date(dto.date) });
+      }),
+      groups: json.groups.map((json) => new Group(json)),
+    };
+  }
 
   /**
    * Saves user data (items and groups) to the backend. Also records the
@@ -130,10 +153,7 @@ export class UserDataService {
     }
     this._onUserDataChanged.next();
 
-    localStorage.setItem(
-      UserDataService.LOCAL_STORAGE_KEY,
-      JSON.stringify({ items, groups })
-    );
+    this.saveLocalUserData(groups, items);
 
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
@@ -148,15 +168,15 @@ export class UserDataService {
       .get<UserDataJson>('/api/user_data', { withCredentials: true })
       .subscribe(
         (userDataJson) => {
-          this.loadUserDataJson(userDataJson);
+          // Load user data from the backend + local storage
+          this.loadUserDataFromJson(
+            userDataJson,
+            this.getLocalUserDataAsJson()
+          );
         },
         (_) => {
-          const stored = localStorage.getItem(
-            UserDataService.LOCAL_STORAGE_KEY
-          );
-          if (stored !== null) {
-            this.loadUserDataJson(JSON.parse(stored));
-          }
+          // Offline mode, load from local storage
+          this.loadUserDataFromJson(this.getLocalUserDataAsJson());
         }
       );
   }
@@ -383,17 +403,32 @@ export class UserDataService {
     this.itemService.loadItems(historyEntry.items);
   }
 
-  private loadUserDataJson(json: any): void {
+  /**
+   * Loads user data from the backend and/or local storage. The `extraJson`
+   * parameter can be used to combine the two data sets when backend user
+   * data is available but the local storage data may have more recent updates
+   * (i.e., if the user made changes while offline).
+   * @param json The primary JSON to load
+   * @param extraJson Extra JSON used to override the primary JSON by updating
+   *     existing items/groups or adding new ones.
+   */
+  private loadUserDataFromJson(json: any, extraJson?: any): void {
     // If there is no user data, `userData` may be `{}`
     if (isUserDataJson(json)) {
-      this.groupService.loadGroups(
-        json.groups.map((group) => new Group(group))
-      );
-      this.itemService.loadItems(
-        json.items.map((dto) => {
-          return new Item({ ...dto, date: new Date(dto.date) });
-        })
-      );
+      const userData = UserDataService.hydrateUserDataJson(json);
+      this.groupService.loadGroups(userData.groups);
+      this.itemService.loadItems(userData.items);
+
+      if (extraJson && isUserDataJson(extraJson)) {
+        const extraUserData = UserDataService.hydrateUserDataJson(extraJson);
+        extraUserData.groups.forEach((group) => {
+          this.groupService.updateOrCreateGroup(group);
+        });
+        extraUserData.items.forEach((item) => {
+          this.itemService.updateOrCreateItem(item);
+        });
+      }
+
       // Create initial entry to allow undo after first action
       this.history.push(
         new HistoryEntry(
@@ -405,17 +440,40 @@ export class UserDataService {
       this._onUserDataChanged.next();
       this._onUserDataLoaded.next();
 
-      localStorage.setItem(
-        'userData',
-        JSON.stringify({
-          items: this.itemService.getItems(),
-          groups: this.groupService.getGroups(),
-        })
+      this.saveLocalUserData(
+        this.groupService.getGroups(),
+        this.itemService.getItems()
       );
     } else {
       // Still create initial entry to allow undo after first action
       this.history.push(new HistoryEntry(UserDataAction.NONE));
       this._onUserDataLoaded.next();
     }
+  }
+
+  /**
+   * Saves the user data to local storage. User data is loaded from local
+   * storage when a PWA user is offline.
+   * @param groups The groups to save
+   * @param items The items to save
+   */
+  private saveLocalUserData(
+    groups: ReadonlyArray<Group>,
+    items: ReadonlyArray<Item>
+  ): void {
+    this.localStorage.setItem(
+      UserDataService.LOCAL_STORAGE_KEY,
+      JSON.stringify({ items, groups })
+    );
+  }
+
+  /**
+   * Retrieves user data from local storage, if it is available. This
+   * is necessary when a PWA user is offline.
+   * @returns The user data from local storage.
+   */
+  private getLocalUserDataAsJson(): UserData | null {
+    const stored = this.localStorage.getItem(UserDataService.LOCAL_STORAGE_KEY);
+    return stored !== null ? JSON.parse(stored) : null;
   }
 }
