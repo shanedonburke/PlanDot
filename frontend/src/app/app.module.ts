@@ -28,6 +28,8 @@ import { MonthViewModule } from './components/views/month/month-view/month-view.
 import { ToolbarDirective } from './directives/toolbar.directive';
 import { ViewDirective } from './directives/view.directive';
 import { DOCUMENT } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const routes = [{ path: '**', component: AppComponent }];
 
@@ -64,6 +66,12 @@ if (!('scrollBehavior' in document.documentElement.style)) {
     ItemListViewModule,
     ItemListToolbarModule,
     HelpDialogModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     { provide: Document, useExisting: DOCUMENT },

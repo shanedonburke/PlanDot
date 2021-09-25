@@ -77,6 +77,8 @@ function isUserDataJson(val: any): val is UserDataJson {
   providedIn: 'root',
 })
 export class UserDataService {
+  private static LOCAL_STORAGE_KEY = 'userData';
+
   /** Emits when user data changes in any way , including when it is loaded. */
   get onUserDataChanged(): Observable<void> {
     return this._onUserDataChanged.asObservable();
@@ -128,6 +130,11 @@ export class UserDataService {
     }
     this._onUserDataChanged.next();
 
+    localStorage.setItem(
+      UserDataService.LOCAL_STORAGE_KEY,
+      JSON.stringify({ items, groups })
+    );
+
     this.httpClient
       .post('/api/user_data', { items, groups }, { responseType: 'text' })
       .subscribe();
@@ -139,33 +146,19 @@ export class UserDataService {
   loadUserData(): void {
     this.httpClient
       .get<UserDataJson>('/api/user_data', { withCredentials: true })
-      .subscribe((userData) => {
-        // If there is no user data, `userData` may be `{}`
-        if (isUserDataJson(userData)) {
-          this.groupService.loadGroups(
-            userData.groups.map((group) => new Group(group))
+      .subscribe(
+        (userDataJson) => {
+          this.loadUserDataJson(userDataJson);
+        },
+        (_) => {
+          const stored = localStorage.getItem(
+            UserDataService.LOCAL_STORAGE_KEY
           );
-          this.itemService.loadItems(
-            userData.items.map((dto) => {
-              return new Item({ ...dto, date: new Date(dto.date) });
-            })
-          );
-          // Create initial entry to allow undo after first action
-          this.history.push(
-            new HistoryEntry(
-              UserDataAction.NONE,
-              this.groupService.getGroups(),
-              this.itemService.getItems()
-            )
-          );
-          this._onUserDataChanged.next();
-          this._onUserDataLoaded.next();
-        } else {
-          // Still create initial entry to allow undo after first action
-          this.history.push(new HistoryEntry(UserDataAction.NONE));
-          this._onUserDataLoaded.next();
+          if (stored !== null) {
+            this.loadUserDataJson(JSON.parse(stored));
+          }
         }
-      });
+      );
   }
 
   /**
@@ -180,7 +173,7 @@ export class UserDataService {
     group: Group,
     itemAction: GroupDeletionItemAction = GroupDeletionItemAction.KEEP_ALL_ITEMS,
     replacementGroup: Group | null = null
-  ): void {    
+  ): void {
     switch (itemAction) {
       case GroupDeletionItemAction.DELETE_SINGLE_GROUP_ITEMS:
         this.itemService.deleteItemsWithSingleGroup(group);
@@ -388,5 +381,41 @@ export class UserDataService {
   private loadHistoryEntry(historyEntry: HistoryEntry): void {
     this.groupService.loadGroups(historyEntry.groups);
     this.itemService.loadItems(historyEntry.items);
+  }
+
+  private loadUserDataJson(json: any): void {
+    // If there is no user data, `userData` may be `{}`
+    if (isUserDataJson(json)) {
+      this.groupService.loadGroups(
+        json.groups.map((group) => new Group(group))
+      );
+      this.itemService.loadItems(
+        json.items.map((dto) => {
+          return new Item({ ...dto, date: new Date(dto.date) });
+        })
+      );
+      // Create initial entry to allow undo after first action
+      this.history.push(
+        new HistoryEntry(
+          UserDataAction.NONE,
+          this.groupService.getGroups(),
+          this.itemService.getItems()
+        )
+      );
+      this._onUserDataChanged.next();
+      this._onUserDataLoaded.next();
+
+      localStorage.setItem(
+        'userData',
+        JSON.stringify({
+          items: this.itemService.getItems(),
+          groups: this.groupService.getGroups(),
+        })
+      );
+    } else {
+      // Still create initial entry to allow undo after first action
+      this.history.push(new HistoryEntry(UserDataAction.NONE));
+      this._onUserDataLoaded.next();
+    }
   }
 }
