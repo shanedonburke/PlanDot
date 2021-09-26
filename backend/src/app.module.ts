@@ -9,7 +9,6 @@ import { UserDataService } from './user-data/user-data.service';
   imports: [
     ServeStaticModule.forRoot({
       rootPath: 'public',
-      exclude: ['/api/(.*)'],
     }),
     MongooseModule.forRoot('mongodb://localhost:27017/plandot'),
     MongooseModule.forFeature([
