@@ -36,27 +36,32 @@ export class AppController {
    * @param res The response object.
    */
   @Get('auth_callback')
-  getAuthCallback(
+  async getAuthCallback(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): void {
-    const config = getConfig();
-    const redirectUrl = isDevProfile() ? config.angularDevUrl!! : '/';
-    const oauth2Client = AppController.oauth2Client();
+  ): Promise<void> {
+    await new Promise<void>((resolve, _) => {
+      const config = getConfig();
+      const redirectUrl = isDevProfile() ? config.angularDevUrl!! : '/';
+      const oauth2Client = AppController.oauth2Client();
 
-    if (req.query.error) {
-      // The user did not give us permission
-      res.redirect(redirectUrl);
-    } else {
-      oauth2Client.getToken(<string>req.query.code, function (err, token) {
-        if (err) {
-          res.redirect(redirectUrl);
-        } else {
-          res.cookie('jwt', jwt.sign(token, config.jwtSecret));
-          res.redirect(redirectUrl);
-        }
-      });
-    }
+      if (req.query.error) {
+        // The user did not give us permission
+        res.redirect(redirectUrl);
+        resolve();
+      } else {
+        oauth2Client.getToken(<string>req.query.code, function (err, token) {
+          if (err) {
+            res.redirect(redirectUrl);
+            resolve();
+          } else {
+            res.cookie('jwt', jwt.sign(token, config.jwtSecret));
+            res.redirect(redirectUrl);
+            resolve();
+          }
+        });
+      }
+    });
   }
 
   /**
