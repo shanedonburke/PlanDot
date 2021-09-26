@@ -10,6 +10,7 @@
     "googleapis": "^84.0.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.1.0",
+    "mongoose": "^6.0.7",
     "yaml": "^1.10.2"
   },
   "devDependencies": {

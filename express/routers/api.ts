@@ -2,13 +2,11 @@ import { Request, Router } from "express";
 import { Credentials } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
-import { Collection, Db, Document, MongoClient } from "mongodb";
+import mongoose from "mongoose";
+import { UserData } from "../schemas/user-data";
 import { getConfig, isDevProfile } from "../utils";
 
-let db: Db;
-MongoClient.connect("mongodb://localhost:27017", (_, client) => {
-  db = client.db("plandot");
-});
+mongoose.connect("mongodb://localhost:27017/plandot");
 
 function getUserId(req: Request): string {
   const config = getConfig();
@@ -44,23 +42,27 @@ api.get("/auth_url", (_, res) => {
 
 api.post("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    getUserDataCollection().updateOne(
+    UserData.findByIdAndUpdate(
       { _id: getUserId(req) },
-      { $set: req.body },
-      { upsert: true }
+      req.body,
+      {
+        upsert: true,
+        projection: { _id: false },
+      },
+      (err, _) => {
+        if (err) return res.sendStatus(500);
+        return res.sendStatus(200);
+      }
     );
   }
-  res.sendStatus(200);
 });
 
 api.get("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    getUserDataCollection()
-      .findOne({ _id: getUserId(req) })
-      .then(
-        (doc) => res.send(doc),
-        (err) => res.send(err)
-      );
+    UserData.findOne({ _id: getUserId(req) }).then(
+      (doc) => res.send(doc),
+      (err) => res.send(err)
+    );
   } else {
     res.send({});
   }
@@ -88,10 +90,3 @@ api.get("/auth_callback", (req, res) => {
     });
   }
 });
-
-const getUserDataCollection = (() => {
-  let collection: Collection<Document>;
-  return () => {
-    return collection || (collection = db.collection("userData"));
-  };
-})();
