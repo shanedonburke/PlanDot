@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+import { Controller, Get, Post, Redirect, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
@@ -36,32 +36,28 @@ export class AppController {
    * @param res The response object.
    */
   @Get('auth_callback')
-  async getAuthCallback(
+  @Redirect()
+  getAuthCallback(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<void> {
-    await new Promise<void>((resolve, _) => {
-      const config = getConfig();
-      const redirectUrl = isDevProfile() ? config.angularDevUrl!! : '/';
-      const oauth2Client = AppController.oauth2Client();
+  ): { url: string } {
+    const config = getConfig();
+    const redirectUrl = isDevProfile() ? config.angularDevUrl!! : '/';
+    const oauth2Client = AppController.oauth2Client();
 
-      if (req.query.error) {
-        // The user did not give us permission
-        res.redirect(redirectUrl);
-        resolve();
-      } else {
-        oauth2Client.getToken(<string>req.query.code, function (err, token) {
-          if (err) {
-            res.redirect(redirectUrl);
-            resolve();
-          } else {
-            res.cookie('jwt', jwt.sign(token, config.jwtSecret));
-            res.redirect(redirectUrl);
-            resolve();
-          }
-        });
-      }
-    });
+    if (req.query.error) {
+      // The user did not give us permission
+      return { url: redirectUrl };
+    } else {
+      oauth2Client.getToken(<string>req.query.code, function (err, token) {
+        if (err) {
+          return { url: redirectUrl };
+        } else {
+          res.cookie('jwt', jwt.sign(token, config.jwtSecret));
+          return { url: redirectUrl };
+        }
+      });
+    }
   }
 
   /**
