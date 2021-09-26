@@ -41,7 +41,7 @@ export class AppController {
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<{ url: string }> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       const config = getConfig();
       const redirectUrl = isDevProfile() ? config.angularDevUrl!! : req.baseUrl;
       const oauth2Client = AppController.oauth2Client();
