@@ -36,9 +36,12 @@ export class AppController {
    * @param res The response object.
    */
   @Get('auth_callback')
-  getAuthCallback(@Req() req: Request, @Res() res: Response): void {
+  getAuthCallback(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): void {
     const config = getConfig();
-    const redirectUrl = isDevProfile() ? config.angularDevUrl!! : req.baseUrl;
+    const redirectUrl = isDevProfile() ? config.angularDevUrl!! : '/';
     const oauth2Client = AppController.oauth2Client();
 
     if (req.query.error) {
@@ -46,10 +49,12 @@ export class AppController {
       res.redirect(redirectUrl);
     } else {
       oauth2Client.getToken(<string>req.query.code, function (err, token) {
-        if (err) return res.redirect(redirectUrl);
-
-        res.cookie('jwt', jwt.sign(token, config.jwtSecret));
-        return res.redirect(redirectUrl);
+        if (err) {
+          res.redirect(redirectUrl);
+        } else {
+          res.cookie('jwt', jwt.sign(token, config.jwtSecret));
+          res.redirect(redirectUrl);
+        }
       });
     }
   }
