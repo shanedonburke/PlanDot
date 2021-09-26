@@ -32,10 +32,7 @@ export class UserAuthService {
    * Logs the user out.
    */
   logout(): void {
-    if (this.hasAuth()) {
-      deleteCookie(UserAuthService.JWT_COOKIE);
-    }
-    this.window.location.href = '/';
+    this.httpClient.get('/api/logout').subscribe();
   }
 
   /**

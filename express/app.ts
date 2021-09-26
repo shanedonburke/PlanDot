@@ -7,4 +7,8 @@ export const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use("/api", api);
-app.use(express.static("public"));
+app.use("/app", express.static("public"));
+
+app.get("/", (_, res) => {
+  return res.redirect(302, "/app");
+});

@@ -7,6 +7,7 @@ import { UserData } from "../schemas/user-data";
 import { getConfig, isDevProfile } from "../utils";
 
 mongoose.connect("mongodb://localhost:27017/plandot");
+console.log("Connected to MongoDB.");
 
 function getUserId(req: Request): string {
   const config = getConfig();
@@ -89,4 +90,9 @@ api.get("/auth_callback", (req, res) => {
       return res.redirect(redirectUrl);
     });
   }
+});
+
+api.get("/logout", (_, res) => {
+  res.clearCookie("jwt");
+  res.redirect("/");
 });

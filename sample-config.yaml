@@ -2,7 +2,7 @@
 # Add Google Cloud Platform credentials and move to ~/.plandot/config.yaml
 jwtSecret: myJwtSecret
 port: 8080
-angularDevUrl: http://localhost:4200
+angularDevUrl: http://localhost:4200/app
 oauth2Credentials:
   projectId: myProjectId
   clientId: myClientId
