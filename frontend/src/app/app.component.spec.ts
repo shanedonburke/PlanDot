@@ -28,7 +28,9 @@ import { UserDataService } from './services/user-data.service';
 import { ViewService } from './services/view.service';
 
 describe('AppComponent', () => {
-  const { findButtonWithText, findElementWithText } = getTestUtils(() => fixture);
+  const { findButtonWithText, findElementWithText } = getTestUtils(
+    () => fixture
+  );
 
   let app: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -73,7 +75,7 @@ describe('AppComponent', () => {
         DayToolbarModule,
         ItemListViewModule,
         ItemListToolbarModule,
-        HelpPageModule
+        HelpPageModule,
       ],
     }).compileComponents();
   });
@@ -215,7 +217,45 @@ describe('AppComponent', () => {
     nav.onLine = false;
     fixture.detectChanges();
     expect(findElementWithText('div', 'Offline')).toBeTruthy();
-  })
+  });
+
+  it('should undo on Ctrl+Z', () => {
+    userDataService.canUndo.and.returnValue(true);
+    const event = new KeyboardEvent('keydown', {
+      ctrlKey: true,
+      key: 'z',
+    });
+    window.dispatchEvent(event);
+    expect(userDataService.undo).toHaveBeenCalled();
+  });
+
+  it('should not undo on Ctrl+Z', () => {
+    const event = new KeyboardEvent('keydown', {
+      ctrlKey: true,
+      key: 'z',
+    });
+    window.dispatchEvent(event);
+    expect(userDataService.undo).not.toHaveBeenCalled();
+  });
+
+  it('should redo on Ctrl+Y', () => {
+    userDataService.canRedo.and.returnValue(true);
+    const event = new KeyboardEvent('keydown', {
+      ctrlKey: true,
+      key: 'y',
+    });
+    window.dispatchEvent(event);
+    expect(userDataService.redo).toHaveBeenCalled();
+  });
+
+  it('should not redo on Ctrl+Y', () => {
+    const event = new KeyboardEvent('keydown', {
+      ctrlKey: true,
+      key: 'y',
+    });
+    window.dispatchEvent(event);
+    expect(userDataService.redo).not.toHaveBeenCalled();
+  });
 
   function setup(): void {
     userAuthService = jasmine.createSpyObj('UserAuthService', [

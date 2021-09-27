@@ -1,6 +1,7 @@
 import {
   Component,
   ComponentFactoryResolver,
+  HostListener,
   OnInit,
   ViewChild,
   ViewEncapsulation,
@@ -91,6 +92,24 @@ export class AppComponent implements OnInit {
    */
   openHelpDialog(): void {
     this.dialog.open(HelpDialogComponent, { autoFocus: false });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(event: KeyboardEvent): void {
+    if (event.ctrlKey || event.metaKey) {
+      switch (event.key) {
+        case 'z':
+          if (this.userDataService.canUndo()) {
+            this.userDataService.undo();
+          }
+          break;
+        case 'y':
+          if (this.userDataService.canRedo()) {
+            this.userDataService.redo();
+          }
+          break;
+        }
+    }
   }
 
   /**
