@@ -20,7 +20,10 @@ export class IconButtonComponent {
   @Input() icon!: string;
 
   /** CSS size of the button/icon, e.g., '24px' */
-  @Input() size: string = '24px';
+  @Input() size = '24px';
+
+  /** ARIA label to display */
+  @Input() ariaLabel = '';
 
   /** Action to take on click or enter keystroke */
   @Output() action = new EventEmitter();

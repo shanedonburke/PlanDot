@@ -5,7 +5,7 @@
     (next)="dateService.goToNextMonth()"
     label="month"
   ></app-view-header>
-  <div class="calendar" role="grid">
+  <div class="calendar" role="list">
     <ng-container
       *ngFor="
         let week of getMonthDates(dateService.year, dateService.month);
@@ -18,7 +18,7 @@
           class="date"
           (click)="goToDate(date)"
           (keydown.enter)="goToDate(date)"
-          role="gridcell"
+          role="listitem"
           [attr.aria-label]="getDateAriaLabel(date)"
           tabindex="0"
         >
