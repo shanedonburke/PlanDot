@@ -5,6 +5,9 @@ import jwt from "jsonwebtoken";
 import { UserData } from "../schemas/user-data";
 import { getConfig, isDevProfile } from "../utils";
 
+/**
+ * @returns An OAuth2Client instance with details from the configuration.
+ */
 function getOAuth2Client(): OAuth2Client {
   const config = getConfig();
 
@@ -15,6 +18,11 @@ function getOAuth2Client(): OAuth2Client {
   );
 }
 
+/**
+ * Retrieves a user's ID from the JWT cookie on their request.
+ * @param req The request object.
+ * @returns The user's ID
+ */
 function getUserId(req: Request): string {
   const config = getConfig();
 
@@ -25,8 +33,13 @@ function getUserId(req: Request): string {
   return <string>jwt.decode(oAuth2Client.credentials.id_token).sub;
 }
 
+/** Router for the `/api` route. */
 export const api = Router();
 
+/**
+ * Responds with an OAuth2 authentication URL to which the user should
+ * be redirected for login.
+ */
 api.get("/auth_url", (_, res) => {
   const config = getConfig();
 
@@ -39,6 +52,9 @@ api.get("/auth_url", (_, res) => {
   );
 });
 
+/**
+ * Saves user data (groups and items) under the user's ID.
+ */
 api.post("/user_data", (req, res) => {
   if (req.cookies.jwt) {
     UserData.findOneAndUpdate(
@@ -56,6 +72,9 @@ api.post("/user_data", (req, res) => {
   }
 });
 
+/**
+ * Retrieves user data (groups and items) by the user's ID.
+ */
 api.get("/user_data", (req, res) => {
   if (req.cookies.jwt) {
     UserData.findOne({ _id: getUserId(req) }).then(
@@ -67,6 +86,10 @@ api.get("/user_data", (req, res) => {
   }
 });
 
+/**
+ * The authentication callback provided to Google OAuth2. The user is
+ * redirected here after logging in with their Google account.
+ */
 api.get("/auth_callback", (req, res) => {
   const config = getConfig();
   const redirectUrl = isDevProfile() ? config.angularDevUrl!! : "/";
@@ -86,6 +109,9 @@ api.get("/auth_callback", (req, res) => {
   }
 });
 
+/**
+ * Logs the user out by deleting their JWT cookie.
+ */
 api.get("/logout", (_, res) => {
   res.clearCookie("jwt");
   res.redirect("/");

@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
 
+/**
+ * Represents the start or end time of an item.
+ */
 const ItemTime = {
   hours: Number,
   minutes: Number,
@@ -36,6 +39,9 @@ const userDataSchema = new mongoose.Schema({
   ],
 });
 
+/**
+ * Represents the application data (items and groups) for a user.
+ */
 export const UserData = mongoose.model<mongoose.Document>(
   "UserData",
   userDataSchema

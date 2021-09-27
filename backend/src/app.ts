@@ -9,6 +9,7 @@ app.use(express.json());
 app.use("/api", api);
 app.use("/app", express.static("public"));
 
+// Frontend assets are served at `/app`
 app.get("/", (_, res) => {
   return res.redirect(302, "/app");
 });
