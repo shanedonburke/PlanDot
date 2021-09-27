@@ -2,8 +2,8 @@ import { Request, Router } from "express";
 import { Credentials, OAuth2Client } from "google-auth-library";
 import { google } from "googleapis";
 import jwt from "jsonwebtoken";
-import { UserData } from "../user-data";
-import { getConfig, isDevProfile } from "../../utils";
+import { UserData } from "../schemas/user-data";
+import { getConfig, isDevProfile } from "../utils";
 
 function getOAuth2Client(): OAuth2Client {
   const config = getConfig();
@@ -41,7 +41,7 @@ api.get("/auth_url", (_, res) => {
 
 api.post("/user_data", (req, res) => {
   if (req.cookies.jwt) {
-    UserData.findByIdAndUpdate(
+    UserData.findOneAndUpdate(
       { _id: getUserId(req) },
       req.body,
       {
