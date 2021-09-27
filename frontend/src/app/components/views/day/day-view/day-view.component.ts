@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
@@ -22,7 +24,7 @@ interface ItemData {
   templateUrl: './day-view.component.html',
   styleUrls: ['./day-view.component.scss'],
 })
-export class DayViewComponent implements OnInit {
+export class DayViewComponent implements OnInit, OnDestroy {
   /** 0-23, used in ngFor */
   hours = [...Array(24).keys()];
 
@@ -35,6 +37,9 @@ export class DayViewComponent implements OnInit {
   /** Items with no time, shown above the hourly view */
   timelessItems: Array<Item> = [];
 
+  /** Emits when the component is destroyed */
+  private onComponentDestroyed = new Subject<void>();
+
   constructor(
     public readonly itemService: ItemService,
     public readonly dateService: DateService,
@@ -44,8 +49,16 @@ export class DayViewComponent implements OnInit {
 
   ngOnInit() {
     this.update();
-    this.userDataService.onUserDataChanged.subscribe(() => this.update());
-    this.dateService.onDateChanged.subscribe(() => this.update());
+    this.userDataService.onUserDataChanged
+      .pipe(takeUntil(this.onComponentDestroyed))
+      .subscribe(() => this.update());
+    this.dateService.onDateChanged
+      .pipe(takeUntil(this.onComponentDestroyed))
+      .subscribe(() => this.update());
+  }
+
+  ngOnDestroy(): void {
+    this.onComponentDestroyed.next();
   }
 
   /**

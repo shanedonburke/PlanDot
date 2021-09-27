@@ -1,10 +1,15 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Group } from 'src/app/domain/group';
 import { Item } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { ItemService } from 'src/app/services/item.service';
-import { UserDataAction, UserDataService } from 'src/app/services/user-data.service';
+import {
+  UserDataAction,
+  UserDataService,
+} from 'src/app/services/user-data.service';
 
 /**
  * Component for the group view. The items in each group are shown.
@@ -15,18 +20,27 @@ import { UserDataAction, UserDataService } from 'src/app/services/user-data.serv
   templateUrl: './group-view.component.html',
   styleUrls: ['./group-view.component.scss'],
 })
-export class GroupViewComponent {
+export class GroupViewComponent implements OnDestroy {
   /** True when user data loading is done (even if there is no data) */
   isUserDataLoaded = false;
+
+  /** Emits when the component is destroyed. */
+  private onComponentDestroyed = new Subject<void>();
 
   constructor(
     public readonly groupService: GroupService,
     public readonly itemService: ItemService,
-    public readonly userDataService: UserDataService,
+    public readonly userDataService: UserDataService
   ) {
-    this.userDataService.onUserDataLoaded.subscribe(() => {
-      this.isUserDataLoaded = true;
-    });
+    this.userDataService.onUserDataLoaded
+      .pipe(takeUntil(this.onComponentDestroyed))
+      .subscribe(() => {
+        this.isUserDataLoaded = true;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onComponentDestroyed.next();
   }
 
   /**

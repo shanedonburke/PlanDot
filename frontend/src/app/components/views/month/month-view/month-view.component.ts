@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Calendar } from 'calendar';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Item } from 'src/app/domain/item';
 import { DateService } from 'src/app/services/date.service';
 import { ItemService } from 'src/app/services/item.service';
@@ -16,7 +18,7 @@ import { MONTHS, WEEKDAYS_FULL } from 'src/app/util/constants';
   templateUrl: './month-view.component.html',
   styleUrls: ['./month-view.component.scss'],
 })
-export class MonthViewComponent {
+export class MonthViewComponent implements OnDestroy {
   /** Days of the week */
   days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
@@ -26,6 +28,9 @@ export class MonthViewComponent {
   /** Cache of items for each date to improve performance */
   private cachedDateItems = new Map<string, Item[]>();
 
+  /** Emits when the component is destroyed. */
+  private onComponentDestroyed = new Subject<void>();
+
   constructor(
     public readonly itemService: ItemService,
     public readonly dateService: DateService,
@@ -34,9 +39,15 @@ export class MonthViewComponent {
   ) {
     // If an item in the month changes, the view will still show the old cached
     // items. Clear the cache to show fresh data on next change detection
-    userDataService.onUserDataChanged.subscribe(() => {
-      this.cachedDateItems.clear();
-    });
+    userDataService.onUserDataChanged
+      .pipe(takeUntil(this.onComponentDestroyed))
+      .subscribe(() => {
+        this.cachedDateItems.clear();
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.onComponentDestroyed.next();
   }
 
   /**

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as createDOMPurify from 'dompurify';
 import * as marked from 'marked';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Item } from 'src/app/domain/item';
 import { SearchService } from 'src/app/services/search.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -15,21 +17,30 @@ import { UserDataService } from 'src/app/services/user-data.service';
   templateUrl: './item-list-view.component.html',
   styleUrls: ['./item-list-view.component.scss'],
 })
-export class ItemListViewComponent implements OnInit {
+export class ItemListViewComponent implements OnInit, OnDestroy {
   /** True when user data loading is done (even if there is no data) */
   isUserDataLoaded = false;
+
+  /** Emits when the component is destroyed. */
+  private onComponentDestroyed = new Subject<void>();
 
   constructor(
     public readonly searchService: SearchService,
     public readonly userDataService: UserDataService
   ) {
-    this.userDataService.onUserDataLoaded.subscribe(() => {
-      this.isUserDataLoaded = true;
-    });
+    this.userDataService.onUserDataLoaded
+      .pipe(takeUntil(this.onComponentDestroyed))
+      .subscribe(() => {
+        this.isUserDataLoaded = true;
+      });
   }
 
   ngOnInit() {
     this.searchService.update();
+  }
+
+  ngOnDestroy(): void {
+    this.onComponentDestroyed.next();
   }
 
   /**
