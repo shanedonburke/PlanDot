@@ -23,7 +23,7 @@ export class IconButtonComponent {
   @Input() size = '24px';
 
   /** ARIA label to display */
-  @Input() ariaLabel = '';
+  @Input() ariaLabel: string | null = null;
 
   /** Action to take on click or enter keystroke */
   @Output() action = new EventEmitter();
