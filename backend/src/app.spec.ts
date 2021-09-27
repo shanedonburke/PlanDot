@@ -38,10 +38,6 @@ describe("App", () => {
     mongoose.connection.close(done);
   });
 
-  it("GET /", () => {
-    return request(app).get("/").expect(302).expect("Location", "/app");
-  });
-
   it("GET /api/auth_url", () => {
     return request(app).get("/api/auth_url").expect(200).expect(AUTH_URL);
   });
