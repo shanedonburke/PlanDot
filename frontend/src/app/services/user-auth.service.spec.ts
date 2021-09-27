@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { deleteCookie, getCookie, setCookie } from '../util/cookies';
 import { UserAuthService } from './user-auth.service';
 
@@ -41,11 +41,11 @@ describe('UserAuthService', () => {
 
   it('should logout', () => {
     setJwtCookie();
+    httpClient.get.and.returnValue(of());
 
     service.logout();
-
-    expect(getCookie('jwt')).withContext('should delete cookie').toBeNull();
-    expect(win.location.href).withContext('should redirecct').toBe('/');
+    
+    expect(httpClient.get).toHaveBeenCalledOnceWith('/api/logout');
   });
 
   it('should have auth', () => {

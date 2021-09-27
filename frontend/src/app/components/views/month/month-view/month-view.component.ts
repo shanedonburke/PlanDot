@@ -128,4 +128,14 @@ export class MonthViewComponent implements OnDestroy {
   trackByWeek(index: number, week: Array<Date>): string {
     return week.map((date) => date.toDateString()).join(',');
   }
+
+  /**
+   * Tracks an item by its ID.
+   * @param index Index of the item within its `ngFor`
+   * @param item The item to track
+   * @returns The item's ID
+   */
+  trackItemById(index: number, item: Item): string {
+    return item.id;
+  }
 }
