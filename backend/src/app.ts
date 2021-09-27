@@ -1,6 +1,5 @@
 import cookieParser from "cookie-parser";
 import express from "express";
-import path from "path";
 import { api } from "./routers/api";
 
 export const app = express();
