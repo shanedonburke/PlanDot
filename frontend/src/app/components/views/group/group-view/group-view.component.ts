@@ -92,4 +92,11 @@ export class GroupViewComponent {
     group.itemIds = [...favorited, ...notFavorited];
     this.userDataService.saveUserData(UserDataAction.SORT_GROUP_ITEMS);
   }
+
+  /**
+   * @returns True if no groups exist.
+   */
+  noGroups(): boolean {
+    return this.groupService.getGroupCount() === 0;
+  }
 }

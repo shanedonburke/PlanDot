@@ -11,14 +11,14 @@
     scroll-snap-x
     sm:scroll-snap-none
   "
-  role="list"
+  [attr.role]="noGroups() ? null : 'list'"
 >
   <div class="spinner-container" *ngIf="!isUserDataLoaded">
     <mat-spinner color="accent"></mat-spinner>
   </div>
   <ng-container *ngIf="isUserDataLoaded">
     <div
-      *ngIf="groupService.getGroupCount() === 0"
+      *ngIf="noGroups()"
       class="
         items-center
         opacity-80

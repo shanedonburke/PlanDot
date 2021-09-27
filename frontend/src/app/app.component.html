@@ -2,9 +2,18 @@
   <mat-toolbar color="primary">
     <mat-toolbar-row>
       <div class="flex items-center w-full">
-        <img src="./assets/logo/plandot_alternate.png" class="h-[40px]" />
+        <img
+          src="./assets/logo/plandot_alternate.png"
+          class="h-[40px]"
+          alt="PlanDot"
+        />
         <div [style.flexGrow]="1"></div>
-        <div *ngIf="!navigator.onLine" class="px-1.25 bg-warn-500 rounded-md text-base">Offline</div>
+        <div
+          *ngIf="!navigator.onLine"
+          class="px-1.25 bg-warn-500 rounded-md text-base"
+        >
+          Offline
+        </div>
         <button mat-icon-button (click)="openHelpDialog()" aria-label="Help">
           <mat-icon>help_outline</mat-icon>
         </button>
@@ -69,6 +78,7 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isGroupView() }"
           [attr.aria-pressed]="viewService.isGroupView()"
+          aria-label="Group view"
         >
           <mat-icon fontSet="material-icons-outlined">view_agenda</mat-icon>
         </button>
@@ -81,6 +91,7 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isMonthView() }"
           [attr.aria-pressed]="viewService.isMonthView()"
+          aria-label="Month view"
         >
           <mat-icon>calendar_view_month</mat-icon>
         </button>
@@ -93,6 +104,7 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isDayView() }"
           [attr.aria-pressed]="viewService.isDayView()"
+          aria-label="Day view"
         >
           <mat-icon fontSet="material-icons-outlined"
             >calendar_view_day</mat-icon
@@ -107,6 +119,8 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
           [attr.aria-pressed]="viewService.isItemListView()"
+          aria="label"
+          ="Item list view"
         >
           <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
         </button>
@@ -119,6 +133,7 @@
           matTooltipClass="tooltip"
           (click)="userDataService.undo()"
           color="primary"
+          aria-label="Undo"
         >
           <mat-icon>undo</mat-icon>
         </button>
@@ -130,6 +145,7 @@
           matTooltipClass="tooltip"
           (click)="userDataService.redo()"
           color="primary"
+          aria-label="Redo"
         >
           <mat-icon>redo</mat-icon>
         </button>
