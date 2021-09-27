@@ -37,7 +37,7 @@
       </p>
     </div>
     <div
-      *ngFor="let group of groupService.getGroups()"
+      *ngFor="let group of groupService.getGroups(); trackBy: trackGroupById"
       class="w-min box-border px-1.25 scroll-align-center"
       role="listitem"
       [attr.aria-label]="group.name"
@@ -69,7 +69,7 @@
           role="list"
         >
           <app-item-card
-            *ngFor="let item of itemService.getItemsByGroup(group)"
+            *ngFor="let item of itemService.getItemsByGroup(group); trackBy: trackItemById"
             [item]="item"
             class="group-item-card"
             cdkDrag

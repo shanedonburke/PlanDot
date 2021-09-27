@@ -13,7 +13,7 @@
     >
       <span class="font-medium text-15px">Items without times</span>
       <div
-        *ngFor="let item of timelessItems"
+        *ngFor="let item of timelessItems; trackBy: trackItemById"
         [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
         [style.color]="itemService.getItemTextColor(item)"
         (click)="expandItem(item)"

@@ -87,6 +87,16 @@ export class DayViewComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Track an item by its ID.
+   * @param index The index of the item within its `ngFor`
+   * @param item The item to track
+   * @returns The item's ID
+   */
+  trackItemById(index: number, item: Item): string {
+    return item.id;
+  }
+
+  /**
    * Updates the view with the items for the current date. Places items into
    * columns (as few as possible) to show overlapping times.
    */

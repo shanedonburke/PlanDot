@@ -113,4 +113,24 @@ export class GroupViewComponent implements OnDestroy {
   noGroups(): boolean {
     return this.groupService.getGroupCount() === 0;
   }
+
+  /**
+   * Tracks a group by its ID.
+   * @param index Index of the group within its `ngFor`
+   * @param group The group to track
+   * @returns The group's ID
+   */
+  trackGroupById(index: number, group: Group): string {
+    return group.id;
+  }
+
+  /**
+   * Tracks an item by its ID.
+   * @param index Index of the item within its `ngFor`
+   * @param item The item to track
+   * @returns The item's ID
+   */
+  trackItemById(index: number, item: Item): string {
+    return item.id;
+  }
 }

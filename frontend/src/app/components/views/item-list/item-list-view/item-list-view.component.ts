@@ -67,4 +67,14 @@ export class ItemListViewComponent implements OnInit, OnDestroy {
     element.scrollTop += wheelEvent.deltaY;
     element.scrollLeft += wheelEvent.deltaX;
   }
+
+  /**
+   * Tracks an item by its ID.
+   * @param index Index of the item within its `ngFor`
+   * @param item The item to track
+   * @returns The item's ID
+   */
+  trackItemById(index: number, item: Item): string {
+    return item.id;
+  }
 }

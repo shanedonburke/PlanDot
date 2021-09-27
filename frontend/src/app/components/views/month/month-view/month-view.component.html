@@ -42,7 +42,7 @@
           </div>
           <div>
             <div
-              *ngFor="let item of getItemsByDate(date)"
+              *ngFor="let item of getItemsByDate(date); trackBy: trackItemById"
               [style.color]="itemService.getItemTextColor(item)"
               [style.backgroundColor]="itemService.getItemBackgroundColor(item)"
               class="

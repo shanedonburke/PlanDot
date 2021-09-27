@@ -100,4 +100,14 @@ export class GroupToolbarComponent {
       this.isGroupsMenuVisible = false;
     }
   }
+
+  /**
+   * Tracks a group by its ID.
+   * @param index Index of the group within its `ngFor`
+   * @param group The group to track
+   * @returns The group's ID
+   */
+  trackGroupById(index: number, group: Group): string {
+    return group.id;
+  }
 }

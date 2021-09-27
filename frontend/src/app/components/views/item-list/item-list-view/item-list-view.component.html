@@ -9,7 +9,7 @@
   role="list"
 >
   <div
-    *ngFor="let item of searchService.filteredItems"
+    *ngFor="let item of searchService.filteredItems; trackBy: trackItemById"
     cdkDrag
     cdkDragLockAxis="y"
     class="item"

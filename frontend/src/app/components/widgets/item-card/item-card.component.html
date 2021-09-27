@@ -1,12 +1,23 @@
 <div class="item-card">
   <div class="flex-grow">
     <div class="flex items-center justify-between">
-      <span class="font-medium text-base overflow-hidden overflow-ellipsis whitespace-nowrap">{{ item.title }}</span>
+      <span
+        class="
+          font-medium
+          text-base
+          overflow-hidden overflow-ellipsis
+          whitespace-nowrap
+        "
+        >{{ item.title }}</span
+      >
       <div class="w-auto h-full flex justify-end">
         <div class="flex justify-end h-full items-center">
           <div
             class="w-2.5 h-2.5 rounded-10px mr-3px"
-            *ngFor="let group of groupService.getItemGroups(item)"
+            *ngFor="
+              let group of groupService.getItemGroups(item);
+              trackBy: trackGroupById
+            "
             [style.backgroundColor]="group.color"
           ></div>
         </div>
