@@ -2,12 +2,12 @@
   @apply
     absolute
     z-20
-    top-[67px]
-    sm:top-[75px]
+    top-67px
+    sm:top-75px
     left-2.5
     bg-white
     rounded-md
-    min-w-[300px];
+    min-w-300px;
   
   max-width: calc(100% - 20px);
   box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%),

@@ -4,7 +4,7 @@
       <div class="flex items-center w-full">
         <img
           src="./assets/logo/plandot_alternate.png"
-          class="h-[40px]"
+          class="h-40px"
           alt="PlanDot"
         />
         <div [style.flexGrow]="1"></div>
@@ -59,7 +59,7 @@
         <button
           (click)="addNewItem()"
           mat-raised-button
-          class="mr-2.5 min-w-[90px] w-[90px]"
+          class="mr-2.5 min-w-90px w-90px"
           color="primary"
         >
           New item
@@ -119,8 +119,7 @@
           class="sidenav-btn"
           [ngClass]="{ 'sidenav-btn-selected': viewService.isItemListView() }"
           [attr.aria-pressed]="viewService.isItemListView()"
-          aria="label"
-          ="Item list view"
+          aria-label="Item list view"
         >
           <mat-icon fontSet="material-icons-outlined">view_list</mat-icon>
         </button>

@@ -11,7 +11,7 @@
   (click)="$event.stopPropagation()"
   class="groups-menu"
 >
-  <div class="h-[200px] m-2.5 overflow-x-hidden overflow-y-auto" role="list">
+  <div class="h-200px m-2.5 overflow-x-hidden overflow-y-auto" role="list">
     <div
       *ngFor="let group of groupService.getGroups(); index as i"
       role="listitem"

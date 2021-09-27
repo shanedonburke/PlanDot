@@ -3,7 +3,7 @@
 }
 
 .weekdays {
-  @apply w-full h-[40px] grid bg-ghost flex-auto;
+  @apply w-full h-40px grid bg-ghost flex-auto;
 
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: 1fr;

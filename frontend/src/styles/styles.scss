@@ -35,11 +35,11 @@ body {
 }
 
 .drag-handle {
-  @apply text-[#ccc] cursor-move;
+  @apply text-#ccc cursor-move;
 }
 
 .tooltip {
-  @apply bg-[#323232];
+  @apply bg-#323232;
 }
 
 .spinner-container {

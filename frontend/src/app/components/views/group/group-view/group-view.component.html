@@ -11,7 +11,7 @@
     scroll-snap-x
     sm:scroll-snap-none
   "
-  role="list"
+  [attr.role]="noGroups() ? null : 'list'"
 >
   <div class="spinner-container" *ngIf="!isUserDataLoaded">
     <mat-spinner color="accent"></mat-spinner>
@@ -55,7 +55,7 @@
           cdkDropList
           (cdkDropListDropped)="dropGroupItem(group, $event)"
           class="
-            rounded-[4px]
+            rounded-4px
             w-full
             h-full
             bg-ghost
