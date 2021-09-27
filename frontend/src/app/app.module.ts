@@ -31,7 +31,10 @@ import { DOCUMENT } from '@angular/common';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-const routes = [{ path: '""', component: AppComponent }];
+const routes = [
+  { path: '', component: AppComponent, pathMatch: 'full' },
+  { path: '**', redirectTo: '' }
+];
 
 // Polyfill for { scroll-behavior: 'smooth' } on HTMLElement.scrollTo(..)
 if (!('scrollBehavior' in document.documentElement.style)) {

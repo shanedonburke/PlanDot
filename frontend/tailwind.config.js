@@ -122,13 +122,17 @@ module.exports = {
       lineHeight: {
         "1.2em": "1.2em",
         "1.4em": "1.4em",
-        "0.8": "0.8",
-        "1.6": "1.6",
-      }
+        0.8: "0.8",
+        1.6: "1.6",
+      },
     },
   },
   variants: {
-    extend: {},
+    extend: {
+      backgroundColor: ["active"],
+      backgroundOpacity: ["active"],
+      textColor: ["active"],
+    },
   },
   important: true,
   plugins: [
