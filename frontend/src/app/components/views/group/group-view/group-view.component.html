@@ -11,7 +11,7 @@
     scroll-snap-x
     sm:scroll-snap-none
   "
-  [attr.role]="noGroups() ? null : 'list'"
+  role="list"
 >
   <div class="spinner-container" *ngIf="!isUserDataLoaded">
     <mat-spinner color="accent"></mat-spinner>
