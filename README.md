@@ -66,8 +66,6 @@ To deploy the app on an Ubuntu server (other distributions should work too, with
 3. [Install MongoDB Community Edition](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-ubuntu/)
 
 ```console
-$ (cd frontend && npm install)
-$ (cd backend && npm install)
 $ chmod +x deploy.sh
 $ ./deploy.sh
 ```
@@ -81,9 +79,9 @@ $ cd backend
 $ npm run test
 ```
 
-You can also use `npm run -- --watch` to run the unit tests in watch mode.
+You can also use `npm run test -- --watch` to run the unit tests in watch mode.
 
-To run frontend unit tests
+To run frontend unit tests:
 
 ```console
 $ cd frontend
