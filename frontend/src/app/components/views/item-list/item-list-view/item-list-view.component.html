@@ -3,7 +3,7 @@
 </div>
 <div
   *ngIf="isUserDataLoaded"
-  class="bg-ghost box-border h-full w-full overflow-x-hidden overflow-y-auto"
+  class="item-card-list"
   cdkDropList
   (cdkDropListDropped)="userDataService.handleItemListDragDrop($event)"
   role="list"

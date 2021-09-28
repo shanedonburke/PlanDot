@@ -4,6 +4,12 @@
   @apply h-full w-full;
 }
 
+.item-card-list {
+  @apply bg-ghost box-border h-full overflow-x-hidden overflow-y-auto;
+
+  width: calc(100% - 40px);
+}
+
 .spinner-container {
   @apply bg-ghost;
 }
