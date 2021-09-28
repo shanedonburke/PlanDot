@@ -23,12 +23,12 @@
     <span class="overflow-hidden overflow-ellipsis whitespace-nowrap">{{
       data.item.title
     }}</span>
-    <div style="flex-grow: 1"></div>
+    <div class="flex-grow"></div>
     <app-favorite-button [item]="data.item"></app-favorite-button>
     <app-icon-button
       icon="edit"
       (action)="editItem()"
-      class="ml-1.25"
+      class="ml-3"
       matTooltip="Edit item"
       matTooltipPosition="below"
       matTooltipClass="tooltip"
