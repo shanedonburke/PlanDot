@@ -23,14 +23,18 @@ function getOAuth2Client(): OAuth2Client {
  * @param req The request object.
  * @returns The user's ID
  */
-function getUserId(req: Request): string {
-  const config = getConfig();
+async function getUserId(req: Request): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const config = getConfig();
+    const oAuth2Client = getOAuth2Client();
 
-  const oAuth2Client = getOAuth2Client();
-  oAuth2Client.credentials = <Credentials>(
-    jwt.verify(req.cookies.jwt, config.jwtSecret)
-  );
-  return <string>jwt.decode(oAuth2Client.credentials.id_token).sub;
+    jwt.verify(req.cookies.jwt, config.jwtSecret, (err, decoded) => {
+      if (err) reject("Invalid JWT");
+
+      oAuth2Client.credentials = <Credentials>decoded;
+      resolve(<string>jwt.decode(oAuth2Client.credentials.id_token).sub);
+    });
+  });
 }
 
 /** Router for the `/api` route. */
@@ -55,32 +59,30 @@ api.get("/auth_url", (_, res) => {
 /**
  * Saves user data (groups and items) under the user's ID.
  */
-api.post("/user_data", (req, res) => {
+api.post("/user_data", async (req, res) => {
   if (req.cookies.jwt) {
-    UserData.findOneAndUpdate(
-      { _id: getUserId(req) },
-      req.body,
-      {
-        upsert: true,
-        projection: { _id: false },
-      },
-      (err, _) => {
-        if (err) return res.sendStatus(500);
-        return res.sendStatus(200);
-      }
-    );
+    getUserId(req)
+      .then((userId) => {
+        UserData.findOneAndUpdate({ _id: userId }, req.body, {
+          upsert: true,
+          projection: { _id: false },
+        })
+          .then(() => res.sendStatus(200))
+          .catch(() => res.sendStatus(400));
+      })
+      .catch(() => res.sendStatus(401));
   }
 });
 
 /**
  * Retrieves user data (groups and items) by the user's ID.
  */
-api.get("/user_data", (req, res) => {
+api.get("/user_data", async (req, res) => {
   if (req.cookies.jwt) {
-    UserData.findOne({ _id: getUserId(req) }).then(
-      (doc) => res.send(doc),
-      (err) => res.send(err)
-    );
+    getUserId(req)
+      .then((userId) => UserData.findOne({ _id: userId }, { _id: false }))
+      .then((userData) => res.send(userData))
+      .catch((_) => res.send({}));
   } else {
     res.send({});
   }
@@ -93,7 +95,6 @@ api.get("/user_data", (req, res) => {
 api.get("/auth_callback", (req, res) => {
   const config = getConfig();
   const redirectUrl = isDevProfile() ? config.angularDevUrl!! : "/";
-
   const oAuth2Client = getOAuth2Client();
 
   if (req.query.error) {
