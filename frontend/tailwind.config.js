@@ -8,6 +8,13 @@ module.exports = {
   },
   darkMode: "class",
   theme: {
+    screens: {
+      xs: "400px",
+      sm: '480px',
+      md: '768px',
+      lg: '976px',
+      xl: '1440px',
+    },
     colors: {
       transparent: "transparent",
       black: "black",
@@ -117,7 +124,6 @@ module.exports = {
       },
       fontSize: {
         "11px": "11px",
-        "12px": "12px",
         "15px": "15px",
       },
       lineHeight: {
