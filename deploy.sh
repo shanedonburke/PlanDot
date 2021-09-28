@@ -2,6 +2,9 @@
 
 SERVICE_FILE=/lib/systemd/system/plandot.service
 
+( cd frontend && npm install )
+( cd backend && npm install )
+
 ( cd frontend && ng build || exit 1 )
 
 mkdir -p backend/public
