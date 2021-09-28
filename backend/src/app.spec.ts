@@ -102,6 +102,41 @@ describe("App", () => {
       });
   });
 
+  it("POST /api/user_data (no JWT cookie)", () => {
+    return request(app)
+      .post("/api/user_data")
+      .send({
+        groups: [],
+        items: [],
+      })
+      .expect(401);
+  });
+
+  it("POST /api/user_data (invalid JWT)", () => {
+    (jwt.verify as jest.Mock).mockImplementationOnce((_, __, cb) => {
+      cb(new Error("invalid token"));
+    });
+    return request(app)
+      .post("/api/user_data")
+      .set("Cookie", `jwt=${JWT}`)
+      .send({
+        groups: [],
+        items: [],
+      })
+      .expect(401);
+  });
+
+  it("POST /api/user_data (database error)", () => {
+    (UserData.findOneAndUpdate as jest.Mock).mockRejectedValue(new Error());
+    return request(app)
+      .post("/api/user_data")
+      .set("Cookie", `jwt=${JWT}`)
+      .send({
+        bad: [],
+      })
+      .expect(400);
+  });
+
   it("GET /api/logout", () => {
     return request(app)
       .get("/api/logout")
@@ -139,11 +174,13 @@ describe("App", () => {
       } as unknown as OAuth2Client;
     });
     jest.spyOn(jwt, "sign").mockImplementation((_, __) => JWT);
-    jest.spyOn(jwt, "verify").mockImplementation((_, __) => {
-      return { id_token: "id_token" };
+    jest.spyOn(jwt, "verify").mockImplementation((_, __, cb) => {
+      (cb as any)(null, {});
     });
     jest.spyOn(jwt, "decode").mockReturnValue({ sub: "someid" });
     jest.spyOn(UserData, "findOne").mockResolvedValue(new UserData({}));
-    jest.spyOn(UserData, "findOneAndUpdate");
+    jest
+      .spyOn(UserData, "findOneAndUpdate")
+      .mockResolvedValue(new UserData({}));
   }
 });

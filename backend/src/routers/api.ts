@@ -71,6 +71,8 @@ api.post("/user_data", async (req, res) => {
           .catch(() => res.sendStatus(400));
       })
       .catch(() => res.sendStatus(401));
+  } else {
+    res.sendStatus(401);
   }
 });
 
