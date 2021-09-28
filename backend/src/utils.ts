@@ -1,7 +1,7 @@
-import { readFileSync } from 'fs';
-import { homedir } from 'os';
-import { join } from 'path';
-import * as YAML from 'yaml';
+import { readFileSync } from "fs";
+import { homedir } from "os";
+import { join } from "path";
+import * as YAML from "yaml";
 
 /**
  * The format of the configuration file at `~/.plandot/config.yaml`.
@@ -30,7 +30,7 @@ interface Config {
 export const getConfig = (() => {
   let config: Config;
   return (): Config => {
-    return config || (config = YAML.parse(readLocalFileSync('config.yaml')));
+    return config || (config = YAML.parse(readLocalFileSync("config.yaml")));
   };
 })();
 
@@ -38,7 +38,7 @@ export const getConfig = (() => {
  * @returns True if the development profile (`NODE_ENV=dev`) is active.
  */
 export function isDevProfile(): boolean {
-  return process.env.NODE_ENV === 'dev';
+  return process.env.NODE_ENV === "development";
 }
 
 /**
@@ -47,7 +47,7 @@ export function isDevProfile(): boolean {
  * @returns The file's contents as a string.
  */
 export function readLocalFileSync(...path: string[]): string {
-  return readFileSync(getLocalFilePath(...path), 'utf8');
+  return readFileSync(getLocalFilePath(...path), "utf8");
 }
 
 /**
@@ -56,7 +56,7 @@ export function readLocalFileSync(...path: string[]): string {
 const getPlanDotDir = (() => {
   let planDotDir: string;
   return (): string => {
-    return planDotDir || (planDotDir = join(homedir(), '.plandot'));
+    return planDotDir || (planDotDir = join(homedir(), ".plandot"));
   };
 })();
 

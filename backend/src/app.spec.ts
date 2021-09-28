@@ -43,7 +43,7 @@ describe("App", () => {
   });
 
   it("GET /api/auth_callback (dev profile)", () => {
-    process.env.NODE_ENV = "dev";
+    process.env.NODE_ENV = "development";
     return request(app)
       .get("/api/auth_callback")
       .expect(302)

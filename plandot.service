@@ -3,6 +3,7 @@ Description=PlanDot
 After=network.target
 
 [Service]
+Environment=NODE_ENV=production
 Type=simple
 User=root
 ExecStart=npm run start
