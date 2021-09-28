@@ -15,7 +15,6 @@ echo "> Copying frontend assets..."
 mkdir -p backend/public
 cp -r frontend/dist/* backend/public/
 
-
 if [ -f $SERVICE_FILE ]; then
   echo "> Stopping service..."
   systemctl stop plandot
