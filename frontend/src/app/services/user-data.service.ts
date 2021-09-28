@@ -85,7 +85,11 @@ function isUserDataJson(val: any): val is UserDataJson {
   providedIn: 'root',
 })
 export class UserDataService {
+  /** Key under which user data is stored in local storage */
   private static LOCAL_STORAGE_KEY = 'userData';
+
+  /** CSS classes applied to Material snack bars */
+  private static SNACK_BAR_CLASSES = ['w-4/5', 'mx-auto'];
 
   /** Emits when user data changes in any way , including when it is loaded. */
   get onUserDataChanged(): Observable<void> {
@@ -315,6 +319,7 @@ export class UserDataService {
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
         duration: 2000,
         data: snackBarData,
+        panelClass: UserDataService.SNACK_BAR_CLASSES,
       });
 
       this.historyIndex--;
@@ -339,6 +344,7 @@ export class UserDataService {
       this.snackBar.openFromComponent(HistorySnackBarComponent, {
         duration: 2000,
         data: snackBarData,
+        panelClass: UserDataService.SNACK_BAR_CLASSES,
       });
     }
   }
