@@ -16,9 +16,6 @@ export class FavoriteButtonComponent {
   /** The item to favorite */
   @Input() item!: Item;
 
-  /** The tooltip shown for the button on hover */
-  @ViewChild('tooltip') tooltip!: MatTooltip;
-
   constructor(private readonly userDataService: UserDataService) {}
 
   /**
@@ -26,19 +23,13 @@ export class FavoriteButtonComponent {
    */
   toggleFavorite(): void {
     this.item.toggleFavorite();
-
-    // Prevents the tooltip's text from changing as its hiding
-    // animation plays. Also makes the tooltip visible again (with the
-    // new text) after a short delay.
-    this.tooltip.show();
-
     this.userDataService.saveUserData(UserDataAction.FAVORITE_ITEM);
   }
 
   /**
-   * @returns The text to show in the button tooltip.
+   * @returns The value of the `aria-label` attribute for the favorite button.
    */
-  getTooltipText(): string {
+  getAriaLabel(): string {
     return this.item.isFavorited ? 'Remove favorite' : 'Favorite item';
   }
 }

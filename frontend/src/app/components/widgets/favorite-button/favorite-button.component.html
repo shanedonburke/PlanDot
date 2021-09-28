@@ -2,13 +2,10 @@
   mat-icon-button
   color="accent"
   (click)="toggleFavorite()"
-  #tooltip="matTooltip"
-  [matTooltip]="getTooltipText()"
   matTooltipPosition="left"
   matTooltipClass="tooltip"
-  [matTooltipShowDelay]="750"
   class="items-center flex h-6 w-6 leading-6 justify-center"
-  [attr.aria-label]="getTooltipText()"
+  [attr.aria-label]="getAriaLabel()"
 >
   <mat-icon>{{ item.isFavorited ? 'star' : 'star_border' }}</mat-icon>
 </button>

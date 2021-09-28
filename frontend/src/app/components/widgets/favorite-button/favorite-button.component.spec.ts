@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Item } from 'src/app/domain/item';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -26,7 +25,6 @@ describe('FavoriteButtonComponent', () => {
         NoopAnimationsModule,
         MatButtonModule,
         MatIconModule,
-        MatTooltipModule,
       ],
     }).compileComponents();
   });
@@ -42,8 +40,8 @@ describe('FavoriteButtonComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have correct tooltip text', () => {
-    expect(component.getTooltipText()).toEqual('Favorite item');
+  it('should have correct ARIA label', () => {
+    expect(component.getAriaLabel()).toEqual('Favorite item');
   });
 
   it('should toggle favorite', () => {
@@ -53,8 +51,8 @@ describe('FavoriteButtonComponent', () => {
     expect(userDataService.saveUserData)
       .withContext('should save user data')
       .toHaveBeenCalled();
-    expect(component.getTooltipText())
-      .withContext('should show tooltip for removing favorite')
+    expect(component.getAriaLabel())
+      .withContext('should have label for removing favorite')
       .toBe('Remove favorite');
   });
 
