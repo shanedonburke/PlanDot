@@ -117,7 +117,7 @@ api.get("/auth_callback", (req, res) => {
 
       res.cookie("jwt", jwt.sign(token, config.jwtSecret), {
         // Expire in 1 year if no expiry date is given
-        maxAge: ((token.expiry_date - Date.now()) || 31536000000) / 1000,
+        maxAge: (token.expiry_date - Date.now()) || 31536000000,
       });
       return res.redirect(redirectUrl);
     });
