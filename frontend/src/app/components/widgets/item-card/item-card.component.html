@@ -23,7 +23,6 @@
         </div>
       </div>
     </div>
-    <div class="flex-grow"></div>
     <div class="item-card-info" *ngIf="item.location.trim() !== ''">
       <mat-icon>place</mat-icon>
       <span>{{ item.location }}</span>
@@ -39,7 +38,7 @@
       </div>
     </div>
   </div>
-  <div class="flex flex-col justify-between items-center">
+  <div class="item-card-right">
     <app-icon-button
       icon="open_in_full"
       (action)="expandItem()"

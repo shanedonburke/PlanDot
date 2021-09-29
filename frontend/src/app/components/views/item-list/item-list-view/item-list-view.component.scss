@@ -4,12 +4,6 @@
   @apply h-full w-full;
 }
 
-.item-card-list {
-  @apply bg-ghost box-border h-full overflow-x-hidden overflow-y-auto;
-
-  width: calc(100% - 40px);
-}
-
 .spinner-container {
   @apply bg-ghost;
 }
@@ -22,10 +16,9 @@
     overflow-hidden
     border-b-1
     border-solid
-    border-primary-500
-    border-opacity-20;
+    border-#aaaaaa;
 
-  grid-template: 95px / 100% 50px;
+  grid-template: 105px / 100% 50px;
 }
 
 .description {
