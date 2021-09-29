@@ -8,19 +8,6 @@
   @apply bg-ghost;
 }
 
-.item {
-  @apply
-    grid
-    w-full
-    overflow-x-auto
-    overflow-hidden
-    border-b-1
-    border-solid
-    border-#aaaaaa;
-
-  grid-template: 105px / 100% 50px;
-}
-
 .description {
   @include mixins.markdown;
 }

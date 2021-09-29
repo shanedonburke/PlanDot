@@ -12,9 +12,11 @@
     *ngFor="let item of searchService.filteredItems; trackBy: trackItemById"
     cdkDrag
     cdkDragLockAxis="y"
-    class="item"
-    swipeReveal
-    [hiddenPanelWidth]="50"
+    class="
+      w-full
+      overflow-x-auto overflow-hidden
+      border-b-1 border-solid border-#aaaaaa
+    "
     role="listitem"
   >
     <div class="flex">
@@ -24,7 +26,6 @@
       <div
         #description
         [innerHTML]="getDescriptionHtml(item)"
-        (mousewheel)="onDescriptionMouseWheel($event, description)"
         class="
           bg-dimsnow
           box-border
@@ -37,22 +38,6 @@
           description
         "
       ></div>
-    </div>
-    <div
-      class="
-        relative
-        min-h-full
-        bg-transparent
-        text-white
-        flex
-        justify-center
-        items-center
-        z-1
-      "
-      (click)="userDataService.deleteItem(item)"
-    >
-      <div class="bg-warn-500 left-0 h-full absolute w-screen -z-1"></div>
-      <mat-icon>delete</mat-icon>
     </div>
   </div>
 </div>

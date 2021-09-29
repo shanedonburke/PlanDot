@@ -4,22 +4,18 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import {
   MatButtonToggleGroup,
-  MatButtonToggleModule
+  MatButtonToggleModule,
 } from '@angular/material/button-toggle';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import {
-  MatChipsModule
-} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import {
   MatDialogModule,
   MatDialogRef,
-  MAT_DIALOG_DATA
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import {
-  MatFormFieldModule
-} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -28,12 +24,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Group } from 'src/app/domain/group';
 import { Item, Repeat } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
+import { getTodaysDate } from 'src/app/util/dates';
 import { getTestUtils } from 'src/test-utils';
 import {
   ItemEditDialogComponent,
-  ItemEditDialogData
+  ItemEditDialogData,
 } from './item-edit-dialog.component';
-
 
 describe('ItemEditDialogComponent', () => {
   const {
@@ -166,7 +162,7 @@ describe('ItemEditDialogComponent', () => {
 
     it("should show today's date", () => {
       expect(findInputWithLabel('Date')?.value).toEqual(
-        date.toLocaleDateString()
+        getTodaysDate().toLocaleDateString()
       );
     });
 
@@ -178,6 +174,7 @@ describe('ItemEditDialogComponent', () => {
     });
 
     it('should repeat daily', async () => {
+      item.date = date;
       openSelect('Repeat every');
       selectOption(Repeat.DAILY_WEEKLY);
       await fixture.whenStable();

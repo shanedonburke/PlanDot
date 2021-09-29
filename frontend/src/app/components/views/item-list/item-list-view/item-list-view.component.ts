@@ -9,8 +9,7 @@ import { UserDataService } from 'src/app/services/user-data.service';
 
 /**
  * Component for the item list view. All items are displayed in a list.
- * The user may reorder items by dragging them. On touch screens, the user
- * can swipe left on an item to reveal a panel with a delete button.
+ * The user may reorder items by dragging them.
  */
 @Component({
   selector: 'app-item-list-view',
@@ -50,22 +49,6 @@ export class ItemListViewComponent implements OnInit, OnDestroy {
    */
   getDescriptionHtml(item: Item): string {
     return createDOMPurify().sanitize(marked(item.description));
-  }
-
-  /**
-   * Handles mouse wheel events on an item description. Scrolling is applied
-   * manually to override the prevention of mouse wheeling by
-   * {@link SwipeRevealDirective}.
-   * @param event The mouse wheel event
-   * @param element The description element
-   */
-  onDescriptionMouseWheel(event: Event, element: HTMLDivElement): void {
-    event.preventDefault();
-    event.stopPropagation();
-
-    const wheelEvent = event as WheelEvent;
-    element.scrollTop += wheelEvent.deltaY;
-    element.scrollLeft += wheelEvent.deltaX;
   }
 
   /**

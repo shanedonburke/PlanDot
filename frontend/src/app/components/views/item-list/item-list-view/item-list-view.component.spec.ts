@@ -5,7 +5,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MockComponent } from 'ng-mocks';
 import { Subject } from 'rxjs';
 import { ItemCardComponent } from 'src/app/components/widgets/item-card/item-card.component';
-import { SwipeRevealDirective } from 'src/app/directives/swipe-reveal.directive';
 import { Item } from 'src/app/domain/item';
 import { SearchService } from 'src/app/services/search.service';
 import { UserDataService } from 'src/app/services/user-data.service';
@@ -26,11 +25,7 @@ describe('ItemListViewComponent', () => {
     setup();
 
     await TestBed.configureTestingModule({
-      declarations: [
-        ItemListViewComponent,
-        MockComponent(ItemCardComponent),
-        SwipeRevealDirective,
-      ],
+      declarations: [ItemListViewComponent, MockComponent(ItemCardComponent)],
       providers: [
         { provide: SearchService, useValue: searchService },
         { provide: UserDataService, useValue: userDataService },
@@ -68,24 +63,6 @@ describe('ItemListViewComponent', () => {
       expect(
         fixture.nativeElement.querySelectorAll('app-item-card').length
       ).toBe(items.length);
-    });
-
-    it('should handle mouse wheel on description', () => {
-      const event = jasmine.createSpyObj(
-        'WheelEvent',
-        ['stopPropagation', 'preventDefault'],
-        { deltaX: 10, deltaY: 20 }
-      );
-      const element = { scrollTop: 0, scrollLeft: 0 } as HTMLDivElement;
-
-      component.onDescriptionMouseWheel(event, element);
-
-      expect(element.scrollTop)
-        .withContext('wrong vertical scroll')
-        .toEqual(event.deltaY);
-      expect(element.scrollLeft)
-        .withContext('wrong horizontal scroll')
-        .toEqual(event.deltaX);
     });
   });
 
