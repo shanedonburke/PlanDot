@@ -40,7 +40,7 @@ $ (cd frontend && npm install)
 $ (cd backend && npm install)
 ```
 
-To run the frontend in development mode: 
+To run the front-end in development mode: 
 
 ```console
 $ cd frontend
@@ -48,7 +48,7 @@ $ npm install
 $ npm run serve
 ```
 
-To run the backend in development mode:
+To run the back-end in development mode:
 
 ```console
 $ cd backend
@@ -72,7 +72,7 @@ $ ./deploy.sh
 
 ## Running tests
 
-To run backend unit tests:
+To run back-end unit tests:
 
 ```console
 $ cd backend
@@ -81,7 +81,7 @@ $ npm run test
 
 You can also use `npm run test -- --watch` to run the unit tests in watch mode.
 
-To run frontend unit tests:
+To run front-end unit tests:
 
 ```console
 $ cd frontend
