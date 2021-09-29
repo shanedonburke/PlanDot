@@ -112,6 +112,12 @@ export class AppComponent implements OnInit {
     }
   }
 
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    event.preventDefault();
+    window.scrollTo(0, 0);
+  }
+
   /**
    * Load a new view (the main component and its toolbar addition).
    * @param view The view to load
