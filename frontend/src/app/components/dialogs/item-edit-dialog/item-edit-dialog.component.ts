@@ -8,7 +8,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { Group, isGroupJson } from 'src/app/domain/group';
-import { Item, Repeat } from 'src/app/domain/item';
+import { Item, Repeat, TimePeriod } from 'src/app/domain/item';
 import { GroupService } from 'src/app/services/group.service';
 import { WEEKDAYS } from 'src/app/util/constants';
 import { getTodaysDate } from 'src/app/util/dates';
@@ -69,6 +69,21 @@ export class ItemEditDialogComponent {
       startWith(null),
       map((group: string | null) => this.filterGroups(group))
     );
+    
+    // If the user enables the date, start at today's date
+    if (!this.data.item.isDateEnabled) {
+      this.data.item.date = getTodaysDate();
+    }
+    if (!this.data.item.isStartTimeEnabled) {
+      this.data.item.startTime = {
+        hours: 12,
+        minutes: 0,
+        period: TimePeriod.PM
+      }
+    }
+    if (!this.data.item.isEndTimeEnabled) {
+      this.data.item.setEndTimeToDefault();
+    }
   }
 
   /**
