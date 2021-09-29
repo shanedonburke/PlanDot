@@ -70,7 +70,10 @@ api.post("/user_data", async (req, res) => {
           .then(() => res.sendStatus(200))
           .catch(() => res.sendStatus(400));
       })
-      .catch(() => res.sendStatus(401));
+      .catch(() => {
+        res.clearCookie("jwt");
+        res.sendStatus(401)
+      });
   } else {
     res.sendStatus(401);
   }
@@ -82,9 +85,15 @@ api.post("/user_data", async (req, res) => {
 api.get("/user_data", async (req, res) => {
   if (req.cookies.jwt) {
     getUserId(req)
-      .then((userId) => UserData.findOne({ _id: userId }, { _id: false }))
-      .then((userData) => res.send(userData))
-      .catch((_) => res.send({}));
+      .then((userId) => {
+        UserData.findOne({ _id: userId }, { _id: false })
+          .then((userData) => res.send(userData))
+          .catch(() => res.send({}));
+      })
+      .catch(() => {
+        res.clearCookie("jwt");
+        res.send({});
+      })
   } else {
     res.send({});
   }
@@ -106,7 +115,10 @@ api.get("/auth_callback", (req, res) => {
     oAuth2Client.getToken(<string>req.query.code, function (err, token) {
       if (err) return res.redirect(redirectUrl);
 
-      res.cookie("jwt", jwt.sign(token, config.jwtSecret));
+      res.cookie("jwt", jwt.sign(token, config.jwtSecret), {
+        // Expire in 1 year if no expiry date is given
+        maxAge: ((token.expiry_date - Date.now()) || 31536000000) / 1000,
+      });
       return res.redirect(redirectUrl);
     });
   }
